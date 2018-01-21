@@ -61,6 +61,83 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-docker_cmd_analyse3_1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/01/docker_cmd_analyse3_1/" class="article-date">
+  <time datetime="2017-03-01T15:03:19.000Z" itemprop="datePublished">2017-03-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/01/docker_cmd_analyse3_1/">docker命令分析--run命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<p>所有命令均基于docker1.11版本</p>
+<p>容器最常用，也最复杂的命令应该是run命令了，这篇文章主要对docker run进行简单的分析。</p>
+<h2 id="使用手册"><a href="#使用手册" class="headerlink" title="使用手册"></a>使用手册</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</span><br><span class="line"></span><br><span class="line">Run a command in a new container</span><br><span class="line"></span><br><span class="line">  -a, --attach=[]               Attach to STDIN, STDOUT or STDERR</span><br><span class="line">  --add-host=[]                 Add a custom host-to-IP mapping (host:ip)</span><br><span class="line">  --blkio-weight=0              Block IO weight (relative weight)</span><br><span class="line">  --blkio-weight-device=[]      Block IO weight (relative device weight, format: `DEVICE_NAME:WEIGHT`)</span><br><span class="line">  --cpu-shares=0                CPU shares (relative weight)</span><br><span class="line">  --cap-add=[]                  Add Linux capabilities</span><br><span class="line">  --cap-drop=[]                 Drop Linux capabilities</span><br><span class="line">  --cgroup-parent=&quot;&quot;            Optional parent cgroup for the container</span><br><span class="line">  --cidfile=&quot;&quot;                  Write the container ID to the file</span><br><span class="line">  --cpu-period=0                Limit CPU CFS (Completely Fair Scheduler) period</span><br><span class="line">  --cpu-quota=0                 Limit CPU CFS (Completely Fair Scheduler) quota</span><br><span class="line">  --cpuset-cpus=&quot;&quot;              CPUs in which to allow execution (0-3, 0,1)</span><br><span class="line">  --cpuset-mems=&quot;&quot;              Memory nodes (MEMs) in which to allow execution (0-3, 0,1)</span><br><span class="line">  -d, --detach                  Run container in background and print container ID</span><br><span class="line">  --detach-keys                 Specify the escape key sequence used to detach a container</span><br><span class="line">  --device=[]                   Add a host device to the container</span><br><span class="line">  --device-read-bps=[]          Limit read rate (bytes per second) from a device (e.g., --device-read-bps=/dev/sda:1mb)</span><br><span class="line">  --device-read-iops=[]         Limit read rate (IO per second) from a device (e.g., --device-read-iops=/dev/sda:1000)</span><br><span class="line">  --device-write-bps=[]         Limit write rate (bytes per second) to a device (e.g., --device-write-bps=/dev/sda:1mb)</span><br><span class="line">  --device-write-iops=[]        Limit write rate (IO per second) to a device (e.g., --device-write-bps=/dev/sda:1000)</span><br><span class="line">  --disable-content-trust=true  Skip image verification</span><br><span class="line">  --dns=[]                      Set custom DNS servers</span><br><span class="line">  --dns-opt=[]                  Set custom DNS options</span><br><span class="line">  --dns-search=[]               Set custom DNS search domains</span><br><span class="line">  -e, --env=[]                  Set environment variables</span><br><span class="line">  --entrypoint=&quot;&quot;               Overwrite the default ENTRYPOINT of the image</span><br><span class="line">  --env-file=[]                 Read in a file of environment variables</span><br><span class="line">  --expose=[]                   Expose a port or a range of ports</span><br><span class="line">  --group-add=[]                Add additional groups to run as</span><br><span class="line">  -h, --hostname=&quot;&quot;             Container host name</span><br><span class="line">  --help                        Print usage</span><br><span class="line">  -i, --interactive             Keep STDIN open even if not attached</span><br><span class="line">  --ip=&quot;&quot;                       Container IPv4 address (e.g. 172.30.100.104)</span><br><span class="line">  --ip6=&quot;&quot;                      Container IPv6 address (e.g. 2001:db8::33)</span><br><span class="line">  --ipc=&quot;&quot;                      IPC namespace to use</span><br><span class="line">  --isolation=&quot;&quot;                Container isolation technology</span><br><span class="line">  --kernel-memory=&quot;&quot;            Kernel memory limit</span><br><span class="line">  -l, --label=[]                Set metadata on the container (e.g., --label=com.example.key=value)</span><br><span class="line">  --label-file=[]               Read in a file of labels (EOL delimited)</span><br><span class="line">  --link=[]                     Add link to another container</span><br><span class="line">  --log-driver=&quot;&quot;               Logging driver for container</span><br><span class="line">  --log-opt=[]                  Log driver specific options</span><br><span class="line">  -m, --memory=&quot;&quot;               Memory limit</span><br><span class="line">  --mac-address=&quot;&quot;              Container MAC address (e.g. 92:d0:c6:0a:29:33)</span><br><span class="line">  --memory-reservation=&quot;&quot;       Memory soft limit</span><br><span class="line">  --memory-swap=&quot;&quot;              A positive integer equal to memory plus swap. Specify -1 to enable unlimited swap.</span><br><span class="line">  --memory-swappiness=&quot;&quot;        Tune a container&apos;s memory swappiness behavior. Accepts an integer between 0 and 100.</span><br><span class="line">  --name=&quot;&quot;                     Assign a name to the container</span><br><span class="line">  --net=&quot;bridge&quot;                Connect a container to a network</span><br><span class="line">                                &apos;bridge&apos;: create a network stack on the default Docker bridge</span><br><span class="line">                                &apos;none&apos;: no networking</span><br><span class="line">                                &apos;container:&lt;name|id&gt;&apos;: reuse another container&apos;s network stack</span><br><span class="line">                                &apos;host&apos;: use the Docker host network stack</span><br><span class="line">                                &apos;&lt;network-name&gt;|&lt;network-id&gt;&apos;: connect to a user-defined network</span><br><span class="line">  --net-alias=[]                Add network-scoped alias for the container</span><br><span class="line">  --oom-kill-disable            Whether to disable OOM Killer for the container or not</span><br><span class="line">  --oom-score-adj=0             Tune the host&apos;s OOM preferences for containers (accepts -1000 to 1000)</span><br><span class="line">  -P, --publish-all             Publish all exposed ports to random ports</span><br><span class="line">  -p, --publish=[]              Publish a container&apos;s port(s) to the host</span><br><span class="line">  --pid=&quot;&quot;                      PID namespace to use</span><br><span class="line">  --pids-limit=-1                Tune container pids limit (set -1 for unlimited), kernel &gt;= 4.3</span><br><span class="line">  --privileged                  Give extended privileges to this container</span><br><span class="line">  --read-only                   Mount the container&apos;s root filesystem as read only</span><br><span class="line">  --restart=&quot;no&quot;                Restart policy (no, on-failure[:max-retry], always, unless-stopped)</span><br><span class="line">  --rm                          Automatically remove the container when it exits</span><br><span class="line">  --shm-size=[]                 Size of `/dev/shm`. The format is `&lt;number&gt;&lt;unit&gt;`. `number` must be greater than `0`.  Unit is optional and can be `b` (bytes), `k` (kilobytes), `m` (megabytes), or `g` (gigabytes). If you omit the unit, the system uses bytes. If you omit the size entirely, the system uses `64m`.</span><br><span class="line">  --security-opt=[]             Security Options</span><br><span class="line">  --sig-proxy=true              Proxy received signals to the process</span><br><span class="line">  --stop-signal=&quot;SIGTERM&quot;       Signal to stop a container</span><br><span class="line">  -t, --tty                     Allocate a pseudo-TTY</span><br><span class="line">  -u, --user=&quot;&quot;                 Username or UID (format: &lt;name|uid&gt;[:&lt;group|gid&gt;])</span><br><span class="line">  --userns=&quot;&quot;                   Container user namespace</span><br><span class="line">                                &apos;host&apos;: Use the Docker host user namespace</span><br><span class="line">                                &apos;&apos;: Use the Docker daemon user namespace specified by `--userns-remap` option.</span><br><span class="line">  --ulimit=[]                   Ulimit options</span><br><span class="line">  --uts=&quot;&quot;                      UTS namespace to use</span><br><span class="line">  -v, --volume=[host-src:]container-dest[:&lt;options&gt;]</span><br><span class="line">                                Bind mount a volume. The comma-delimited</span><br><span class="line">                                `options` are [rw|ro], [z|Z],</span><br><span class="line">                                [[r]shared|[r]slave|[r]private], and</span><br><span class="line">                                [nocopy]. The &apos;host-src&apos; is an absolute path</span><br><span class="line">                                or a name value.</span><br><span class="line">  --volume-driver=&quot;&quot;            Container&apos;s volume driver</span><br><span class="line">  --volumes-from=[]             Mount volumes from the specified container(s)</span><br><span class="line">  -w, --workdir=&quot;&quot;              Working directory inside the container</span><br></pre></td></tr></table></figure>
+<p>上面的手册可以使用“docker run –help”或者到<a href="https://docs.docker.com/v1.11/engine/reference/commandline/run/" target="_blank" rel="noopener">Docker官网</a>查看。<br>run用于在新容器中执行一条命令，首先会创建一个新容器然后执行一条指令，其实这里包含了create、start以及exec命令的作用。<br>基本用法是：“docker run [OPTIONS] IMAGE [COMMAND] [ARG…]”<br>注：</p>
+<ul>
+<li>可选选项OPTIONS：run具有丰富的选项，可以设置容器的一些特性</li>
+<li>IMAGE：指定容器运行的基础镜像</li>
+<li>可选命令COMMAND：容器运行时执行的命令</li>
+<li>可选参数ARG：命令带的参数</li>
+</ul>
+<h2 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h2><h3 id="指定容器名并分配伪终端"><a href="#指定容器名并分配伪终端" class="headerlink" title="指定容器名并分配伪终端"></a>指定容器名并分配伪终端</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --name hello -it ubuntu</span><br><span class="line">root@a37b3b659c24:/#</span><br><span class="line">root@a37b3b659c24:/#</span><br></pre></td></tr></table></figure>
+<p>创建一个名字为hello的容器，并且分配一个伪终端，-i链接到容器的STDIN。</p>
+<h3 id="获取容器ID-–cidfile"><a href="#获取容器ID-–cidfile" class="headerlink" title="获取容器ID(–cidfile)"></a>获取容器ID(–cidfile)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --cidfile ./test.cid --name hello ubuntu</span><br><span class="line">$ cat test.cid</span><br><span class="line">b504823b5a2d281e0f8ee329e14a8052bbeb171f7e50720fe0dab98ebd75587fV2R1C00B003</span><br><span class="line">$ docker run --cidfile ./test.cid --name hello ubuntu</span><br><span class="line">docker: Container ID file found, make sure the other container isn&apos;t running or delete ./test.cid.</span><br><span class="line">See &apos;docker run --help&apos;.</span><br></pre></td></tr></table></figure>
+<p>通过–cidfile指定写入容器ID的文件路径，如果test.cid文件存在，命令会返回错误。</p>
+<h3 id="特权容器"><a href="#特权容器" class="headerlink" title="特权容器"></a>特权容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -t -i --rm ubuntu bash</span><br><span class="line">root@bc338942ef20:/# mount -t tmpfs none /mnt</span><br><span class="line">mount: permission denied</span><br></pre></td></tr></table></figure>
+<p>默认，大部分危险的内核能力是对容器关闭的，因此上面执行失败。关于具体权限分析，参考<a href="">run的权限设置文章</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -t -i --privileged ubuntu bash</span><br><span class="line">root@50e3f57e16e6:/# mount -t tmpfs none /mnt</span><br><span class="line">root@50e3f57e16e6:/# df -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">none            1.9G     0  1.9G   0% /mnt</span><br></pre></td></tr></table></figure>
+<p>–privileged选项会赋给容器所有的能力，此时的容器具有和host相同的能力，这种用法是很危险，不建议这么使用。<br>细分权限，可以参考<a href="/2017/03/01/docker_cmd_analyse3_1_1/">run的权限设置文章</a>。</p>
+<h3 id="设置工作目录"><a href="#设置工作目录" class="headerlink" title="设置工作目录"></a>设置工作目录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --rm --name hello -it ubuntu pwd</span><br><span class="line">/</span><br><span class="line">$ docker run -w /test --rm --name hello -it ubuntu pwd</span><br><span class="line">/test</span><br></pre></td></tr></table></figure>
+<p>默认情况下，容器的工作目录是根目录，-w可以设置该目录，如果该目录不存在，docker会在容器中创建该目录。</p>
+<h3 id="挂载数据卷"><a href="#挂载数据卷" class="headerlink" title="挂载数据卷"></a>挂载数据卷</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--volume=[host-src:]container-dest[:&lt;options&gt;]</span><br><span class="line">     Bind mount a volume. The comma-delimited</span><br><span class="line">     `options` are [rw|ro], [z|Z],</span><br><span class="line">     [[r]shared|[r]slave|[r]private], and</span><br><span class="line">     [nocopy]. The &apos;host-src&apos; is an absolute path</span><br><span class="line">     or a name value.</span><br></pre></td></tr></table></figure>
+<p>可以把host上的文件或者目录透传到容器内指定路径，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker  run  -v `pwd`:`pwd` -w `pwd` -i -t  ubuntu pwd</span><br><span class="line">$ docker run -t -i -v /var/run/docker.sock:/var/run/docker.sock -v /path/to/static-docker-binary:/usr/bin/docker busybox sh</span><br></pre></td></tr></table></figure></p>
+<p>可以设置容器内对该数据卷的读写权限。</p>
+<p>可以从另外的容器挂载数据卷：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --volumes-from 777f7dc92da7 --volumes-from ba8c0c54f0f2:ro -i -t ubuntu pwd</span><br></pre></td></tr></table></figure></p>
+<h3 id="设置容器的元数据"><a href="#设置容器的元数据" class="headerlink" title="设置容器的元数据"></a>设置容器的元数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -l my-label --label com.example.foo=bar ubuntu bash</span><br><span class="line">$ docker run --label-file ./labels ubuntu bash</span><br></pre></td></tr></table></figure>
+<p>三种方式设置：-l、–label以及–label-file。<br>label的格式为key=value，可以没有value，如果key相同，value不同，后面的会覆盖前面的value。</p>
+<h3 id="透传设备到容器"><a href="#透传设备到容器" class="headerlink" title="透传设备到容器"></a>透传设备到容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --device=/dev/sdc:/dev/xvdc --device=/dev/sdd --device=/dev/zero:/dev/nulo -i -t ubuntu ls -l /dev/&#123;xvdc,sdd,nulo&#125;</span><br><span class="line">brw-rw---- 1 root disk 8, 2 Feb  9 16:05 /dev/xvdc</span><br><span class="line">brw-rw---- 1 root disk 8, 3 Feb  9 16:05 /dev/sdd</span><br><span class="line">crw-rw-rw- 1 root root 1, 5 Feb  9 16:05 /dev/nulo</span><br></pre></td></tr></table></figure>
+<p>–device可以把host的设备透传到容器。</p>
+<h3 id="设置容器的ulimit"><a href="#设置容器的ulimit" class="headerlink" title="设置容器的ulimit"></a>设置容器的ulimit</h3><p>ulimit可以设置soft和hard限制，格式如：<type>=<soft limit="">[:<hard limit="">]<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --ulimit nofile=1024:1024 --rm ubuntu sh -c &quot;ulimit -n&quot;</span><br><span class="line">1024</span><br><span class="line">$ docker run --rm ubuntu sh -c &quot;ulimit -n&quot;</span><br><span class="line">1048576</span><br></pre></td></tr></table></figure></hard></soft></type></p>
+<p>注意：</p>
+<ul>
+<li>如果没有指定hard limit，那么soft limit的值也会被设置给hard limit</li>
+<li>如果没有设置ulimit，继承daemon设置的默认ulimit</li>
+</ul>
+<h3 id="退出自动清理容器"><a href="#退出自动清理容器" class="headerlink" title="退出自动清理容器"></a>退出自动清理容器</h3><p>默认情况下，容器退出后，容器的数据都是保存的。如果要删除退出不用的容器，需要手动用rm命令删除。<br>有时候，可能容器退出就没有意义了，可以设置–rm，保证容器退出之后，会被自动清理掉。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm ubuntu sh -c &quot;ulimit -n&quot;</span><br></pre></td></tr></table></figure></p>
+<p>注意：不能和-d一起使用</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1/" data-id="cjcokdw7f000axkowryyjpkm9" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-docker_cmd_analyse5" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/02/28/docker_cmd_analyse5/" class="article-date">
@@ -109,7 +186,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/28/docker_cmd_analyse5/" data-id="cjcob8ehy000iugowqqa8ofny" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/28/docker_cmd_analyse5/" data-id="cjcokdw7k000ixkown7v3qwsj" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -168,7 +245,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/28/docker_cmd_analyse4/" data-id="cjcob8ehx000gugow8kfvxvvf" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/28/docker_cmd_analyse4/" data-id="cjcokdw7j000gxkowil4jfgnv" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -279,7 +356,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/27/docker_cmd_analyse3/" data-id="cjcob8ehm0008ugowv5vs0ehe" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/27/docker_cmd_analyse3/" data-id="cjcokdw7d0008xkowpg8js5l1" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -322,107 +399,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/25/hexo_generate_err1/" data-id="cjcob8eih0019ugow2ynxue7q" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/25/hexo_generate_err1/" data-id="cjcokdw800019xkowy19u5rp4" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo错误/">hexo错误</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-docker_cmd_analyse2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/02/23/docker_cmd_analyse2/" class="article-date">
-  <time datetime="2017-02-23T16:50:23.000Z" itemprop="datePublished">2017-02-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/23/docker_cmd_analyse2/">docker命令分析--镜像相关</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>所有命令均基于docker1.11版本</p>
-<p>镜像相关的命令主要包括三类：</p>
-<ul>
-<li>镜像registry相关命令</li>
-<li>镜像构建相关命令</li>
-<li>镜像操作相关命令</li>
-</ul>
-<h2 id="镜像registry操作"><a href="#镜像registry操作" class="headerlink" title="镜像registry操作"></a>镜像registry操作</h2><p>在使用docker的过程中，可能需要从镜像registry获取镜像，或者把自己构建的镜像保存到registry。<br>包括下面几个命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">login     Log <span class="keyword">in</span> to a Docker registry</span><br><span class="line"><span class="built_in">logout</span>    Log out from a Docker registry</span><br><span class="line">pull      Pull an image or a repository from a registry</span><br><span class="line">push      Push an image or a repository to a registry</span><br><span class="line">search    Search the Docker Hub <span class="keyword">for</span> images</span><br><span class="line">tag       Tag an image into a repository</span><br></pre></td></tr></table></figure>
-<h3 id="login和logout"><a href="#login和logout" class="headerlink" title="login和logout"></a>login和logout</h3><p>这两个命令主要是用于登录和退出Docker registry的，比较简单，这里只给出基本用法。</p>
-<ol>
-<li>login命令</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker login [OPTIONS] [SERVER]</span><br><span class="line"></span><br><span class="line">Log <span class="keyword">in</span> to a Docker registry server, <span class="keyword">if</span> no server is</span><br><span class="line">specified <span class="string">"https://index.docker.io/v1/"</span> is the default.</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  -p, --password=<span class="string">""</span>    Password</span><br><span class="line">  -u, --username=<span class="string">""</span>    Username</span><br></pre></td></tr></table></figure>
-<p>如果没有指定服务器地址，默认服务器地址为：<a href="https://index.docker.io/v1/。服务器地址可以是自己搭建的本地仓库。" target="_blank" rel="noopener">https://index.docker.io/v1/。服务器地址可以是自己搭建的本地仓库。</a></p>
-<ol>
-<li>logout命令</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker <span class="built_in">logout</span> [SERVER]</span><br><span class="line"></span><br><span class="line">Log out from a Docker registry, <span class="keyword">if</span> no server is</span><br><span class="line">specified <span class="string">"https://index.docker.io/v1/"</span> is the default.</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>          Print usage</span><br></pre></td></tr></table></figure>
-<h3 id="pull、push和search"><a href="#pull、push和search" class="headerlink" title="pull、push和search"></a>pull、push和search</h3><ol>
-<li>pull命令：用于从registry下拉镜像或者</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker pull [OPTIONS] NAME[:TAG] | [REGISTRY_HOST[:REGISTRY_PORT]/]NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Pull an image or a repository from the registry</span><br><span class="line"></span><br><span class="line">  -a, --all-tags                Download all tagged images <span class="keyword">in</span> the repository</span><br><span class="line">  --<span class="built_in">disable</span>-content-trust=<span class="literal">true</span>  Skip image verification</span><br><span class="line">  --<span class="built_in">help</span>                        Print usage</span><br></pre></td></tr></table></figure>
-<p>注：如果是在内网，需要配置代理，可以参考上篇文章。</p>
-<p>用pull下载单个镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取默认debian:latest</span></span><br><span class="line">$ docker pull debian</span><br><span class="line"><span class="comment">#指定debian的tag</span></span><br><span class="line">$ docker pull debian:jessie</span><br></pre></td></tr></table></figure></p>
-<p>上面的pull镜像的方式，可以保证你获取的镜像永远是最新的版本的。但是，如果你想获取某个特定版本的，可以通过digest的方式获取。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull ubuntu:14.04</span><br><span class="line"></span><br><span class="line">14.04: Pulling from library/ubuntu</span><br><span class="line">5a132a7e7af1: Pull complete</span><br><span class="line">fd2731e4c50c: Pull complete</span><br><span class="line">28a2f68d1120: Pull complete</span><br><span class="line">a3ed95caeb02: Pull complete</span><br><span class="line">Digest: sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> ubuntu:14.04</span><br></pre></td></tr></table></figure></p>
-<p>上面的镜像会包含一个Digest信息：sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2<br>为了获取固定版本的镜像，可以通过下面的方式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu@sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2</span><br></pre></td></tr></table></figure></p>
-<p>从其他registry获取镜像或者仓库<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull myregistry.local:5000/testing/<span class="built_in">test</span>-image</span><br></pre></td></tr></table></figure></p>
-<p>注：</p>
-<ul>
-<li>docker pull默认从Docker hub上面下拉镜像。</li>
-<li>myregistry是否是支持insecure方式，如果不支持可能需要一些配置才能pull成功</li>
-</ul>
-<p>获取一个仓库的所有镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull --all-tags fedora</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>push命令：往registry推送镜像或者仓库</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker push [OPTIONS] NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Push an image or a repository to the registry</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">disable</span>-content-trust=<span class="literal">true</span>   Skip image signing</span><br><span class="line">  --<span class="built_in">help</span>                         Print usage</span><br></pre></td></tr></table></figure>
-<p>注：</p>
-<ul>
-<li>默认推送到Docker hub，可以推送的自己构建的registry。</li>
-<li>–disable-content-trust=true可以跳过镜像签名</li>
-</ul>
-<ol>
-<li>search命令：在Docker hub搜索镜像</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker search [OPTIONS] TERM</span><br><span class="line"></span><br><span class="line">Search the Docker Hub <span class="keyword">for</span> images</span><br><span class="line"></span><br><span class="line">  --automated          Only show automated builds</span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  --no-trunc           Don<span class="string">'t truncate output</span></span><br><span class="line"><span class="string">  -s, --stars=0        Only displays with at least x stars</span></span><br></pre></td></tr></table></figure>
-<p>注意：search的说明是在Docker hub上搜索，其实也可以用来搜索自己搭建的registry，但是，如果用registry容器镜像搭建的registry是没有打开search模块的。<br>    因此，search功能在这样的registry上面是不能工作的。</p>
-<p>通过镜像名搜索<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker search ubuntu</span><br></pre></td></tr></table></figure></p>
-<p>通过镜像名和stars次数搜索<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 busybox</span><br><span class="line">NAME                 DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">busybox              Busybox base image.                             325       [OK]       </span><br><span class="line">progrium/busybox                                                     50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made...   8                    [OK]</span><br></pre></td></tr></table></figure></p>
-<p>这里stars表示该镜像在Docker Hub上被人关注的次数。</p>
-<p>查询自动构建的镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 --automated busybox</span><br><span class="line">NAME                 DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">progrium/busybox                                                     50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made...   8                    [OK]</span><br></pre></td></tr></table></figure></p>
-<p>automated感觉用来标识非官方镜像</p>
-<p>查询未截断描述的镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 --no-trunc busybox</span><br><span class="line">NAME                 DESCRIPTION                                                                               STARS     OFFICIAL   AUTOMATED</span><br><span class="line">busybox              Busybox base image.                                                                       325       [OK]       </span><br><span class="line">progrium/busybox                                                                                               50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made from scratch. Comes <span class="keyword">in</span> git and cURL flavors.   8                    [OK]</span><br></pre></td></tr></table></figure></p>
-<h3 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h3><p>tag命令用于修改镜像的仓库名和tag<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Tag an image into a repository</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br></pre></td></tr></table></figure></p>
-<p>注：如果需要把镜像push到一个自定的registry，首先需要就是tag镜像到该registry的一个仓库（参考文章：搭建本地的Docker registry）。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse2/" data-id="cjcob8ehj0005ugowfcwzku3u" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
 
     </footer>
   </div>
@@ -603,7 +583,104 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse2_2/" data-id="cjcob8ehl0007ugow3v92tvis" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse2_2/" data-id="cjcokdw7c0007xkow1kdkewpb" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-docker_cmd_analyse2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/23/docker_cmd_analyse2/" class="article-date">
+  <time datetime="2017-02-23T16:50:23.000Z" itemprop="datePublished">2017-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/23/docker_cmd_analyse2/">docker命令分析--镜像相关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<p>所有命令均基于docker1.11版本</p>
+<p>镜像相关的命令主要包括三类：</p>
+<ul>
+<li>镜像registry相关命令</li>
+<li>镜像构建相关命令</li>
+<li>镜像操作相关命令</li>
+</ul>
+<h2 id="镜像registry操作"><a href="#镜像registry操作" class="headerlink" title="镜像registry操作"></a>镜像registry操作</h2><p>在使用docker的过程中，可能需要从镜像registry获取镜像，或者把自己构建的镜像保存到registry。<br>包括下面几个命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">login     Log <span class="keyword">in</span> to a Docker registry</span><br><span class="line"><span class="built_in">logout</span>    Log out from a Docker registry</span><br><span class="line">pull      Pull an image or a repository from a registry</span><br><span class="line">push      Push an image or a repository to a registry</span><br><span class="line">search    Search the Docker Hub <span class="keyword">for</span> images</span><br><span class="line">tag       Tag an image into a repository</span><br></pre></td></tr></table></figure>
+<h3 id="login和logout"><a href="#login和logout" class="headerlink" title="login和logout"></a>login和logout</h3><p>这两个命令主要是用于登录和退出Docker registry的，比较简单，这里只给出基本用法。</p>
+<ol>
+<li>login命令</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker login [OPTIONS] [SERVER]</span><br><span class="line"></span><br><span class="line">Log <span class="keyword">in</span> to a Docker registry server, <span class="keyword">if</span> no server is</span><br><span class="line">specified <span class="string">"https://index.docker.io/v1/"</span> is the default.</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  -p, --password=<span class="string">""</span>    Password</span><br><span class="line">  -u, --username=<span class="string">""</span>    Username</span><br></pre></td></tr></table></figure>
+<p>如果没有指定服务器地址，默认服务器地址为：<a href="https://index.docker.io/v1/。服务器地址可以是自己搭建的本地仓库。" target="_blank" rel="noopener">https://index.docker.io/v1/。服务器地址可以是自己搭建的本地仓库。</a></p>
+<ol>
+<li>logout命令</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker <span class="built_in">logout</span> [SERVER]</span><br><span class="line"></span><br><span class="line">Log out from a Docker registry, <span class="keyword">if</span> no server is</span><br><span class="line">specified <span class="string">"https://index.docker.io/v1/"</span> is the default.</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>          Print usage</span><br></pre></td></tr></table></figure>
+<h3 id="pull、push和search"><a href="#pull、push和search" class="headerlink" title="pull、push和search"></a>pull、push和search</h3><ol>
+<li>pull命令：用于从registry下拉镜像或者</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker pull [OPTIONS] NAME[:TAG] | [REGISTRY_HOST[:REGISTRY_PORT]/]NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Pull an image or a repository from the registry</span><br><span class="line"></span><br><span class="line">  -a, --all-tags                Download all tagged images <span class="keyword">in</span> the repository</span><br><span class="line">  --<span class="built_in">disable</span>-content-trust=<span class="literal">true</span>  Skip image verification</span><br><span class="line">  --<span class="built_in">help</span>                        Print usage</span><br></pre></td></tr></table></figure>
+<p>注：如果是在内网，需要配置代理，可以参考上篇文章。</p>
+<p>用pull下载单个镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取默认debian:latest</span></span><br><span class="line">$ docker pull debian</span><br><span class="line"><span class="comment">#指定debian的tag</span></span><br><span class="line">$ docker pull debian:jessie</span><br></pre></td></tr></table></figure></p>
+<p>上面的pull镜像的方式，可以保证你获取的镜像永远是最新的版本的。但是，如果你想获取某个特定版本的，可以通过digest的方式获取。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull ubuntu:14.04</span><br><span class="line"></span><br><span class="line">14.04: Pulling from library/ubuntu</span><br><span class="line">5a132a7e7af1: Pull complete</span><br><span class="line">fd2731e4c50c: Pull complete</span><br><span class="line">28a2f68d1120: Pull complete</span><br><span class="line">a3ed95caeb02: Pull complete</span><br><span class="line">Digest: sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> ubuntu:14.04</span><br></pre></td></tr></table></figure></p>
+<p>上面的镜像会包含一个Digest信息：sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2<br>为了获取固定版本的镜像，可以通过下面的方式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu@sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2</span><br></pre></td></tr></table></figure></p>
+<p>从其他registry获取镜像或者仓库<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull myregistry.local:5000/testing/<span class="built_in">test</span>-image</span><br></pre></td></tr></table></figure></p>
+<p>注：</p>
+<ul>
+<li>docker pull默认从Docker hub上面下拉镜像。</li>
+<li>myregistry是否是支持insecure方式，如果不支持可能需要一些配置才能pull成功</li>
+</ul>
+<p>获取一个仓库的所有镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull --all-tags fedora</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>push命令：往registry推送镜像或者仓库</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker push [OPTIONS] NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Push an image or a repository to the registry</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">disable</span>-content-trust=<span class="literal">true</span>   Skip image signing</span><br><span class="line">  --<span class="built_in">help</span>                         Print usage</span><br></pre></td></tr></table></figure>
+<p>注：</p>
+<ul>
+<li>默认推送到Docker hub，可以推送的自己构建的registry。</li>
+<li>–disable-content-trust=true可以跳过镜像签名</li>
+</ul>
+<ol>
+<li>search命令：在Docker hub搜索镜像</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker search [OPTIONS] TERM</span><br><span class="line"></span><br><span class="line">Search the Docker Hub <span class="keyword">for</span> images</span><br><span class="line"></span><br><span class="line">  --automated          Only show automated builds</span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  --no-trunc           Don<span class="string">'t truncate output</span></span><br><span class="line"><span class="string">  -s, --stars=0        Only displays with at least x stars</span></span><br></pre></td></tr></table></figure>
+<p>注意：search的说明是在Docker hub上搜索，其实也可以用来搜索自己搭建的registry，但是，如果用registry容器镜像搭建的registry是没有打开search模块的。<br>    因此，search功能在这样的registry上面是不能工作的。</p>
+<p>通过镜像名搜索<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker search ubuntu</span><br></pre></td></tr></table></figure></p>
+<p>通过镜像名和stars次数搜索<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 busybox</span><br><span class="line">NAME                 DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">busybox              Busybox base image.                             325       [OK]       </span><br><span class="line">progrium/busybox                                                     50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made...   8                    [OK]</span><br></pre></td></tr></table></figure></p>
+<p>这里stars表示该镜像在Docker Hub上被人关注的次数。</p>
+<p>查询自动构建的镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 --automated busybox</span><br><span class="line">NAME                 DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">progrium/busybox                                                     50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made...   8                    [OK]</span><br></pre></td></tr></table></figure></p>
+<p>automated感觉用来标识非官方镜像</p>
+<p>查询未截断描述的镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 --no-trunc busybox</span><br><span class="line">NAME                 DESCRIPTION                                                                               STARS     OFFICIAL   AUTOMATED</span><br><span class="line">busybox              Busybox base image.                                                                       325       [OK]       </span><br><span class="line">progrium/busybox                                                                                               50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made from scratch. Comes <span class="keyword">in</span> git and cURL flavors.   8                    [OK]</span><br></pre></td></tr></table></figure></p>
+<h3 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h3><p>tag命令用于修改镜像的仓库名和tag<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Tag an image into a repository</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br></pre></td></tr></table></figure></p>
+<p>注：如果需要把镜像push到一个自定的registry，首先需要就是tag镜像到该registry的一个仓库（参考文章：搭建本地的Docker registry）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse2/" data-id="cjcokdw7a0005xkowd1ds3wg4" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -692,7 +769,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse/" data-id="cjcob8ehi0004ugowqbpffr5h" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse/" data-id="cjcokdw790004xkow8jp6867v" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -741,7 +818,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/14/docker_plugin/" data-id="cjcob8ei4000nugowv60u8rll" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/14/docker_plugin/" data-id="cjcokdw7p000nxkowrl42orbs" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li></ul>
@@ -800,48 +877,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/08/container_reboot/" data-id="cjcob8ehc0001ugowzoummalf" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/reboot/">reboot</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hexo_on_gitpage" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/02/08/hexo_on_gitpage/" class="article-date">
-  <time datetime="2017-02-08T15:00:26.000Z" itemprop="datePublished">2017-02-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/08/hexo_on_gitpage/">容器内调用reboot函数失败</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/08/hexo_on_gitpage/" data-id="cjcob8eii001augowwryvfd6z" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/08/container_reboot/" data-id="cjcokdw740001xkow91ilv9qt" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/reboot/">reboot</a></li></ul>
@@ -871,7 +907,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ip/">ip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/perl/">perl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/电子书/">电子书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitpage/">gitpage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ip/">ip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/perl/">perl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/电子书/">电子书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
     </div>
   </div>
 
@@ -881,7 +917,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 16.67px;">docker命令</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/ip/" style="font-size: 11.67px;">ip</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 18.33px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/perl/" style="font-size: 10px;">perl</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 11.67px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/tools/" style="font-size: 13.33px;">tools</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/电子书/" style="font-size: 10px;">电子书</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 16.67px;">docker命令</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/gitpage/" style="font-size: 10px;">gitpage</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/ip/" style="font-size: 11.67px;">ip</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 18.33px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/perl/" style="font-size: 10px;">perl</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/tools/" style="font-size: 13.33px;">tools</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/电子书/" style="font-size: 10px;">电子书</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
     </div>
   </div>
 
@@ -903,6 +939,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/21/hexo_on_gitpage/">Hexo搭建GitPage静态博客</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/21/修复perl的locale异常/">perl的locale异常</a>
           </li>
         
@@ -916,10 +956,6 @@
         
           <li>
             <a href="/2018/01/07/git_usages/">Git用法</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/01/knowledge_topology/">技术汇集</a>
           </li>
         
       </ul>

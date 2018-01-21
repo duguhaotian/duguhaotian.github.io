@@ -115,7 +115,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/06/linux_file_nr_max/" data-id="cjcob8ej0001yugowvx64604m" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/06/linux_file_nr_max/" data-id="cjcokdw8e001wxkownuyqmlei" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件/">文件</a></li></ul>
@@ -162,7 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/24/docker_visual/" data-id="cjcob8ei9000wugowf9pme1m2" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/01/24/docker_visual/" data-id="cjcokdw7s000wxkowuii1g9tx" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/可视化/">可视化</a></li></ul>
@@ -215,10 +215,102 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/19/docker_update/" data-id="cjcob8ei8000uugowhpwbf9xc" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/01/19/docker_update/" data-id="cjcokdw7r000uxkowjb8bh6q0" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python_notes_1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/17/python_notes_1/" class="article-date">
+  <time datetime="2017-01-17T10:00:26.000Z" itemprop="datePublished">2017-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/17/python_notes_1/">Python杂记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<p>最近被python的条件坑了一波，在此小计一下。<br>python的IF的条件判断和C是一致的，0表示False，非0表示True。这本没什么问题，坑爹的是，很多函数的成功返回0，而失败返回-1，这就很容易被坑了。<br>先看看0和-1的情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">root@rtos:/home/work/rtos<span class="comment"># python</span></span><br><span class="line">Python 2.7.6 (default, Oct 26 2016, 20:30:19)</span><br><span class="line">[GCC 4.8.4] on linux2</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> 0:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is False"</span>)</span><br><span class="line">...</span><br><span class="line">0 is False</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> -1:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is False"</span>)</span><br><span class="line">...</span><br><span class="line">-1 is True</span><br></pre></td></tr></table></figure>
+<p>字符串的find函数，在查找失败的时候返回-1，成功时返回匹配的起始下标。当匹配的起始下标是0和查找失败的时候，在if判断时候需要注意了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;&gt;&gt; tmp = <span class="string">"abcdefg"</span></span><br><span class="line">&gt;&gt;&gt; a = <span class="string">"abc"</span></span><br><span class="line">&gt;&gt;&gt; b = <span class="string">"bcd"</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(a):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (a, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (a, tmp))</span><br><span class="line">...</span><br><span class="line">abc cannot find <span class="keyword">in</span> abcdefg</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(b):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (b, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (b, tmp))</span><br><span class="line">...</span><br><span class="line">bcd find <span class="keyword">in</span> abcdefg</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; c = <span class="string">"234"</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(c):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (c, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (c, tmp))</span><br><span class="line">...</span><br><span class="line">234 find <span class="keyword">in</span> abcdefg</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/17/python_notes_1/" data-id="cjcokdw8n002bxkow638so8tw" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-install_tmux" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/17/install_tmux/" class="article-date">
+  <time datetime="2017-01-17T10:00:26.000Z" itemprop="datePublished">2017-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/17/install_tmux/">从源码安装tmux</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="安装libevent"><a href="#安装libevent" class="headerlink" title="安装libevent"></a>安装libevent</h2><p>首先，需要到官网(<a href="http://libevent.org/)去下载最新的源码，安装流程如下：" target="_blank" rel="noopener">http://libevent.org/)去下载最新的源码，安装流程如下：</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz</span><br><span class="line">tar -zxf libevent-2.0.22-stable.tar.gz</span><br><span class="line"><span class="built_in">cd</span> libevent-2.0.22-stable</span><br><span class="line">./configure -prefix=/usr</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h2 id="安装ncurses"><a href="#安装ncurses" class="headerlink" title="安装ncurses"></a>安装ncurses</h2><p>tmux依赖ncurses，因此需要先安装ncurses，同样通过源码安装，脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget http://invisible-island.net/datafiles/release/ncurses.tar.gz</span><br><span class="line">tar -zxf ncurses.tar.gz</span><br><span class="line"><span class="built_in">cd</span> ncurses-5.9/</span><br><span class="line">./configure</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h2 id="安装tmux"><a href="#安装tmux" class="headerlink" title="安装tmux"></a>安装tmux</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install automake  <span class="comment">#依赖aclocal命令</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/tmux/tmux.git</span><br><span class="line">$ <span class="built_in">cd</span> tmux</span><br><span class="line">$ sh autogen.sh</span><br><span class="line">$ ./configure -prefix=/usr <span class="comment">#注意prefix，不然安装到/usr/local/bin目录，可能执行不了</span></span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<p>tmux已经安装，成功了！！！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/17/install_tmux/" data-id="cjcokdw85001hxkowtnv01cso" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tmux/">tmux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li></ul>
 
     </footer>
   </div>
@@ -295,102 +387,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/17/mount_enumerate/" data-id="cjcob8ej40028ugowi0ohn1bi" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/01/17/mount_enumerate/" data-id="cjcokdw8i0025xkow34p9nchc" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemd/">systemd</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-install_tmux" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/17/install_tmux/" class="article-date">
-  <time datetime="2017-01-17T10:00:26.000Z" itemprop="datePublished">2017-01-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/17/install_tmux/">从源码安装tmux</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="安装libevent"><a href="#安装libevent" class="headerlink" title="安装libevent"></a>安装libevent</h2><p>首先，需要到官网(<a href="http://libevent.org/)去下载最新的源码，安装流程如下：" target="_blank" rel="noopener">http://libevent.org/)去下载最新的源码，安装流程如下：</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz</span><br><span class="line">tar -zxf libevent-2.0.22-stable.tar.gz</span><br><span class="line"><span class="built_in">cd</span> libevent-2.0.22-stable</span><br><span class="line">./configure -prefix=/usr</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-<h2 id="安装ncurses"><a href="#安装ncurses" class="headerlink" title="安装ncurses"></a>安装ncurses</h2><p>tmux依赖ncurses，因此需要先安装ncurses，同样通过源码安装，脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget http://invisible-island.net/datafiles/release/ncurses.tar.gz</span><br><span class="line">tar -zxf ncurses.tar.gz</span><br><span class="line"><span class="built_in">cd</span> ncurses-5.9/</span><br><span class="line">./configure</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-<h2 id="安装tmux"><a href="#安装tmux" class="headerlink" title="安装tmux"></a>安装tmux</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install automake  <span class="comment">#依赖aclocal命令</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/tmux/tmux.git</span><br><span class="line">$ <span class="built_in">cd</span> tmux</span><br><span class="line">$ sh autogen.sh</span><br><span class="line">$ ./configure -prefix=/usr <span class="comment">#注意prefix，不然安装到/usr/local/bin目录，可能执行不了</span></span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
-<p>tmux已经安装，成功了！！！</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/17/install_tmux/" data-id="cjcob8eiq001hugow93p9wdcw" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tmux/">tmux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python_notes_1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/17/python_notes_1/" class="article-date">
-  <time datetime="2017-01-17T10:00:26.000Z" itemprop="datePublished">2017-01-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/17/python_notes_1/">Python杂记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>最近被python的条件坑了一波，在此小计一下。<br>python的IF的条件判断和C是一致的，0表示False，非0表示True。这本没什么问题，坑爹的是，很多函数的成功返回0，而失败返回-1，这就很容易被坑了。<br>先看看0和-1的情况：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">root@rtos:/home/work/rtos<span class="comment"># python</span></span><br><span class="line">Python 2.7.6 (default, Oct 26 2016, 20:30:19)</span><br><span class="line">[GCC 4.8.4] on linux2</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> 0:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is False"</span>)</span><br><span class="line">...</span><br><span class="line">0 is False</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> -1:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is False"</span>)</span><br><span class="line">...</span><br><span class="line">-1 is True</span><br></pre></td></tr></table></figure>
-<p>字符串的find函数，在查找失败的时候返回-1，成功时返回匹配的起始下标。当匹配的起始下标是0和查找失败的时候，在if判断时候需要注意了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;&gt;&gt; tmp = <span class="string">"abcdefg"</span></span><br><span class="line">&gt;&gt;&gt; a = <span class="string">"abc"</span></span><br><span class="line">&gt;&gt;&gt; b = <span class="string">"bcd"</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(a):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (a, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (a, tmp))</span><br><span class="line">...</span><br><span class="line">abc cannot find <span class="keyword">in</span> abcdefg</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(b):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (b, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (b, tmp))</span><br><span class="line">...</span><br><span class="line">bcd find <span class="keyword">in</span> abcdefg</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; c = <span class="string">"234"</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(c):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (c, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (c, tmp))</span><br><span class="line">...</span><br><span class="line">234 find <span class="keyword">in</span> abcdefg</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/17/python_notes_1/" data-id="cjcob8ej8002eugowoo07mppq" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
 
     </footer>
   </div>
@@ -460,7 +460,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/03/create_local_registry/" data-id="cjcob8ehg0003ugowspss5u50" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/01/03/create_local_registry/" data-id="cjcokdw770003xkow80f8ap37" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li></ul>
@@ -563,7 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/29/docker_log/" data-id="cjcob8ei2000kugownwqoee81" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/12/29/docker_log/" data-id="cjcokdw7n000kxkowpy5pobv6" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/log/">log</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/日志/">日志</a></li></ul>
@@ -606,7 +606,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/29/install_golang_liteide/" data-id="cjcob8eio001eugowjhf58w85" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/12/29/install_golang_liteide/" data-id="cjcokdw83001exkowcmuuqpcj" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/">golang</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ide/">ide</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/liteide/">liteide</a></li></ul>
@@ -689,7 +689,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/08/kiwi_analyse/" data-id="cjcob8eix001tugownxj1uzgp" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/12/08/kiwi_analyse/" data-id="cjcokdw8b001rxkow2bkukp40" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -719,7 +719,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ip/">ip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/perl/">perl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/电子书/">电子书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitpage/">gitpage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ip/">ip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/perl/">perl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/电子书/">电子书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
     </div>
   </div>
 
@@ -729,7 +729,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 16.67px;">docker命令</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/ip/" style="font-size: 11.67px;">ip</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 18.33px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/perl/" style="font-size: 10px;">perl</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 11.67px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/tools/" style="font-size: 13.33px;">tools</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/电子书/" style="font-size: 10px;">电子书</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 16.67px;">docker命令</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/gitpage/" style="font-size: 10px;">gitpage</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/ip/" style="font-size: 11.67px;">ip</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 18.33px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/perl/" style="font-size: 10px;">perl</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/tools/" style="font-size: 13.33px;">tools</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/电子书/" style="font-size: 10px;">电子书</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
     </div>
   </div>
 
@@ -751,6 +751,10 @@
       <ul>
         
           <li>
+            <a href="/2018/01/21/hexo_on_gitpage/">Hexo搭建GitPage静态博客</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/21/修复perl的locale异常/">perl的locale异常</a>
           </li>
         
@@ -764,10 +768,6 @@
         
           <li>
             <a href="/2018/01/07/git_usages/">Git用法</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/01/knowledge_topology/">技术汇集</a>
           </li>
         
       </ul>

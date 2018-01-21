@@ -5,19 +5,19 @@
   
 
   
-  <title>基于centos搭建wordpress的docker镜像 | Hexo</title>
+  <title>Hexo搭建GitPage静态博客 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： 耗子007  自定义的Dockerfile1234567891011121314151617181920212223242526272829303132333435363738FROM centosENV http_proxy http://username:password@proxy:8080ENV https_proxy http://username:password@proxy">
-<meta name="keywords" content="docker image,WordPress">
+  <meta name="description" content="作者： 耗子007  环境准备 docker nodejs镜像 hexo git相关  docker安装docker的安装请参考官方文档：https://docs.docker.com/engine/installation/ nodejs镜像国内可以使用Docker官方的加速地址，具体配置参考官方文档： https://www.docker-cn.com/registry-mirror 本文使">
+<meta name="keywords" content="linux,hexo,gitpage">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于centos搭建wordpress的docker镜像">
-<meta property="og:url" content="http://yoursite.com/2017/05/07/build_wordpress_docker_image/index.html">
+<meta property="og:title" content="Hexo搭建GitPage静态博客">
+<meta property="og:url" content="http://yoursite.com/2018/01/21/hexo_on_gitpage/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： 耗子007  自定义的Dockerfile1234567891011121314151617181920212223242526272829303132333435363738FROM centosENV http_proxy http://username:password@proxy:8080ENV https_proxy http://username:password@proxy">
-<meta property="og:updated_time" content="2018-01-21T04:54:22.520Z">
+<meta property="og:description" content="作者： 耗子007  环境准备 docker nodejs镜像 hexo git相关  docker安装docker的安装请参考官方文档：https://docs.docker.com/engine/installation/ nodejs镜像国内可以使用Docker官方的加速地址，具体配置参考官方文档： https://www.docker-cn.com/registry-mirror 本文使">
+<meta property="og:updated_time" content="2018-01-21T09:12:07.514Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于centos搭建wordpress的docker镜像">
-<meta name="twitter:description" content="作者： 耗子007  自定义的Dockerfile1234567891011121314151617181920212223242526272829303132333435363738FROM centosENV http_proxy http://username:password@proxy:8080ENV https_proxy http://username:password@proxy">
+<meta name="twitter:title" content="Hexo搭建GitPage静态博客">
+<meta name="twitter:description" content="作者： 耗子007  环境准备 docker nodejs镜像 hexo git相关  docker安装docker的安装请参考官方文档：https://docs.docker.com/engine/installation/ nodejs镜像国内可以使用Docker官方的加速地址，具体配置参考官方文档： https://www.docker-cn.com/registry-mirror 本文使">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -64,10 +64,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-build_wordpress_docker_image" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-hexo_on_gitpage" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/05/07/build_wordpress_docker_image/" class="article-date">
-  <time datetime="2017-05-07T13:02:26.000Z" itemprop="datePublished">2017-05-07</time>
+    <a href="/2018/01/21/hexo_on_gitpage/" class="article-date">
+  <time datetime="2018-01-21T13:00:00.000Z" itemprop="datePublished">2018-01-21</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      基于centos搭建wordpress的docker镜像
+      Hexo搭建GitPage静态博客
     </h1>
   
 
@@ -89,26 +89,57 @@
         <hr>
 <p>作者： 耗子007</p>
 <hr>
-<h2 id="自定义的Dockerfile"><a href="#自定义的Dockerfile" class="headerlink" title="自定义的Dockerfile"></a>自定义的Dockerfile</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line"></span><br><span class="line">ENV http_proxy http://username:password@proxy:8080</span><br><span class="line">ENV https_proxy http://username:password@proxy:8080</span><br><span class="line"></span><br><span class="line"><span class="comment">#RUN echo “http_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/apt/apt.conf</span></span><br><span class="line"><span class="comment">#RUN echo “https_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/apt/apt.conf</span></span><br><span class="line"></span><br><span class="line">RUN touch /etc/wgetrc</span><br><span class="line">RUN <span class="built_in">echo</span> “http_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/wgetrc</span><br><span class="line">RUN <span class="built_in">echo</span> “https_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/wgetrc</span><br><span class="line">RUN <span class="built_in">source</span> /etc/wgetrc</span><br><span class="line"></span><br><span class="line">RUN yum -y update</span><br><span class="line">RUN yum -y install httpd httpd-devel zip unzip tar wget</span><br><span class="line">RUN yum -y install php php-xml php-pdo php-gd php-mbstring sqlite sqlite-devel</span><br><span class="line"></span><br><span class="line">RUN wget –no-check-certificate https://wordpress.org/latest.tar.gz（中文版链接：https://cn.wordpress.org/wordpress-4.5.3-zh_CN.tar.gz）</span><br><span class="line">RUN wget –no-check-certificate https://downloads.wordpress.org/plugin/sqlite-integration.1.8.1.zip</span><br><span class="line">RUN tar xvfz ./latest.tar.gz</span><br><span class="line">RUN unzip ./sqlite-integration.1.8.1.zip</span><br><span class="line">RUN rm -f ./latest.tar.gz</span><br><span class="line">RUN rm -f ./sqlite-integration.1.8.1.zip</span><br><span class="line">RUN mv wordpress /var/lib/wordpress</span><br><span class="line">RUN chown -R apache.apache /var/lib/wordpress</span><br><span class="line">RUN mv /var/lib/wordpress/wp-config-sample.php /var/lib/wordpress/wp-config.php</span><br><span class="line">RUN mv sqlite-integration /var/lib/wordpress/wp-content/plugins/</span><br><span class="line">RUN mv /var/lib/wordpress/wp-content/plugins/sqlite-integration/db.php \</span><br><span class="line">/var/lib/wordpress/wp-content/</span><br><span class="line"></span><br><span class="line">RUN <span class="built_in">echo</span> “yes n | cp -ripf /var/lib/wordpress/* /var/www/html/ &gt; /dev/null 2&gt;&amp;1” &gt;&gt; /root/.bash_profile</span><br><span class="line">VOLUME /var/www/html</span><br><span class="line"></span><br><span class="line">RUN systemctl <span class="built_in">enable</span> httpd</span><br><span class="line"></span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line"><span class="comment">#docker run –privileged -itd -p 8080:80 -v /root/wordpress/public_html:/var/www/html wordpress_sqlite bash -l -c “/sbin/init”</span></span><br></pre></td></tr></table></figure>
-<p>然后构建docker镜像，执行命令：docker build –tag wordpress_sqlite .</p>
-<p>现在新建wordpress的在host上的文件目录，如：/home/rtos/workspace/wordpress/public_html/</p>
-<p>启动wordpress服务，执行如下命令：</p>
-<p>docker run –privileged -itd -p 8080:80 -v /home/rtos/workspace/wordpress/public_html/:/var/www/html wordpress_sqlite bash -l -c “sbin/init”</p>
-<p>等待几分钟，访问<a href="http://localhost:8080，或者http://ip:8080" target="_blank" rel="noopener">http://localhost:8080，或者http://ip:8080</a></p>
-<p>注意：</p>
-<ul>
-<li>我们的博客数据是放到SQLite数据库 （/var/www/html/wp-content/database/.ht.sqlite文件）</li>
-<li>而网站的所有程序是放到(目录/var/www/html)</li>
-<li>关于如何备份数据以及迁移博客，后续分析。</li>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
+<li>docker</li>
+<li>nodejs镜像</li>
+<li>hexo</li>
+<li>git相关</li>
 </ul>
+<h3 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h3><p>docker的安装请参考官方文档：<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="noopener">https://docs.docker.com/engine/installation/</a></p>
+<h3 id="nodejs镜像"><a href="#nodejs镜像" class="headerlink" title="nodejs镜像"></a>nodejs镜像</h3><p>国内可以使用Docker官方的加速地址，具体配置参考官方文档： <a href="https://www.docker-cn.com/registry-mirror" target="_blank" rel="noopener">https://www.docker-cn.com/registry-mirror</a></p>
+<p>本文使用修改config的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://registry.docker-cn.com&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后下载nodejs的官方镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull node</span><br></pre></td></tr></table></figure>
+<h3 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h3><p>首先启动一个node的容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -p 4000:4000 node /bin/bash</span><br><span class="line"># 映射容器的4000端口到host的4000端口，是为了方便测试hexo生成的静态网站是否正常</span><br></pre></td></tr></table></figure>
+<p>然后，安装hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<h3 id="创建git仓库"><a href="#创建git仓库" class="headerlink" title="创建git仓库"></a>创建git仓库</h3><p>gitpage对仓库的要求就是仓库名的格式必须为：username.github.io，例如本文仓库名：duguhaotian.github.io</p>
+<h3 id="配置git公钥"><a href="#配置git公钥" class="headerlink" title="配置git公钥"></a>配置git公钥</h3><p>首先，在容器中生成公钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+<p>然后拷贝公钥到你Git上，具体步骤百度。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h3><p>配置用户名和邮箱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name   xxxx</span><br><span class="line">git config --global user.email  xxxx@xxx.com</span><br></pre></td></tr></table></figure>
+<h2 id="构建hexo工程"><a href="#构建hexo工程" class="headerlink" title="构建hexo工程"></a>构建hexo工程</h2><p>创建工程目录，然后通过hexo初始化目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">hexo init test</span><br></pre></td></tr></table></figure>
+<p>生成的目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~/test# tree -L 1</span><br><span class="line">.</span><br><span class="line">|-- _config.yml</span><br><span class="line">|-- db.json</span><br><span class="line">|-- node_modules</span><br><span class="line">|-- package-lock.json</span><br><span class="line">|-- package.json</span><br><span class="line">|-- public</span><br><span class="line">|-- scaffolds</span><br><span class="line">|-- source</span><br><span class="line">|-- themes</span><br></pre></td></tr></table></figure>
+<p>增加博客的方式有两种：</p>
+<ul>
+<li>通过hexo生成新的博客文件，然后写博客</li>
+<li>或者把写好的博客文件（markdown格式），放入test/source/_posts/目录</li>
+</ul>
+<h2 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h2><p>由于hexo依赖一些库，如支持推送静态页面到git的库等。最好安装下面所有库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm install hexo-generator-index --save</span><br><span class="line">npm install hexo-generator-archive --save</span><br><span class="line">npm install hexo-generator-category --save</span><br><span class="line">npm install hexo-generator-tag --save</span><br><span class="line">npm install hexo-server --save</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-deployer-heroku --save</span><br><span class="line">npm install hexo-deployer-rsync --save</span><br><span class="line">npm install hexo-deployer-openshift --save</span><br><span class="line">npm install hexo-renderer-marked@0.2 --save</span><br><span class="line">npm install hexo-renderer-stylus@0.2 --save</span><br><span class="line">npm install hexo-generator-feed@1 --save</span><br><span class="line">npm install hexo-generator-sitemap@1 --save</span><br></pre></td></tr></table></figure>
+<h2 id="生成静态网站"><a href="#生成静态网站" class="headerlink" title="生成静态网站"></a>生成静态网站</h2><p>在test目录执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 生成静态页面</span><br><span class="line">hexo g </span><br><span class="line"># 部署本地静态网站(localhost:4000)</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>查看本地静态网站是否构建正常，如果无问题，直接推送到github仓库。</p>
+<h2 id="推送到GitPage"><a href="#推送到GitPage" class="headerlink" title="推送到GitPage"></a>推送到GitPage</h2><p>当本地网站验证无误，就可以推送到你的Git仓库了，然后Github会自动部署你的GitPage</p>
+<p>首先，修改hexo的配置文件：_config.yml ，增加deploy的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: https://github.com/duguhaotian/duguhaotian.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>配置文件默认情况如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:</span><br></pre></td></tr></table></figure></p>
+<p>因此，我们增加type和对应的repository地址，还有git分支。</p>
+<p>最后，直接利用hexo的deploy功能把hexo生成的静态页面推送到Github上我们新建的仓库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br><span class="line"># 或者</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/07/build_wordpress_docker_image/" data-id="cjcokdw6y0000xkowctinw9xr" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/01/21/hexo_on_gitpage/" data-id="cjcokdw81001axkowm6kz7946" class="article-share-link">Teilen</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker-image/">docker image</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gitpage/">gitpage</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
 
     </footer>
   </div>
@@ -116,19 +147,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/05/07/linux_kernel_namespace/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
-        
-          Namespace
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/05/07/shadowsocks_in_ubuntu/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/01/21/修复perl的locale异常/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">Ubuntu搭载shadowsocks服务</div>
+      <div class="article-nav-title">perl的locale异常</div>
     </a>
   
 </nav>

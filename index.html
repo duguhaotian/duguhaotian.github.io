@@ -61,6 +61,90 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hexo_on_gitpage" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/hexo_on_gitpage/" class="article-date">
+  <time datetime="2018-01-21T13:00:00.000Z" itemprop="datePublished">2018-01-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/hexo_on_gitpage/">Hexo搭建GitPage静态博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
+<li>docker</li>
+<li>nodejs镜像</li>
+<li>hexo</li>
+<li>git相关</li>
+</ul>
+<h3 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h3><p>docker的安装请参考官方文档：<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="noopener">https://docs.docker.com/engine/installation/</a></p>
+<h3 id="nodejs镜像"><a href="#nodejs镜像" class="headerlink" title="nodejs镜像"></a>nodejs镜像</h3><p>国内可以使用Docker官方的加速地址，具体配置参考官方文档： <a href="https://www.docker-cn.com/registry-mirror" target="_blank" rel="noopener">https://www.docker-cn.com/registry-mirror</a></p>
+<p>本文使用修改config的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://registry.docker-cn.com&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后下载nodejs的官方镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull node</span><br></pre></td></tr></table></figure>
+<h3 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h3><p>首先启动一个node的容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -p 4000:4000 node /bin/bash</span><br><span class="line"># 映射容器的4000端口到host的4000端口，是为了方便测试hexo生成的静态网站是否正常</span><br></pre></td></tr></table></figure>
+<p>然后，安装hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+<h3 id="创建git仓库"><a href="#创建git仓库" class="headerlink" title="创建git仓库"></a>创建git仓库</h3><p>gitpage对仓库的要求就是仓库名的格式必须为：username.github.io，例如本文仓库名：duguhaotian.github.io</p>
+<h3 id="配置git公钥"><a href="#配置git公钥" class="headerlink" title="配置git公钥"></a>配置git公钥</h3><p>首先，在容器中生成公钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+<p>然后拷贝公钥到你Git上，具体步骤百度。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h3><p>配置用户名和邮箱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name   xxxx</span><br><span class="line">git config --global user.email  xxxx@xxx.com</span><br></pre></td></tr></table></figure>
+<h2 id="构建hexo工程"><a href="#构建hexo工程" class="headerlink" title="构建hexo工程"></a>构建hexo工程</h2><p>创建工程目录，然后通过hexo初始化目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">hexo init test</span><br></pre></td></tr></table></figure>
+<p>生成的目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~/test# tree -L 1</span><br><span class="line">.</span><br><span class="line">|-- _config.yml</span><br><span class="line">|-- db.json</span><br><span class="line">|-- node_modules</span><br><span class="line">|-- package-lock.json</span><br><span class="line">|-- package.json</span><br><span class="line">|-- public</span><br><span class="line">|-- scaffolds</span><br><span class="line">|-- source</span><br><span class="line">|-- themes</span><br></pre></td></tr></table></figure>
+<p>增加博客的方式有两种：</p>
+<ul>
+<li>通过hexo生成新的博客文件，然后写博客</li>
+<li>或者把写好的博客文件（markdown格式），放入test/source/_posts/目录</li>
+</ul>
+<h2 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h2><p>由于hexo依赖一些库，如支持推送静态页面到git的库等。最好安装下面所有库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm install hexo-generator-index --save</span><br><span class="line">npm install hexo-generator-archive --save</span><br><span class="line">npm install hexo-generator-category --save</span><br><span class="line">npm install hexo-generator-tag --save</span><br><span class="line">npm install hexo-server --save</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-deployer-heroku --save</span><br><span class="line">npm install hexo-deployer-rsync --save</span><br><span class="line">npm install hexo-deployer-openshift --save</span><br><span class="line">npm install hexo-renderer-marked@0.2 --save</span><br><span class="line">npm install hexo-renderer-stylus@0.2 --save</span><br><span class="line">npm install hexo-generator-feed@1 --save</span><br><span class="line">npm install hexo-generator-sitemap@1 --save</span><br></pre></td></tr></table></figure>
+<h2 id="生成静态网站"><a href="#生成静态网站" class="headerlink" title="生成静态网站"></a>生成静态网站</h2><p>在test目录执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 生成静态页面</span><br><span class="line">hexo g </span><br><span class="line"># 部署本地静态网站(localhost:4000)</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>查看本地静态网站是否构建正常，如果无问题，直接推送到github仓库。</p>
+<h2 id="推送到GitPage"><a href="#推送到GitPage" class="headerlink" title="推送到GitPage"></a>推送到GitPage</h2><p>当本地网站验证无误，就可以推送到你的Git仓库了，然后Github会自动部署你的GitPage</p>
+<p>首先，修改hexo的配置文件：_config.yml ，增加deploy的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: https://github.com/duguhaotian/duguhaotian.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>配置文件默认情况如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:</span><br></pre></td></tr></table></figure></p>
+<p>因此，我们增加type和对应的repository地址，还有git分支。</p>
+<p>最后，直接利用hexo的deploy功能把hexo生成的静态页面推送到Github上我们新建的仓库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br><span class="line"># 或者</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/21/hexo_on_gitpage/" data-id="cjcokdw81001axkowm6kz7946" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gitpage/">gitpage</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-修复perl的locale异常" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/21/修复perl的locale异常/" class="article-date">
@@ -92,7 +176,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/21/修复perl的locale异常/" data-id="cjcob8ejg002vugowwsrgba1c" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/01/21/修复perl的locale异常/" data-id="cjcokdw8u002sxkowk0k9n4rt" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/perl/">perl</a></li></ul>
@@ -134,7 +218,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/21/电子书制作爬取/" data-id="cjcob8ejk002yugow9icwm1l4" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/01/21/电子书制作爬取/" data-id="cjcokdw8v002vxkowqcqfa9h6" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/电子书/">电子书</a></li></ul>
@@ -196,7 +280,7 @@ ip link set vethB up
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/08/ip命令/" data-id="cjcob8eiu001ougowmklb9zu5" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/01/08/ip命令/" data-id="cjcokdw89001mxkowanyunqm8" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ip/">ip</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/">tools</a></li></ul>
@@ -239,7 +323,7 @@ ip link set vethB up
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/07/git_usages/" data-id="cjcob8eib0011ugowoap0xzyi" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/01/07/git_usages/" data-id="cjcokdw7w0011xkowd2dtia73" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/">tools</a></li></ul>
@@ -281,7 +365,7 @@ ip link set vethB up
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/01/01/knowledge_topology/" data-id="cjcob8eiz001wugow2itmhaaj" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/01/01/knowledge_topology/" data-id="cjcokdw8d001uxkow0lrjmhql" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
@@ -324,7 +408,7 @@ ip link set vethB up
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/12/pip命令/" data-id="cjcob8ej6002cugowhhskv0jp" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/12/12/pip命令/" data-id="cjcokdw8l0029xkowg4ja86rc" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pip/">pip</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -368,56 +452,10 @@ ip link set vethB up
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/08/nginx相关/" data-id="cjcob8ej6002bugowk7d4psdr" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/08/08/nginx相关/" data-id="cjcokdw8k0028xkowef9m2cth" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/">tools</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-linux_kernel_bigheap" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/02/linux_kernel_bigheap/" class="article-date">
-  <time datetime="2017-06-02T16:19:29.000Z" itemprop="datePublished">2017-06-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/02/linux_kernel_bigheap/">legacy_va_layout设置大堆</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/legacy_va_layout (since Linux 2.6.9)</span><br><span class="line">              If nonzero, this disables the new 32-bit memory-mapping</span><br><span class="line">              layout; the kernel will use the legacy (2.4) layout for all</span><br><span class="line">              processes.</span><br></pre></td></tr></table></figure>
-<p>修改heap增长方向代码（以linux4.1的arm为例）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void arch_pick_mmap_layout(struct mm_struct *mm)</span><br><span class="line">&#123;</span><br><span class="line">	unsigned long random_factor = 0UL;</span><br><span class="line"></span><br><span class="line">	if (current-&gt;flags &amp; PF_RANDOMIZE)</span><br><span class="line">		random_factor = arch_mmap_rnd();</span><br><span class="line"></span><br><span class="line">	if (mmap_is_legacy()) &#123;  //获取legacy_va_layout的值，非零使用正常模式</span><br><span class="line">		mm-&gt;mmap_base = TASK_UNMAPPED_BASE + random_factor;</span><br><span class="line">		mm-&gt;get_unmapped_area = arch_get_unmapped_area;</span><br><span class="line">	&#125; else &#123;  //为零，使用自上向下的模式</span><br><span class="line">		mm-&gt;mmap_base = mmap_base(random_factor);</span><br><span class="line">		mm-&gt;get_unmapped_area = arch_get_unmapped_area_topdown;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/02/linux_kernel_bigheap/" data-id="cjcob8ej10021ugowobvqh12t" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li></ul>
 
     </footer>
   </div>
@@ -462,7 +500,7 @@ ip link set vethB up
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/02/linux_scheduling_softlockup&hardlockup/" data-id="cjcob8ej30026ugowubfvss6m" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/06/02/linux_scheduling_softlockup&hardlockup/" data-id="cjcokdw8h0023xkowrxiw1mx8" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/watchdog/">watchdog</a></li></ul>
@@ -474,10 +512,10 @@ ip link set vethB up
 
 
   
-    <article id="post-ip命令操作docker容器netns" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux_kernel_bigheap" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/05/08/ip命令操作docker容器netns/" class="article-date">
-  <time datetime="2017-05-08T19:29:26.000Z" itemprop="datePublished">2017-05-08</time>
+    <a href="/2017/06/02/linux_kernel_bigheap/" class="article-date">
+  <time datetime="2017-06-02T16:19:29.000Z" itemprop="datePublished">2017-06-02</time>
 </a>
     
   </div>
@@ -488,7 +526,7 @@ ip link set vethB up
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/08/ip命令操作docker容器netns/">ip操作docker容器命名空间</a>
+      <a class="article-title" href="/2017/06/02/linux_kernel_bigheap/">legacy_va_layout设置大堆</a>
     </h1>
   
 
@@ -499,29 +537,19 @@ ip link set vethB up
         <hr>
 <p>作者： 耗子007</p>
 <hr>
-<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>在host上，操作容器的网络设备</p>
-<ul>
-<li><p>需要查到容器的进程id==cpid，可以通过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpid=$(docker inspect --format &apos;&#123;&#123;.State.Pid&#125;&#125;&apos; $1)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>需要把容器的netns挂到ip命令能操作的netns中—–</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s &quot;/proc/$cpid/ns/net&quot; &quot;/var/run/netns/$cpid&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看容器中所有的网络设备以及配置信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns exec $cpid ip a</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看容器中网络设备的类型信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns exec $cpid ethtool &quot;driver name（如eth0）&quot;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
+<p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/legacy_va_layout (since Linux 2.6.9)</span><br><span class="line">              If nonzero, this disables the new 32-bit memory-mapping</span><br><span class="line">              layout; the kernel will use the legacy (2.4) layout for all</span><br><span class="line">              processes.</span><br></pre></td></tr></table></figure>
+<p>修改heap增长方向代码（以linux4.1的arm为例）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void arch_pick_mmap_layout(struct mm_struct *mm)</span><br><span class="line">&#123;</span><br><span class="line">	unsigned long random_factor = 0UL;</span><br><span class="line"></span><br><span class="line">	if (current-&gt;flags &amp; PF_RANDOMIZE)</span><br><span class="line">		random_factor = arch_mmap_rnd();</span><br><span class="line"></span><br><span class="line">	if (mmap_is_legacy()) &#123;  //获取legacy_va_layout的值，非零使用正常模式</span><br><span class="line">		mm-&gt;mmap_base = TASK_UNMAPPED_BASE + random_factor;</span><br><span class="line">		mm-&gt;get_unmapped_area = arch_get_unmapped_area;</span><br><span class="line">	&#125; else &#123;  //为零，使用自上向下的模式</span><br><span class="line">		mm-&gt;mmap_base = mmap_base(random_factor);</span><br><span class="line">		mm-&gt;get_unmapped_area = arch_get_unmapped_area_topdown;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/08/ip命令操作docker容器netns/" data-id="cjcob8eiw001rugowcdg84b27" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/06/02/linux_kernel_bigheap/" data-id="cjcokdw8f001zxkowqt8lxtoc" class="article-share-link">Teilen</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ip/">ip</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li></ul>
 
     </footer>
   </div>
@@ -548,7 +576,7 @@ ip link set vethB up
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ip/">ip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/perl/">perl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/电子书/">电子书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitpage/">gitpage</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ip/">ip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/perl/">perl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/电子书/">电子书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
     </div>
   </div>
 
@@ -558,7 +586,7 @@ ip link set vethB up
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 16.67px;">docker命令</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/ip/" style="font-size: 11.67px;">ip</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 18.33px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/perl/" style="font-size: 10px;">perl</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 11.67px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/tools/" style="font-size: 13.33px;">tools</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/电子书/" style="font-size: 10px;">电子书</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 16.67px;">docker命令</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/gitpage/" style="font-size: 10px;">gitpage</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 11.67px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/ip/" style="font-size: 11.67px;">ip</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 18.33px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/perl/" style="font-size: 10px;">perl</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/tools/" style="font-size: 13.33px;">tools</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/电子书/" style="font-size: 10px;">电子书</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
     </div>
   </div>
 
@@ -580,6 +608,10 @@ ip link set vethB up
       <ul>
         
           <li>
+            <a href="/2018/01/21/hexo_on_gitpage/">Hexo搭建GitPage静态博客</a>
+          </li>
+        
+          <li>
             <a href="/2018/01/21/修复perl的locale异常/">perl的locale异常</a>
           </li>
         
@@ -593,10 +625,6 @@ ip link set vethB up
         
           <li>
             <a href="/2018/01/07/git_usages/">Git用法</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/01/knowledge_topology/">技术汇集</a>
           </li>
         
       </ul>
