@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-install_expect" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/install_expect/" class="article-date">
+  <time datetime="2017-05-07T19:07:28.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/install_expect/">安装expect</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： haozi007</p>
+<hr>
+<h2 id="安装TCL"><a href="#安装TCL" class="headerlink" title="安装TCL"></a>安装TCL</h2><p>下载地址：<a href="http://www.tcl.tk/software/tcltk/download.html" target="_blank" rel="noopener">http://www.tcl.tk/software/tcltk/download.html</a></p>
+<p>目前最新版本: tcl8.5.19-src.tar.gz</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://prdownloads.sourceforge.net/tcl/tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> tcl8.5.19/unix/</span><br><span class="line"></span><br><span class="line">./configure</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h2 id="安装expect"><a href="#安装expect" class="headerlink" title="安装expect"></a>安装expect</h2><p>expect 官网：<a href="http://expect.sourceforge.net/" target="_blank" rel="noopener">http://expect.sourceforge.net/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget http://nchc.dl.sourceforge.net/project/expect/Expect/5.45/expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> expect5.45</span><br><span class="line"></span><br><span class="line">./configure  –with-tcl=/usr/<span class="built_in">local</span>/lib/ –with-tclinclude=../tcl8.5.19/generic/</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/bin/expect /usr/bin/expect</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/install_expect/" data-id="cjco94jc1001bhvowq1nyt1h0" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/softwares/">softwares</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-golang_notes_run_shell_ingo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/golang_notes_run_shell_ingo/" class="article-date">
+  <time datetime="2017-05-07T19:05:28.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/golang_notes_run_shell_ingo/">Golang运行shell脚本</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： haozi007</p>
+<hr>
+<p>以获取容器ID 为例：</p>
+<p>func GetContainerID() (string, error) {<br>cmd := exec.Command(“/bin/bash”, “-c”, “cat /proc/self/cgroup | grep docker | grep -o -E ‘[0-9a-f]{64}’| head -n 1”)<br>var out bytes.Buffer</p>
+<p>cmd.Stdout = &amp;out<br>err := cmd.Run()<br>if err != nil {<br>return “”, err<br>}<br>return out.String(), nil<br>}<br>注：cmd.Stdout=&amp;out把脚本执行结果重定向到指定的地方。</p>
+<p>参考文章：<a href="http://c2pblog.sinaapp.com/archives/219" target="_blank" rel="noopener">http://c2pblog.sinaapp.com/archives/219</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/golang_notes_run_shell_ingo/" data-id="cjco94jby0015hvow50mkc1km" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Golang/">Golang</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-docker_tips_getfullcid_in_container" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/docker_tips_getfullcid_in_container/" class="article-date">
+  <time datetime="2017-05-07T13:31:28.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/docker_tips_getfullcid_in_container/">容器内获取容器的完整ID</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： haozi007</p>
+<hr>
+<p>可以通过进程自己的cgroup的信息获取，cgroup中包含了docker容器的完整ID。在容器中运行cat /proc/self/cgroup得到如下结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@60dc9bc55a76:/home<span class="comment"># cat /proc/self/cgroup</span></span><br><span class="line">11:devices:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">10:cpu,cpuacct:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">9:blkio:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">8:cpuset:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">7:freezer:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">6:hugetlb:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">5:net_cls,net_prio:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">4:memory:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">3:pids:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">2:perf_event:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">1:name=systemd:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br></pre></td></tr></table></figure>
+<p>可以通过下面的命令，提前出来docker容器ID：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/self/cgroup | grep docker | grep -o -E ‘[0-9a<span class="_">-f</span>]&#123;64&#125;’ | head -n 1</span><br></pre></td></tr></table></figure>
+<p>参考链接：<a href="https://github.com/docker/docker/issues/19698" target="_blank" rel="noopener">https://github.com/docker/docker/issues/19698</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/docker_tips_getfullcid_in_container/" data-id="cjco94jbr000thvow4dugrp51" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tips/">tips</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-linux_kernel_namespace" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/linux_kernel_namespace/" class="article-date">
+  <time datetime="2017-05-07T13:29:26.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/linux_kernel_namespace/">Namespace</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： haozi007</p>
+<hr>
+<p>Linux支持如下的namespaces:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Namespace                            Constant                                               Isolates</span><br><span class="line"></span><br><span class="line">Cgroup                               CLONE_NEWCGROUP                                    Cgroup root directory</span><br><span class="line">IPC                                  CLONE_NEWIPC                                       System V IPC, POSIX message queues</span><br><span class="line">Network                              CLONE_NEWNET                                       Network devices, stacks, ports, etc.</span><br><span class="line">Mount                                CLONE_NEWNS                                        Mount points</span><br><span class="line">PID                                  CLONE_NEWPID                                       Process IDs</span><br><span class="line">User                                 CLONE_NEWUSER                                      User and group IDs</span><br><span class="line">UTS                                  CLONE_NEWUTS                                       Hostname and NIS domain name</span><br></pre></td></tr></table></figure>
+<p>读取软链接的namespace类型和inode值：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ readlink /proc/$$/ns/uts</span><br><span class="line">uts:[4026531838]</span><br></pre></td></tr></table></figure>
+<p>参考链接：<a href="http://man7.org/linux/man-pages/man7/namespaces.7.html" target="_blank" rel="noopener">http://man7.org/linux/man-pages/man7/namespaces.7.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/linux_kernel_namespace/" data-id="cjco94jcf0020hvowl8irmw71" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/namespace/">namespace</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-build_wordpress_docker_image" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/build_wordpress_docker_image/" class="article-date">
+  <time datetime="2017-05-07T13:02:26.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/build_wordpress_docker_image/">基于centos搭建wordpress的docker镜像</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 刘昊</p>
+<hr>
+<h2 id="自定义的Dockerfile"><a href="#自定义的Dockerfile" class="headerlink" title="自定义的Dockerfile"></a>自定义的Dockerfile</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line"></span><br><span class="line">ENV http_proxy http://username:password@proxy:8080</span><br><span class="line">ENV https_proxy http://username:password@proxy:8080</span><br><span class="line"></span><br><span class="line"><span class="comment">#RUN echo “http_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/apt/apt.conf</span></span><br><span class="line"><span class="comment">#RUN echo “https_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/apt/apt.conf</span></span><br><span class="line"></span><br><span class="line">RUN touch /etc/wgetrc</span><br><span class="line">RUN <span class="built_in">echo</span> “http_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/wgetrc</span><br><span class="line">RUN <span class="built_in">echo</span> “https_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/wgetrc</span><br><span class="line">RUN <span class="built_in">source</span> /etc/wgetrc</span><br><span class="line"></span><br><span class="line">RUN yum -y update</span><br><span class="line">RUN yum -y install httpd httpd-devel zip unzip tar wget</span><br><span class="line">RUN yum -y install php php-xml php-pdo php-gd php-mbstring sqlite sqlite-devel</span><br><span class="line"></span><br><span class="line">RUN wget –no-check-certificate https://wordpress.org/latest.tar.gz（中文版链接：https://cn.wordpress.org/wordpress-4.5.3-zh_CN.tar.gz）</span><br><span class="line">RUN wget –no-check-certificate https://downloads.wordpress.org/plugin/sqlite-integration.1.8.1.zip</span><br><span class="line">RUN tar xvfz ./latest.tar.gz</span><br><span class="line">RUN unzip ./sqlite-integration.1.8.1.zip</span><br><span class="line">RUN rm -f ./latest.tar.gz</span><br><span class="line">RUN rm -f ./sqlite-integration.1.8.1.zip</span><br><span class="line">RUN mv wordpress /var/lib/wordpress</span><br><span class="line">RUN chown -R apache.apache /var/lib/wordpress</span><br><span class="line">RUN mv /var/lib/wordpress/wp-config-sample.php /var/lib/wordpress/wp-config.php</span><br><span class="line">RUN mv sqlite-integration /var/lib/wordpress/wp-content/plugins/</span><br><span class="line">RUN mv /var/lib/wordpress/wp-content/plugins/sqlite-integration/db.php \</span><br><span class="line">/var/lib/wordpress/wp-content/</span><br><span class="line"></span><br><span class="line">RUN <span class="built_in">echo</span> “yes n | cp -ripf /var/lib/wordpress/* /var/www/html/ &gt; /dev/null 2&gt;&amp;1” &gt;&gt; /root/.bash_profile</span><br><span class="line">VOLUME /var/www/html</span><br><span class="line"></span><br><span class="line">RUN systemctl <span class="built_in">enable</span> httpd</span><br><span class="line"></span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line"><span class="comment">#docker run –privileged -itd -p 8080:80 -v /root/wordpress/public_html:/var/www/html wordpress_sqlite bash -l -c “/sbin/init”</span></span><br></pre></td></tr></table></figure>
+<p>然后构建docker镜像，执行命令：docker build –tag wordpress_sqlite .</p>
+<p>现在新建wordpress的在host上的文件目录，如：/home/rtos/workspace/wordpress/public_html/</p>
+<p>启动wordpress服务，执行如下命令：</p>
+<p>docker run –privileged -itd -p 8080:80 -v /home/rtos/workspace/wordpress/public_html/:/var/www/html wordpress_sqlite bash -l -c “sbin/init”</p>
+<p>等待几分钟，访问<a href="http://localhost:8080，或者http://ip:8080" target="_blank" rel="noopener">http://localhost:8080，或者http://ip:8080</a></p>
+<p>注意：</p>
+<ul>
+<li>我们的博客数据是放到SQLite数据库 （/var/www/html/wp-content/database/.ht.sqlite文件）</li>
+<li>而网站的所有程序是放到(目录/var/www/html)</li>
+<li>关于如何备份数据以及迁移博客，后续分析。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/build_wordpress_docker_image/" data-id="cjco94jb10001hvow5unadvte" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker-image/">docker image</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-shadowsocks_in_ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/shadowsocks_in_ubuntu/" class="article-date">
+  <time datetime="2017-05-07T13:02:26.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/shadowsocks_in_ubuntu/">Ubuntu搭载shadowsocks服务</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 刘昊</p>
+<hr>
+<h2 id="安装python和ss"><a href="#安装python和ss" class="headerlink" title="安装python和ss"></a>安装python和ss</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install python-pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+<h2 id="开启ss服务"><a href="#开启ss服务" class="headerlink" title="开启ss服务"></a>开启ss服务</h2><h3 id="直接前台开启"><a href="#直接前台开启" class="headerlink" title="直接前台开启"></a>直接前台开启</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssserver -p 443 -k password -m aes-256-cfb</span><br></pre></td></tr></table></figure>
+<p>优点：可以看到连接输出日志<br>缺点：端口ssh连接会导致服务中断，root权限启动</p>
+<h3 id="后台开启并使用其他权限启动"><a href="#后台开启并使用其他权限启动" class="headerlink" title="后台开启并使用其他权限启动"></a>后台开启并使用其他权限启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssserver -p 443 -k password -m aes-256-cfb –user nobody -d start</span><br></pre></td></tr></table></figure>
+<p>配置文件设置服务<br>配置文件格式: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">“server”:”0.0.0.0″,</span><br><span class="line">“port_password”:&#123;</span><br><span class="line">“8381”:”haozi001″,</span><br><span class="line">“8382”:”haozi001″,</span><br><span class="line">“8383”:”haozi001″</span><br><span class="line">&#125;,</span><br><span class="line">“local_address”: “127.0.0.1”,</span><br><span class="line">“local_port”:1080,</span><br><span class="line">“timeout”:600,</span><br><span class="line">“method”:”aes-256-cfb”</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：如果是在google cloud platform上面设置，需要打开设置的端口号（如8381等）</p>
+<p>优点:可以同时配置多个端口和密码，支持多用户</p>
+<p>启动和停止命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssserver -c /etc/shadowsocks.json -d start</span><br><span class="line">ssserver -c /etc/shadowsocks.json -d stop</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/shadowsocks_in_ubuntu/" data-id="cjco94jcn002dhvowuoxxdzw2" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-shell_learn_awk1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/shell_learn_awk1/" class="article-date">
+  <time datetime="2017-05-07T13:02:26.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/shell_learn_awk1/">awk笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 刘昊</p>
+<hr>
+<h2 id="awk文件格式"><a href="#awk文件格式" class="headerlink" title="awk文件格式"></a>awk文件格式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">\#!/bin/awk -f  #注意头部</span><br><span class="line"></span><br><span class="line">BEGIN &#123;</span><br><span class="line"></span><br><span class="line">\#定义初始化变量</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">\#处理逻辑</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">END &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -f my.awk filename</span><br></pre></td></tr></table></figure>
+<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>split( String, A, [Ere] )： 将 String 参数指定的参数分割为数组元素 A[1], A[2], . . ., A[n]，并返回 n 变量的值。此分隔可以通过 Ere 参数指定的扩展正则表达式进行，<br>或用当前字段分隔符（FS 特殊变量）来进行（如果没有给出 Ere 参数）。除非上下文指明特定的元素还应具有一个数字值，否则 A 数组中的元素用字符串值来创建。</p>
+<p>split函数：以Ere分隔String并动态生成一个数组A（获取数组长度的方法，参考注意事项）。</p>
+<p>substr( String, M, [ N ] ) ：返回具有 N 参数指定的字符数量子串。子串从 String 参数指定的字符串取得，其字符以 M 参数指定的位置开始。M 参数指定为将 String 参数中的第一个字符作为编号 1。<br>如果未指定 N 参数，则子串的长度将是 M 参数指定的位置到 String 参数的末尾 的长度。</p>
+<p>函数substr用于截取部分字符串，注意index从1开始。 </p>
+<p><code>```substr ( string, starting position, [ length of string ] )</code></p>
+<p>注意事项：</p>
+<ul>
+<li>length函数不能用于数组长度计算，可以通过for(k in arry) count++;</li>
+<li>$1,2,3变量如果是用于字符串用途，不能用双引号括起来；</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/shell_learn_awk1/" data-id="cjco94jco002ghvowirw4qo6l" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/awk/">awk</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-shell_learn_readfile_lines" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/shell_learn_readfile_lines/" class="article-date">
+  <time datetime="2017-05-07T13:02:26.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/shell_learn_readfile_lines/">Shell逐行遍历文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 刘昊</p>
+<hr>
+<h2 id="while-read"><a href="#while-read" class="headerlink" title="while read"></a>while read</h2><p>read命令接收标准输入，或其他文件描述符的输入，得到输入后，read命令将数据放入一个标准变量中．</p>
+<p>利用read读取文件时，每次调用read命令都会读取文件中的”一行”文本．</p>
+<p>当文件没有可读的行时，read命令将以非零状态退出．</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat filename| <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span> &lt; filename</span><br></pre></td></tr></table></figure>
+<h2 id="for-var-in-file"><a href="#for-var-in-file" class="headerlink" title="for  var in file"></a>for  var in file</h2><p>for var in file　表示变量var在file中循环取值．取值的分隔符由$IFS确定．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for line in $(cat filename)</span><br><span class="line">do</span><br><span class="line">echo “File:$&#123;line&#125;”</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">for line in `cat filename`</span><br><span class="line">do</span><br><span class="line">echo “$&#123;line&#125;”</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>如果输入文本每行中没有空格，则line在输入文本中按换行符分隔符循环取值．</p>
+<p>如果输入文本中包括空格或制表符，则不是换行读取，line在输入文本中按空格分隔符或制表符或换行符特环取值．</p>
+<p>可以通过把IFS设置为换行符来达到逐行读取的功能．</p>
+<p>IFS的默认值为：空白(包括：空格，制表符，换行符)．</p>
+<p>注意：如何设置IFS为换行符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OLD_IFS=”$IFS”</span><br><span class="line">IFS=$’\x0A’</span><br></pre></td></tr></table></figure>
+<h2 id="awk工具变量"><a href="#awk工具变量" class="headerlink" title="awk工具变量"></a>awk工具变量</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -f my.awk filename</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/shell_learn_readfile_lines/" data-id="cjco94jcp002ihvowx1lhueoi" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-install_wordpress_docker_image" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/install_wordpress_docker_image/" class="article-date">
+  <time datetime="2017-05-07T13:02:26.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/install_wordpress_docker_image/">官方镜像安装wordpress</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 刘昊</p>
+<hr>
+<h2 id="拉取官方镜像"><a href="#拉取官方镜像" class="headerlink" title="拉取官方镜像"></a>拉取官方镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull wordpress:latest</span><br><span class="line">docker pull mysql:latest</span><br></pre></td></tr></table></figure>
+<h2 id="启动mysql容器服务"><a href="#启动mysql容器服务" class="headerlink" title="启动mysql容器服务"></a>启动mysql容器服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run –name mysqlwp -e MYSQL_ROOT_PASSWORD=dockerRootMySQL \</span><br><span class="line">-e MYSQL_DATABASE=wordpress \</span><br><span class="line">-e MYSQL_USER=wordpress \</span><br><span class="line">-e MYSQL_PASSWORD=wordpresspwd \</span><br><span class="line">-d mysql</span><br></pre></td></tr></table></figure>
+<h2 id="启动wordpress容器服务"><a href="#启动wordpress容器服务" class="headerlink" title="启动wordpress容器服务"></a>启动wordpress容器服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run –name wordpress –link mysqlwp:mysql -p 8080:80 \</span><br><span class="line">-e WORDPRESS_DB_NAME=wordpress \</span><br><span class="line">-e WORDPRESS_DB_USER=wordpress \</span><br><span class="line">-e WORDPRESS_DB_PASSWORD=wordpresspwd \</span><br><span class="line">-d wordpress</span><br></pre></td></tr></table></figure>
+<p>注意：官方的安装方式，博客书籍到保存到MySQL数据库里，而我们的MySQL是放到容器里面了。怎么回去书籍，后续研究。</p>
+<p>优点：构建方便、快捷</p>
+<p>缺点：第一，两个容器大概需要800MB的存储空间；第二，需要启动二个容器</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/install_wordpress_docker_image/" data-id="cjco94jc7001jhvowkkhxzlog" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker-image/">docker image</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-docker_cmd_analyse3_1_2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/01/docker_cmd_analyse3_1_2/" class="article-date">
+  <time datetime="2017-03-01T19:33:39.000Z" itemprop="datePublished">2017-03-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/01/docker_cmd_analyse3_1_2/">docker命令分析--Seccomp特性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 刘昊</p>
+<hr>
+<p>Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。<br>该特性的有效基于：</p>
+<ul>
+<li>Docker编译时加上了seccomp</li>
+<li>内核打开了CONFIG_SECCOMP配置</li>
+</ul>
+<h2 id="修改默认Seccomp配置文件"><a href="#修改默认Seccomp配置文件" class="headerlink" title="修改默认Seccomp配置文件"></a>修改默认Seccomp配置文件</h2><p><a href="https://github.com/docker/docker/blob/master/profiles/seccomp/default.json" target="_blank" rel="noopener">默认的Seccomp配置文件</a>禁止了44个系统调用。<br>可以参考默认的配置文件，自定义然后在docker run的时候用–security-opt设置自定义的配置文件，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --rm -it --security-opt seccomp=/path/to/seccomp/profile.json hello-world</span><br></pre></td></tr></table></figure>
+<p>默认的Seccomp配置文件是一个白名单，没有指定的则是被禁止的。下表给出一些被禁止的系统调用（不是全部），以及原因。</p>
+<table>
+<thead>
+<tr>
+<th>Syscall</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>acct</td>
+<td>Accounting syscall which could let containers disable their own resource limits or process accounting. Also gated by CAP_SYS_PACCT.</td>
+</tr>
+<tr>
+<td>add_key</td>
+<td>Prevent containers from using the kernel keyring, which is not namespaced.</td>
+</tr>
+<tr>
+<td>adjtimex</td>
+<td>Similar to clock_settime and settimeofday, time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>bpf</td>
+<td>Deny loading potentially persistent bpf programs into kernel, already gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>clock_ adjtime</td>
+<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>clock_ settime</td>
+<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>clone</td>
+<td>Deny cloning new namespaces. Also gated by CAP_SYS<em>ADMIN for CLONE</em>* flags, except CLONE_USERNS.</td>
+</tr>
+<tr>
+<td>create_ module</td>
+<td>Deny manipulation and functions on kernel modules. Obsolete. Also gated by CAP_SYS_MODULE.</td>
+</tr>
+<tr>
+<td>delete_ module</td>
+<td>Deny manipulation and functions on kernel modules. Also gated by CAP_SYS_MODULE.</td>
+</tr>
+<tr>
+<td>finit_ module</td>
+<td>Deny manipulation and functions on kernel modules. Also gated by CAP_SYS_MODULE.</td>
+</tr>
+<tr>
+<td>get_kernel_syms</td>
+<td>Deny retrieval of exported kernel and module symbols. Obsolete.</td>
+</tr>
+<tr>
+<td>get_ mempolicy</td>
+<td>Syscall that modifies kernel memory and NUMA settings. Already gated by CAP_SYS_NICE.</td>
+</tr>
+<tr>
+<td>init_ module</td>
+<td>Deny manipulation and functions on kernel modules. Also gated by CAP_SYS_MODULE.</td>
+</tr>
+<tr>
+<td>ioperm</td>
+<td>Prevent containers from modifying kernel I/O privilege levels. Already gated by CAP_SYS_RAWIO.</td>
+</tr>
+<tr>
+<td>iopl</td>
+<td>Prevent containers from modifying kernel I/O privilege levels. Already gated by CAP_SYS_RAWIO.</td>
+</tr>
+<tr>
+<td>kcmp</td>
+<td>Restrict process inspection capabilities, already blocked by dropping CAP_PTRACE.</td>
+</tr>
+<tr>
+<td>kexec_file_load</td>
+<td>Sister syscall of kexec_load that does the same thing, slightly different arguments. Also gated by CAP_SYS_BOOT.</td>
+</tr>
+<tr>
+<td>kexec_ load</td>
+<td>Deny loading a new kernel for later execution. Also gated by CAP_SYS_BOOT.</td>
+</tr>
+<tr>
+<td>keyctl</td>
+<td>Prevent containers from using the kernel keyring, which is not namespaced.</td>
+</tr>
+<tr>
+<td>lookup_ dcookie</td>
+<td>Tracing/profiling syscall, which could leak a lot of information on the host. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>mbind</td>
+<td>Syscall that modifies kernel memory and NUMA settings. Already gated by CAP_SYS_NICE.</td>
+</tr>
+<tr>
+<td>mount</td>
+<td>Deny mounting, already gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>move_pages</td>
+<td>Syscall that modifies kernel memory and NUMA settings.</td>
+</tr>
+<tr>
+<td>name_to_handle_at</td>
+<td>Sister syscall to open_by_handle_at. Already gated by CAP_SYS_NICE.</td>
+</tr>
+<tr>
+<td>nfsservctl</td>
+<td>Deny interaction with the kernel nfs daemon. Obsolete since Linux 3.1.</td>
+</tr>
+<tr>
+<td>open_by_handle_at</td>
+<td>Cause of an old container breakout. Also gated by CAP_DAC_READ_SEARCH.</td>
+</tr>
+<tr>
+<td>perf_event_open</td>
+<td>Tracing/profiling syscall, which could leak a lot of information on the host.</td>
+</tr>
+<tr>
+<td>personality</td>
+<td>Prevent container from enabling BSD emulation. Not inherently dangerous, but poorly tested, potential for a lot of kernel vulns.</td>
+</tr>
+<tr>
+<td>pivot_ root</td>
+<td>Deny pivot_root, should be privileged operation.</td>
+</tr>
+<tr>
+<td>process_vm_readv</td>
+<td>Restrict process inspection capabilities, already blocked by dropping CAP_PTRACE.</td>
+</tr>
+<tr>
+<td>process_vm_writev</td>
+<td>Restrict process inspection capabilities, already blocked by dropping CAP_PTRACE.</td>
+</tr>
+<tr>
+<td>ptrace</td>
+<td>Tracing/profiling syscall, which could leak a lot of information on the host. Already blocked by dropping CAP_PTRACE.</td>
+</tr>
+<tr>
+<td>query_module</td>
+<td>Deny manipulation and functions on kernel modules. Obsolete.</td>
+</tr>
+<tr>
+<td>quotactl</td>
+<td>Quota syscall which could let containers disable their own resource limits or process accounting. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>reboot</td>
+<td>Don’t let containers reboot the host. Also gated by CAP_SYS_BOOT.</td>
+</tr>
+<tr>
+<td>request_key</td>
+<td>Prevent containers from using the kernel keyring, which is not namespaced.</td>
+</tr>
+<tr>
+<td>set_ mempolicy</td>
+<td>Syscall that modifies kernel memory and NUMA settings. Already gated by CAP_SYS_NICE.</td>
+</tr>
+<tr>
+<td>setns</td>
+<td>Deny associating a thread with a namespace. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>settimeofday</td>
+<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>stime</td>
+<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>swapon</td>
+<td>Deny start/stop swapping to file/device. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>swapoff</td>
+<td>Deny start/stop swapping to file/device. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>sysfs</td>
+<td>Obsolete syscall.</td>
+</tr>
+<tr>
+<td>_sysctl</td>
+<td>Obsolete, replaced by /proc/sys.</td>
+</tr>
+<tr>
+<td>umount</td>
+<td>Should be a privileged operation. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>umount2</td>
+<td>Should be a privileged operation. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>unshare</td>
+<td>Deny cloning new namespaces for processes. Also gated by CAP_SYS_ADMIN, with the exception of unshare –user.</td>
+</tr>
+<tr>
+<td>uselib</td>
+<td>Older syscall related to shared libraries, unused for a long time.</td>
+</tr>
+<tr>
+<td>userfaultfd</td>
+<td>Userspace page fault handling, largely needed for process migration.</td>
+</tr>
+<tr>
+<td>ustat</td>
+<td>Obsolete syscall.</td>
+</tr>
+<tr>
+<td>vm86</td>
+<td>In kernel x86 real mode virtual machine. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>vm86old</td>
+<td>In kernel x86 real mode virtual machine. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="禁用Seccomp"><a href="#禁用Seccomp" class="headerlink" title="禁用Seccomp"></a>禁用Seccomp</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --rm -it --security-opt seccomp=unconfined debian:jessie \</span><br><span class="line">    unshare --map-root-user --user sh -c whoami</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_2/" data-id="cjco94jbh000ghvowuyr6h4n7" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; zurück</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">weiter &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 18.33px;">docker命令</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/21/电子书制作爬取/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/修复perl的locale异常/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/pip命令/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/nginx相关/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/knowledge_topology/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

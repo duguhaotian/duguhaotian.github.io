@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>docker命令分析--镜像相关2 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="作者： 刘昊  所有命令均基于docker1.11版本 镜像构建这部分主要包含，镜像制作相关的命令分析。镜像制作有三种情况：  从零开始，基于rootfs制作 基于已有镜像，用Dockerfile制作 保存运行容器为镜像  对应的三个命令如下：  import    导入tar包内容，创建一个文件系统镜像 build     基于Dockerfile构建镜像 commit    把容器的修改制作">
+<meta name="keywords" content="docker,docker命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker命令分析--镜像相关2">
+<meta property="og:url" content="http://yoursite.com/2017/02/23/docker_cmd_analyse2_2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="作者： 刘昊  所有命令均基于docker1.11版本 镜像构建这部分主要包含，镜像制作相关的命令分析。镜像制作有三种情况：  从零开始，基于rootfs制作 基于已有镜像，用Dockerfile制作 保存运行容器为镜像  对应的三个命令如下：  import    导入tar包内容，创建一个文件系统镜像 build     基于Dockerfile构建镜像 commit    把容器的修改制作">
+<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker命令分析--镜像相关2">
+<meta name="twitter:description" content="作者： 刘昊  所有命令均基于docker1.11版本 镜像构建这部分主要包含，镜像制作相关的命令分析。镜像制作有三种情况：  从零开始，基于rootfs制作 基于已有镜像，用Dockerfile制作 保存运行容器为镜像  对应的三个命令如下：  import    导入tar包内容，创建一个文件系统镜像 build     基于Dockerfile构建镜像 commit    把容器的修改制作">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-docker_cmd_analyse2_2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/23/docker_cmd_analyse2_2/" class="article-date">
+  <time datetime="2017-02-23T16:50:23.000Z" itemprop="datePublished">2017-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      docker命令分析--镜像相关2
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 刘昊</p>
+<hr>
+<p>所有命令均基于docker1.11版本</p>
+<h2 id="镜像构建"><a href="#镜像构建" class="headerlink" title="镜像构建"></a>镜像构建</h2><p>这部分主要包含，镜像制作相关的命令分析。镜像制作有三种情况：</p>
+<ul>
+<li>从零开始，基于rootfs制作</li>
+<li>基于已有镜像，用Dockerfile制作</li>
+<li>保存运行容器为镜像</li>
+</ul>
+<p>对应的三个命令如下：</p>
+<ul>
+<li>import    导入tar包内容，创建一个文件系统镜像</li>
+<li>build     基于Dockerfile构建镜像</li>
+<li>commit    把容器的修改制作为一个新的镜像</li>
+</ul>
+<h3 id="import命令"><a href="#import命令" class="headerlink" title="import命令"></a>import命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker import file|URL|- [REPOSITORY[:TAG]]</span><br><span class="line"></span><br><span class="line">Create an empty filesystem image and import the contents of the</span><br><span class="line">tarball (.tar, .tar.gz, .tgz, .bzip, .tar.xz, .txz) into it, <span class="keyword">then</span></span><br><span class="line">optionally tag it.</span><br><span class="line"></span><br><span class="line">  -c, --change=[]     Apply specified Dockerfile instructions <span class="keyword">while</span> importing the image</span><br><span class="line">  --<span class="built_in">help</span>              Print usage</span><br><span class="line">  -m, --message=      Set commit message <span class="keyword">for</span> imported image</span><br></pre></td></tr></table></figure>
+<p>注意：import是会先创建一个空的文件系统镜像，然后把tar包的内容导入。这和后面提到的load命令的操作是不一样的。</p>
+<p>import支持三种读取文件方式：</p>
+<ul>
+<li>直接指定本地路径，例如：docker import /path/to/exampleimage.tgz</li>
+<li>指定远程URL，例如：docker import <a href="http://example.com/exampleimage.tgz" target="_blank" rel="noopener">http://example.com/exampleimage.tgz</a></li>
+<li>通过STDIN，分两种情况，一个是tar包文件，例如：cat exampleimage.tgz | docker import - exampleimagelocal:new ；一个是目录，例如：tar -c . | docker import - exampleimagedir</li>
+</ul>
+<p>import的-c选项在已创建的镜像上用Dockerfile的指令对镜像做修改，目前支持的指令有：CMD|ENTRYPOINT|ENV|EXPOSE|ONBUILD|USER|VOLUME|WORKDIR。<br>例如，给新制作的镜像增加一个DEBUG的环境变量：tar -c . | docker import –change “ENV DEBUG true” - exampleimagedir</p>
+<h3 id="build命令"><a href="#build命令" class="headerlink" title="build命令"></a>build命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker build [OPTIONS] PATH | URL | -</span><br><span class="line"></span><br><span class="line">Build a new image from the <span class="built_in">source</span> code at PATH</span><br><span class="line"></span><br><span class="line">  --build-arg=[]                  Set build-time variables</span><br><span class="line">  --cpu-shares                    CPU Shares (relative weight)</span><br><span class="line">  --cgroup-parent=<span class="string">""</span>              Optional parent cgroup <span class="keyword">for</span> the container</span><br><span class="line">  --cpu-period=0                  Limit the CPU CFS (Completely Fair Scheduler) period</span><br><span class="line">  --cpu-quota=0                   Limit the CPU CFS (Completely Fair Scheduler) quota</span><br><span class="line">  --cpuset-cpus=<span class="string">""</span>                CPUs <span class="keyword">in</span> <span class="built_in">which</span> to allow execution, e.g. `0-3`, `0,1`</span><br><span class="line">  --cpuset-mems=<span class="string">""</span>                MEMs <span class="keyword">in</span> <span class="built_in">which</span> to allow execution, e.g. `0-3`, `0,1`</span><br><span class="line">  --<span class="built_in">disable</span>-content-trust=<span class="literal">true</span>    Skip image verification</span><br><span class="line">  -f, --file=<span class="string">""</span>                   Name of the Dockerfile (Default is <span class="string">'PATH/Dockerfile'</span>)</span><br><span class="line">  --force-rm                      Always remove intermediate containers</span><br><span class="line">  --<span class="built_in">help</span>                          Print usage</span><br><span class="line">  --isolation=<span class="string">""</span>                  Container isolation technology</span><br><span class="line">  --label=[]                      Set metadata <span class="keyword">for</span> an image</span><br><span class="line">  -m, --memory=<span class="string">""</span>                 Memory <span class="built_in">limit</span> <span class="keyword">for</span> all build containers</span><br><span class="line">  --memory-swap=<span class="string">""</span>                A positive <span class="built_in">integer</span> equal to memory plus swap. Specify -1 to <span class="built_in">enable</span> unlimited swap.</span><br><span class="line">  --no-cache                      Do not use cache when building the image</span><br><span class="line">  --pull                          Always attempt to pull a newer version of the image</span><br><span class="line">  -q, --quiet                     Suppress the build output and <span class="built_in">print</span> image ID on success</span><br><span class="line">  --rm=<span class="literal">true</span>                       Remove intermediate containers after a successful build</span><br><span class="line">  --shm-size=[]                   Size of `/dev/shm`. The format is `&lt;number&gt;&lt;unit&gt;`. `number` must be greater than `0`.  Unit is optional and can be `b` (bytes), `k` (kilobytes), `m` (megabytes), or `g` (gigabytes). If you omit the unit, the system uses bytes. If you omit the size entirely, the system uses `64m`.</span><br><span class="line">  -t, --tag=[]                    Name and optionally a tag <span class="keyword">in</span> the <span class="string">'name:tag'</span> format</span><br><span class="line">  --<span class="built_in">ulimit</span>=[]                     Ulimit options</span><br></pre></td></tr></table></figure>
+<p>build是根据Dockerfile和上下文构建Docker镜像，这里的上下文是PATH或者URL所指目录的文件。Dockerfile获取方式也是三种：</p>
+<ul>
+<li>直接指定本地路径，例如以当前目录的Dockerfile和文件上下文构建：docker build .</li>
+<li>指定远程URL，例如从github下载：docker build github.com/creack/docker-firefox</li>
+<li>通过STDIN，两种情况，一个是不包含上下文：docker build - &lt; Dockerfile；一个是带上下文docker build - &lt; context.tar.gz</li>
+</ul>
+<p>关于build命令的选项，这里就描述几个常用的，其他的可以参考官方文档。</p>
+<p>-t：用于指定构建的镜像的repository名和tag，值的格式为“name:tag”，例如：docker build -t vieux/apache:2.0 .<br>    也可以给一个镜像指定多个tag，例如：docker build -t whenry/fedora-jboss:latest -t whenry/fedora-jboss:v2.1 .<br>-f：指定Dockerfile文件路径，默认的Dockerfile名就是Dockerfile，build命令的上下文路径里面必须有Dockerfile文件，<br>    但是可以通过-f来指定其他名字的Dockerfile文件，例如：docker build -f Dockerfile.debug .<br>–build-arg：设置build过程中的参数，该参数的有效期为build过程，例如设置HTTP_PROXY环境变量：docker build –build-arg HTTP_PROXY=<a href="http://10.20.30.2:1234" target="_blank" rel="noopener">http://10.20.30.2:1234</a> .</p>
+<h3 id="commit命令"><a href="#commit命令" class="headerlink" title="commit命令"></a>commit命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</span><br><span class="line"></span><br><span class="line">Create a new image from a container<span class="string">'s changes</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  -a, --author=""     Author (e.g., "John Hannibal Smith &lt;hannibal@a-team.com&gt;")</span></span><br><span class="line"><span class="string">  -c, --change=[]     Apply specified Dockerfile instructions while committing the image</span></span><br><span class="line"><span class="string">  --help              Print usage</span></span><br><span class="line"><span class="string">  -m, --message=""    Commit message</span></span><br><span class="line"><span class="string">  -p, --pause=true    Pause container during commit</span></span><br></pre></td></tr></table></figure>
+<p>commit以运行的容器构建Docker镜像，可以在命令最后面直接指定新构建的镜像repository和tag。<br>commit命令可以方便的保存当前容器的状态到镜像中，然后可以方便的迁移到另外一台机器中继续运行，用于测试或者调试是很好的方法。不过，管理镜像还是用Dockerfile更合理。</p>
+<p>commit命令的选项比较简单，主要包括：</p>
+<ul>
+<li>-a 设置镜像的作者</li>
+<li>-c 和import命令一样</li>
+<li>-m 设置commit的信息</li>
+<li>-p 可以设置构建镜像过程中，是否停止容器中进程运行，默认情况下是停止容器中的进程。</li>
+</ul>
+<h2 id="镜像操作"><a href="#镜像操作" class="headerlink" title="镜像操作"></a>镜像操作</h2><p>镜像操作主要是镜像的导入、导出、删除、查看镜像列表以及查看镜像的历史信息，对应命令如下：</p>
+<ul>
+<li>load/save</li>
+<li>import/export</li>
+<li>images</li>
+<li>rmi</li>
+<li>history</li>
+</ul>
+<h3 id="导入导出"><a href="#导入导出" class="headerlink" title="导入导出"></a>导入导出</h3><p>镜像的导入导出有两组命令，分别是import/export和load/save。</p>
+<ol>
+<li>导入</li>
+</ol>
+<p>import可以参考上文。<br>load命令：只是从tar包或者STDIN中加载镜像。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker load [OPTIONS]</span><br><span class="line"></span><br><span class="line">Load an image from a tar archive or STDIN</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>             Print usage</span><br><span class="line">  -i, --input=<span class="string">""</span>     Read from a tar archive file, instead of STDIN. The tarball may be compressed with gzip, bzip, or xz</span><br><span class="line">  -q, --quiet        Suppress the load output. Without this option, a progress bar is displayed.</span><br></pre></td></tr></table></figure></p>
+<p>import和load的区别在于：</p>
+<ul>
+<li>import会创建一个空的文件系统镜像，然后才会把tar包或者STDIN中的内容导入到空的镜像中。（会从零开始创建一个镜像）</li>
+<li>load只是把tar包或者STDIN中的镜像导入，这说明tar包或者STDIN中的输入本身就是一个镜像。（简单的导入已有镜像）</li>
+</ul>
+<ol>
+<li>导出</li>
+</ol>
+<p>export命令：导出容器的文件系统到tar文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker <span class="built_in">export</span> [OPTIONS] CONTAINER</span><br><span class="line"></span><br><span class="line">Export the contents of a container<span class="string">'s filesystem as a tar archive</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  --help             Print usage</span></span><br><span class="line"><span class="string">  -o, --output=""    Write to a file, instead of STDOUT</span></span><br></pre></td></tr></table></figure>
+<p>两种用法：</p>
+<ul>
+<li>docker export hexo &gt; myhexo.tar</li>
+<li>docker export –output=”myhexo.tar” hexo</li>
+</ul>
+<p>注： export不导出数据卷的内容</p>
+<p>save命令：把一个或者多个镜像导出到tar文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker save [OPTIONS] IMAGE [IMAGE...]</span><br><span class="line"></span><br><span class="line">Save one or more images to a tar archive (streamed to STDOUT by default)</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>             Print usage</span><br><span class="line">  -o, --output=<span class="string">""</span>    Write to a file, instead of STDOUT</span><br></pre></td></tr></table></figure>
+<p>注：save会把所有父层以及name:tag导出，除非重名name:tag。<br>几种用法：</p>
+<ul>
+<li>使用标准输出导出一个镜像： docker save busybox &gt; busybox.tar</li>
+<li>指定输出流导出一个镜像：docker save –output busybox.tar busybox</li>
+<li>导出整个repository：docker save -o fedora-all.tar fedora</li>
+</ul>
+<p>export和save都是导出容器镜像，区别在：</p>
+<ul>
+<li>export是导出容器的文件系统</li>
+<li>save是保存加载的容器镜像</li>
+</ul>
+<h3 id="查看镜像列表"><a href="#查看镜像列表" class="headerlink" title="查看镜像列表"></a>查看镜像列表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Usage:	docker images [OPTIONS] [REPOSITORY[:TAG]]</span><br><span class="line"></span><br><span class="line">List images</span><br><span class="line"></span><br><span class="line">  -a, --all          Show all images (default hides intermediate images)</span><br><span class="line">  --digests          Show digests</span><br><span class="line">  -f, --filter=[]    Filter output based on conditions provided</span><br><span class="line">  --format           Pretty-print images using a Go template</span><br><span class="line">  --<span class="built_in">help</span>             Print usage</span><br><span class="line">  --no-trunc         Don<span class="string">'t truncate output</span></span><br><span class="line"><span class="string">  -q, --quiet        Only show numeric IDs</span></span><br></pre></td></tr></table></figure>
+<p>history用于列出镜像列表，主要用法如下：</p>
+<ul>
+<li>默认显示顶层的镜像、它们的repository名、tag以及镜像大小（如果镜像ID一样而且有多个tag或者repository，则会列出多次）：docker images</li>
+<li>以repository名列出镜像列表（repository名必须完全匹配）：docker images java</li>
+<li>以repository名和tag列出镜像列表（必须完全匹配）：docker images java:8</li>
+<li>显示镜像的完整ID：docker images –no-trunc</li>
+<li>以摘要列出镜像列表（只有v2以上版本的镜像才有digest）：docker images –digests</li>
+<li>以filter过滤条件列出镜像列表，目前支持两种，第一个，过滤untagged镜像docker images –filter “dangling=true”；</li>
+<li>第二个，过滤label，格式为label (label=<key> or label=<key>=<value>)，示例如：docker images –filter “label=com.example.version”</value></key></key></li>
+</ul>
+<p>单独描述一下format的用法，format是用来格式化输出的，使用Go语言模板实现，支持格式如下：</p>
+<table>
+<thead>
+<tr>
+<th>Placeholder</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.ID</td>
+<td>Image ID</td>
+</tr>
+<tr>
+<td>.Repository</td>
+<td>Image repository</td>
+</tr>
+<tr>
+<td>.Tag</td>
+<td>Image tag</td>
+</tr>
+<tr>
+<td>.Digest</td>
+<td>Image digest</td>
+</tr>
+<tr>
+<td>.CreatedSince</td>
+<td>Elapsed time since the image was created.</td>
+</tr>
+<tr>
+<td>.CreatedAt</td>
+<td>Time when the image was created.</td>
+</tr>
+<tr>
+<td>.Size</td>
+<td>Image disk size.</td>
+</tr>
+</tbody>
+</table>
+<p>例如只显示镜像的ID和repository名字：docker images –format “{ {.ID} }: { {.Repository} }”</p>
+<h3 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker rmi [OPTIONS] IMAGE [IMAGE...]</span><br><span class="line"></span><br><span class="line">Remove one or more images</span><br><span class="line"></span><br><span class="line">  -f, --force          Force removal of the image</span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  --no-prune           Do not delete untagged parents</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>镜像的长ID、短ID、tag或者digest都可以用于删除它</li>
+<li>如果一个镜像有多个tag引用它，删除这个镜像之前，必须先删除所有tag引用。</li>
+<li>当使用tag删除一个镜像时，她的digest引用自动会被删除</li>
+<li>指定-f和镜像的ID，rmi命令会自动untag和删除所有匹配的镜像</li>
+</ul>
+<h3 id="查看镜像的历史"><a href="#查看镜像的历史" class="headerlink" title="查看镜像的历史"></a>查看镜像的历史</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker <span class="built_in">history</span> [OPTIONS] IMAGE</span><br><span class="line"></span><br><span class="line">Show the <span class="built_in">history</span> of an image</span><br><span class="line"></span><br><span class="line">  -H, --human=<span class="literal">true</span>     Print sizes and dates <span class="keyword">in</span> human readable format</span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  --no-trunc           Don<span class="string">'t truncate output</span></span><br><span class="line"><span class="string">  -q, --quiet          Only show numeric IDs</span></span><br></pre></td></tr></table></figure>
+<p>history会列出镜像的build历史，例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker history ubuntu</span></span><br><span class="line">IMAGE               CREATED             CREATED BY                                      SIZE   COMMENT</span><br><span class="line">104bec311bcd        10 weeks ago        /bin/sh -c <span class="comment">#(nop)  CMD ["/bin/bash"]            0 B</span></span><br><span class="line">&lt;missing&gt;           10 weeks ago        /bin/sh -c mkdir -p /run/systemd &amp;&amp; <span class="built_in">echo</span> <span class="string">'doc   7 B</span></span><br><span class="line"><span class="string">&lt;missing&gt;           10 weeks ago        /bin/sh -c sed -i '</span>s/^<span class="comment">#\s*\(deb.*universe\)$/   1.895 kB</span></span><br><span class="line">&lt;missing&gt;           10 weeks ago        /bin/sh -c rm -rf /var/lib/apt/lists/*          0 B</span><br><span class="line">&lt;missing&gt;           10 weeks ago        /bin/sh -c <span class="built_in">set</span> -xe   &amp;&amp; <span class="built_in">echo</span> <span class="string">'#!/bin/sh'</span> &gt; /u   745 B</span><br><span class="line">&lt;missing&gt;           10 weeks ago        /bin/sh -c <span class="comment">#(nop) ADD file:7529d28035b43a2281   128.9 MB</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse2_2/" data-id="cjco94jbb0008hvow8o8cv27n" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/23/docker_cmd_analyse2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          docker命令分析--镜像相关
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/23/docker_cmd_analyse/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">docker命令分析--简介</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 18.33px;">docker命令</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/21/电子书制作爬取/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/修复perl的locale异常/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/pip命令/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/nginx相关/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/knowledge_topology/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

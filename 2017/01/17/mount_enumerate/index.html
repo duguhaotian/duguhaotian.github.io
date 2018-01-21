@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Systemd自动Unmount机制分析 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="作者： haozi007  遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？这里进行简单的分析一下。 注：该异常的systemd版本为systemd-219-19.el7.x86_64 异常必现的方式1234567[root@lin ~]# mount -t ramfs /dev/nonexistent /hello/ki">
+<meta name="keywords" content="linux,systemd">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Systemd自动Unmount机制分析">
+<meta property="og:url" content="http://yoursite.com/2017/01/17/mount_enumerate/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="作者： haozi007  遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？这里进行简单的分析一下。 注：该异常的systemd版本为systemd-219-19.el7.x86_64 异常必现的方式1234567[root@lin ~]# mount -t ramfs /dev/nonexistent /hello/ki">
+<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Systemd自动Unmount机制分析">
+<meta name="twitter:description" content="作者： haozi007  遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？这里进行简单的分析一下。 注：该异常的systemd版本为systemd-219-19.el7.x86_64 异常必现的方式1234567[root@lin ~]# mount -t ramfs /dev/nonexistent /hello/ki">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-mount_enumerate" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/17/mount_enumerate/" class="article-date">
+  <time datetime="2017-01-17T10:00:26.000Z" itemprop="datePublished">2017-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Systemd自动Unmount机制分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： haozi007</p>
+<hr>
+<p>遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？<br>这里进行简单的分析一下。</p>
+<p>注：该异常的systemd版本为systemd-219-19.el7.x86_64</p>
+<h3 id="异常必现的方式"><a href="#异常必现的方式" class="headerlink" title="异常必现的方式"></a>异常必现的方式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@lin ~]<span class="comment"># mount -t ramfs /dev/nonexistent /hello/kitty</span></span><br><span class="line">[root@lin ~]<span class="comment"># echo $?</span></span><br><span class="line">0</span><br><span class="line">[root@lin ~]<span class="comment"># mount | grep /hello/kitty</span></span><br><span class="line">[root@lin ~]<span class="comment"># umount /hello/kitty</span></span><br><span class="line">umount: /hello/kitty: not mounted</span><br><span class="line">[root@lin ~]<span class="comment"># rmdir /hello/kitty</span></span><br></pre></td></tr></table></figure>
+<p>这里的/dev/nonexistent表示该设备不存在，注意这里必现是/dev目录下的才能触发该异常。<br>查看/var/log/message会发现日志如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Jun  1 11:07:44 ws systemd: Unit hello-kitty.mount is bound to inactive unit dev-littlecat.device. Stopping, too.</span><br><span class="line">Jun  1 11:07:44 ws systemd: Unmounting /hello/kitty...</span><br><span class="line">Jun  1 11:07:44 ws systemd: Unmounted /hello/kitty.</span><br></pre></td></tr></table></figure>
+<p>参考文档：</p>
+<ul>
+<li><a href="https://bugzilla.redhat.com/show_bug.cgi?id=1226528" target="_blank" rel="noopener">Bug 1226528 - unwanted automatic umount when device does not exist for nondev fs</a></li>
+<li><a href="https://github.com/systemd/systemd/commit/fcd8b266edf0df2b85079fcf7b099cd4028740e6#diff-a55dd3f995e0ee0a2ba83f24f9492eeb" target="_blank" rel="noopener">对应PATCH</a></li>
+</ul>
+<h3 id="监听mountinfo"><a href="#监听mountinfo" class="headerlink" title="监听mountinfo"></a>监听mountinfo</h3><p>监听mountinfo调用流程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">src/core/main.c  main</span><br><span class="line">    --&gt; src/core/manager.c  manager_startup</span><br><span class="line">        --&gt; src/core/manager.c  manager_enumerate </span><br><span class="line">            --&gt; src/core/mount.c  mount_enumerate</span><br><span class="line">                --&gt; src/libsystemd/sd-event/sd-event.c  sd_event_add_io</span><br><span class="line">                    --&gt; /src/libsystemd/sd-event/sd-event.c  source_io_register</span><br></pre></td></tr></table></figure>
+<p>注：manager_enumerate会加载所有的units，执行enumerate操作，由于mount的unit对应的是mount_enumerate。<br>因此，会调用mount_enumerate函数。</p>
+<p>mount_enumerate中注册的调用如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sd_event_add_io(m-&gt;event, &amp;m-&gt;mount_event_source, </span><br><span class="line">                fileno(m-&gt;proc_self_mountinfo), </span><br><span class="line">                EPOLLPRI, </span><br><span class="line">                mount_dispatch_io, </span><br><span class="line">                m);</span><br><span class="line"></span><br><span class="line">sd_event_add_io(m-&gt;event, &amp;m-&gt;mount_utab_event_source, </span><br><span class="line">                m-&gt;utab_inotify_fd, </span><br><span class="line">                EPOLLIN, </span><br><span class="line">                mount_dispatch_io, </span><br><span class="line">                m);</span><br></pre></td></tr></table></figure>
+<p>需要注意：</p>
+<ul>
+<li>fileno(m-proc_self_mountinfo)，这个就是获取文件“/proc/self/mountinfo”的句柄。</li>
+<li>EPOLLPRI，是epoll机制使用的参数，表示对应的文件描述符有紧急的数据可读（这里应该表示有带外数据到来）</li>
+<li>mount_dispatch_io，表示接收到事件时，触发的回调处理函数。</li>
+<li>m-&gt;utab_inotify_fd,对应于文件“/run/mount”</li>
+<li>EPOLLIN，是epoll机制使用的参数，表示有可读数据。</li>
+</ul>
+<p>sd_event_add_io函数事件调用的是source_io_register函数进行注册，它基于epoll机制实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//source_io_register函数实现</span><br><span class="line">    ......</span><br><span class="line">        if (s-&gt;io.registered)</span><br><span class="line">                r = epoll_ctl(s-&gt;event-&gt;epoll_fd, EPOLL_CTL_MOD, s-&gt;io.fd, &amp;ev);</span><br><span class="line">        else</span><br><span class="line">                r = epoll_ctl(s-&gt;event-&gt;epoll_fd, EPOLL_CTL_ADD, s-&gt;io.fd, &amp;ev);</span><br><span class="line">    ......</span><br></pre></td></tr></table></figure>
+<p>如果event已经注册，这通过EPOLL_CTL_MOD入参，进行更新，否则增加该event的监听。</p>
+<p>这一串的调用，其实就是注册监听文件“/proc/self/mountinfo”或者“/run/mount”，当该文件有数据可读时，会触发回调函数mount_dispatch_io。</p>
+<h3 id="回调函数mount-dispatch-io"><a href="#回调函数mount-dispatch-io" class="headerlink" title="回调函数mount_dispatch_io"></a>回调函数mount_dispatch_io</h3><p>发现”/proc/self/mountinfo”有新的mount，添加mount unit的流程以及添加需要umount依赖的流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">--&gt;  src/core/mount.c  mount_load_proc_self_mountinfo</span><br><span class="line">    --&gt; src/core/mount.c  mount_setup_unit</span><br><span class="line">        --&gt;  src/core/mount.c  unit_new</span><br><span class="line">        --&gt;  src/core/mount.c  should_umount</span><br><span class="line">        --&gt;  src/core/mount.c  unit_add_dependency_by_name -- UNIT_CONFLICTS -- SPECIAL_UMOUNT_TARGET</span><br></pre></td></tr></table></figure>
+<p>发现设备状态变化，触发unmount的调用流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--&gt;  src/core/device.c  device_found_node</span><br><span class="line">    --&gt; src/core/device.c  device_update_found_by_name</span><br><span class="line">        --&gt; src/core/device.c  device_update_found_one</span><br><span class="line">            --&gt; src/core/device.c  device_set_state</span><br><span class="line">                --&gt; src/core/unit.c  unit_notify</span><br><span class="line">                    --&gt; src/core/job.c  job_finish_and_invalidate  -- JOB_STOP -- UNIT_CONFLICTED_BY</span><br><span class="line">                    --&gt; src/core/job.c  job_finish_and_invalidate</span><br></pre></td></tr></table></figure>
+<h3 id="修复PATCH分析"><a href="#修复PATCH分析" class="headerlink" title="修复PATCH分析"></a>修复PATCH分析</h3><ul>
+<li>PATCH的unmount标准：识别出非mounted对应的what，并且识别just_mounted和just_changed的what。用于触发umount流程时，判断需要umount那些mount。</li>
+<li>未打该PATCH之前的标准：所有非mounted的而且what不为空的mount，都会触发unmount流程。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">if (!mount-&gt;is_mounted) &#123;</span><br><span class="line">  </span><br><span class="line">+                        /* A mount point is gone */</span><br><span class="line">+</span><br><span class="line">                          mount-&gt;from_proc_self_mountinfo = false;</span><br><span class="line">  </span><br><span class="line">                          switch (mount-&gt;state) &#123;</span><br><span class="line"> @@ -1710,13 +1715,17 @@ static int mount_dispatch_io(sd_event_source *source, int fd, uint32_t revents,</span><br><span class="line">                                  break;</span><br><span class="line">                          &#125;</span><br><span class="line">  </span><br><span class="line"> -                        if (mount-&gt;parameters_proc_self_mountinfo.what)</span><br><span class="line"> -                                (void) device_found_node(m, mount-&gt;parameters_proc_self_mountinfo.what, false, DEVICE_FOUND_MOUNT, true);</span><br><span class="line"> +                        /* Remember that this device might just have disappeared */</span><br><span class="line"> +                        if (mount-&gt;parameters_proc_self_mountinfo.what) &#123;</span><br><span class="line">  </span><br><span class="line"> +                                if (set_ensure_allocated(&amp;gone, &amp;string_hash_ops) &lt; 0 ||</span><br><span class="line"> +                                    set_put(gone, mount-&gt;parameters_proc_self_mountinfo.what) &lt; 0)</span><br><span class="line"> +                                        log_oom(); /* we don&apos;t care too much about OOM here... */</span><br><span class="line"> +                        &#125;</span><br><span class="line">  </span><br><span class="line">                  &#125; else if (mount-&gt;just_mounted || mount-&gt;just_changed) &#123;</span><br><span class="line">  </span><br><span class="line"> -                        /* New or changed mount entry */</span><br><span class="line"> +                        /* A mount point was added or changed */</span><br><span class="line">  </span><br><span class="line">                          switch (mount-&gt;state) &#123;</span><br><span class="line">  </span><br><span class="line"> @@ -1741,12 +1750,27 @@ static int mount_dispatch_io(sd_event_source *source, int fd, uint32_t revents,</span><br><span class="line">                                  mount_set_state(mount, mount-&gt;state);</span><br><span class="line">                                  break;</span><br><span class="line">                          &#125;</span><br><span class="line"> +</span><br><span class="line"> +                        if (mount-&gt;parameters_proc_self_mountinfo.what) &#123;</span><br><span class="line"> +</span><br><span class="line"> +                                if (set_ensure_allocated(&amp;around, &amp;string_hash_ops) &lt; 0 ||</span><br><span class="line"> +                                    set_put(around, mount-&gt;parameters_proc_self_mountinfo.what) &lt; 0)</span><br><span class="line"> +                                        log_oom();</span><br><span class="line"> +                        &#125;</span><br><span class="line">                  &#125;</span><br></pre></td></tr></table></figure>
+<p>触发不在around中的device的Unmount流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+        SET_FOREACH(what, gone, i) &#123;</span><br><span class="line">+                if (set_contains(around, what))</span><br><span class="line">+                        continue;</span><br><span class="line">+</span><br><span class="line">+                /* Let the device units know that the device is no longer mounted */</span><br><span class="line">+                (void) device_found_node(m, what, false, DEVICE_FOUND_MOUNT, true);</span><br><span class="line">+        &#125;</span><br></pre></td></tr></table></figure>
+<p>注：what其实就是device</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/17/mount_enumerate/" data-id="cjco94jci0023hvoweg34bcnz" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemd/">systemd</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/01/17/install_tmux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          从源码安装tmux
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/01/17/python_notes_1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Python杂记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 18.33px;">docker命令</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/21/电子书制作爬取/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/修复perl的locale异常/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/pip命令/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/nginx相关/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/knowledge_topology/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

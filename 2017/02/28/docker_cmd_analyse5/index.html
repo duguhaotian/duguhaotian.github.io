@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>docker命令分析--其他 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="作者： 刘昊  所有命令均基于docker1.11版本 上面的分析基本包含了容器相关的大部分命令，剩余一些系统信息、容器底层信息、容器插件或者其他组件相关的命令。但是本章只关注系统信息和容器底层信息相关的命令，其他命令就不做介绍，后续有时间可能会补充。 获取Docker系统相关信息12345Usage: docker info [OPTIONS]Display system-wide infor">
+<meta name="keywords" content="docker,docker命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker命令分析--其他">
+<meta property="og:url" content="http://yoursite.com/2017/02/28/docker_cmd_analyse5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="作者： 刘昊  所有命令均基于docker1.11版本 上面的分析基本包含了容器相关的大部分命令，剩余一些系统信息、容器底层信息、容器插件或者其他组件相关的命令。但是本章只关注系统信息和容器底层信息相关的命令，其他命令就不做介绍，后续有时间可能会补充。 获取Docker系统相关信息12345Usage: docker info [OPTIONS]Display system-wide infor">
+<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker命令分析--其他">
+<meta name="twitter:description" content="作者： 刘昊  所有命令均基于docker1.11版本 上面的分析基本包含了容器相关的大部分命令，剩余一些系统信息、容器底层信息、容器插件或者其他组件相关的命令。但是本章只关注系统信息和容器底层信息相关的命令，其他命令就不做介绍，后续有时间可能会补充。 获取Docker系统相关信息12345Usage: docker info [OPTIONS]Display system-wide infor">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-docker_cmd_analyse5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/28/docker_cmd_analyse5/" class="article-date">
+  <time datetime="2017-02-28T21:40:23.000Z" itemprop="datePublished">2017-02-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      docker命令分析--其他
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 刘昊</p>
+<hr>
+<p>所有命令均基于docker1.11版本</p>
+<p>上面的分析基本包含了容器相关的大部分命令，剩余一些系统信息、容器底层信息、容器插件或者其他组件相关的命令。<br>但是本章只关注系统信息和容器底层信息相关的命令，其他命令就不做介绍，后续有时间可能会补充。</p>
+<h2 id="获取Docker系统相关信息"><a href="#获取Docker系统相关信息" class="headerlink" title="获取Docker系统相关信息"></a>获取Docker系统相关信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker info [OPTIONS]</span><br><span class="line"></span><br><span class="line">Display system-wide information</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>              Print usage</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">$ docker -D info</span><br><span class="line">Containers: 14</span><br><span class="line"> Running: 3</span><br><span class="line"> Paused: 1</span><br><span class="line"> Stopped: 10</span><br><span class="line">Images: 52</span><br><span class="line">Server Version: 1.9.0</span><br><span class="line">Storage Driver: aufs</span><br><span class="line"> Root Dir: /var/lib/docker/aufs</span><br><span class="line"> Backing Filesystem: extfs</span><br><span class="line"> Dirs: 545</span><br><span class="line"> Dirperm1 Supported: <span class="literal">true</span></span><br><span class="line">Execution Driver: native-0.2</span><br><span class="line">Logging Driver: json-file</span><br><span class="line">Cgroup Driver: cgroupfs</span><br><span class="line">Plugins:</span><br><span class="line"> Volume: <span class="built_in">local</span></span><br><span class="line"> Network: bridge null host</span><br><span class="line">Kernel Version: 3.19.0-22-generic</span><br><span class="line">OSType: linux</span><br><span class="line">Architecture: x86_64</span><br><span class="line">Operating System: Ubuntu 15.04</span><br><span class="line">CPUs: 24</span><br><span class="line">Total Memory: 62.86 GiB</span><br><span class="line">Name: docker</span><br><span class="line">ID: I54V:OLXT:HVMM:TPKO:JPHQ:CQCD:JNLC:O3BZ:4ZVJ:43XJ:PFHZ:6N2S</span><br><span class="line">Docker Root Dir: /var/lib/docker</span><br><span class="line">Debug mode (client): <span class="literal">true</span></span><br><span class="line">Debug mode (server): <span class="literal">true</span></span><br><span class="line"> File Descriptors: 59</span><br><span class="line"> Goroutines: 159</span><br><span class="line"> System Time: 2015-09-23T14:04:20.699842089+08:00</span><br><span class="line"> EventsListeners: 0</span><br><span class="line"> Init SHA1:</span><br><span class="line"> Init Path: /usr/bin/docker</span><br><span class="line"> Docker Root Dir: /var/lib/docker</span><br><span class="line"> Http Proxy: http://<span class="built_in">test</span>:<span class="built_in">test</span>@localhost:8080</span><br><span class="line"> Https Proxy: https://<span class="built_in">test</span>:<span class="built_in">test</span>@localhost:8080</span><br><span class="line">WARNING: No swap <span class="built_in">limit</span> support</span><br><span class="line">Username: svendowideit</span><br><span class="line">Registry: [https://index.docker.io/v1/]</span><br><span class="line">Labels:</span><br><span class="line"> storage=ssd</span><br></pre></td></tr></table></figure>
+<p>这些信息里面，一般比较关注的是Storage和Logging驱动、插件、Registry地址等。<br>注：全局-D可以是docker命令输出调试信息，在发送问题报告的时候，最好带上-D。</p>
+<h2 id="容器或镜像的底层信息"><a href="#容器或镜像的底层信息" class="headerlink" title="容器或镜像的底层信息"></a>容器或镜像的底层信息</h2><p>有时可能需要知道容器或者镜像的一些底层信息，可以使用inspect命令获取。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker inspect [OPTIONS] CONTAINER|IMAGE [CONTAINER|IMAGE...]</span><br><span class="line"></span><br><span class="line">Return low-level information on a container or image</span><br><span class="line"></span><br><span class="line">  -f, --format=<span class="string">""</span>         Format the output using the given go template</span><br><span class="line">  --<span class="built_in">help</span>                  Print usage</span><br><span class="line">  --<span class="built_in">type</span>=container|image  Return JSON for_specified_type, permissible</span><br><span class="line">                          values are <span class="string">"image"</span> or <span class="string">"container"</span></span><br><span class="line">  -s, --size              Display total file sizes <span class="keyword">if</span> the <span class="built_in">type</span> is container</span><br></pre></td></tr></table></figure>
+<p>format命令默认会把结果以JSON格式输出。<br>注意：</p>
+<ul>
+<li>默认情况下，当容器名和镜像名相同时，format会输容器的结果</li>
+<li>当时如果指定了–format，format会返回两个的格式化结果</li>
+</ul>
+<p>关于–format选项可以参考Go语言的模板，这里只介绍简单的用法，例如获取容器的ID：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect -f=<span class="string">'&#123; &#123;.Id&#125; &#125;'</span> haozi</span><br></pre></td></tr></table></figure>
+<h2 id="获取Docker版本信息"><a href="#获取Docker版本信息" class="headerlink" title="获取Docker版本信息"></a>获取Docker版本信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker version [OPTIONS]</span><br><span class="line"></span><br><span class="line">Show the Docker version information.</span><br><span class="line"></span><br><span class="line">  -f, --format=<span class="string">""</span>    Format the output using the given go template</span><br><span class="line">  --<span class="built_in">help</span>             Print usage</span><br></pre></td></tr></table></figure>
+<p>version命令可以获取Docker版本相关信息，可以用–format来格式化输出，如方法前面。<br>例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">$ docker version</span><br><span class="line">Client:</span><br><span class="line"> Version:        1.11.2</span><br><span class="line"> UnicornVersion: 1.11.2.11.ict</span><br><span class="line"> API version:    1.23</span><br><span class="line"> Go version:     go1.7.4</span><br><span class="line"> Git commit:     008dfcd</span><br><span class="line"> Built:          Tue Feb  7 10:58:04 2017</span><br><span class="line"> OS/Arch:        linux/amd64</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Version:        1.11.2</span><br><span class="line"> UnicornVersion: 1.11.2.11.ict</span><br><span class="line"> API version:    1.23</span><br><span class="line"> Go version:     go1.7.4</span><br><span class="line"> Git commit:     008dfcd</span><br><span class="line"> Built:          Tue Feb  7 10:58:04 2017</span><br><span class="line"> OS/Arch:        linux/amd64</span><br></pre></td></tr></table></figure>
+<p>这里比较重要的信息是Docker、API、Go等的版本，例如，Client和Server的版本号不一致可能有各种问题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/02/28/docker_cmd_analyse5/" data-id="cjco94jbl000jhvow7h4s2alf" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/01/docker_cmd_analyse3_1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          docker命令分析--run命令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/28/docker_cmd_analyse4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">docker命令分析--维测相关</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 18.33px;">docker命令</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/21/电子书制作爬取/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/修复perl的locale异常/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/pip命令/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/nginx相关/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/knowledge_topology/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

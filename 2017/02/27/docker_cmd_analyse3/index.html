@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>docker命令分析--容器相关 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="作者： 刘昊  所有命令均基于docker1.11版本 容器相关的命令，主要包括容器的管理、日志、信息查看以及内容操作。注：由于有些命令比较复杂，限于篇幅可能需要单独开一章，进行详细分析。 容器管理容器的管理涉及容器的整个生命周期：创建、启动、运行、挂起、唤醒、重启、停止、杀死以及删除。本文以容器的生命周期为主线一个个罗列相关命令。 容器的创建12345Usage: docker create">
+<meta name="keywords" content="docker,docker命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker命令分析--容器相关">
+<meta property="og:url" content="http://yoursite.com/2017/02/27/docker_cmd_analyse3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="作者： 刘昊  所有命令均基于docker1.11版本 容器相关的命令，主要包括容器的管理、日志、信息查看以及内容操作。注：由于有些命令比较复杂，限于篇幅可能需要单独开一章，进行详细分析。 容器管理容器的管理涉及容器的整个生命周期：创建、启动、运行、挂起、唤醒、重启、停止、杀死以及删除。本文以容器的生命周期为主线一个个罗列相关命令。 容器的创建12345Usage: docker create">
+<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker命令分析--容器相关">
+<meta name="twitter:description" content="作者： 刘昊  所有命令均基于docker1.11版本 容器相关的命令，主要包括容器的管理、日志、信息查看以及内容操作。注：由于有些命令比较复杂，限于篇幅可能需要单独开一章，进行详细分析。 容器管理容器的管理涉及容器的整个生命周期：创建、启动、运行、挂起、唤醒、重启、停止、杀死以及删除。本文以容器的生命周期为主线一个个罗列相关命令。 容器的创建12345Usage: docker create">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-docker_cmd_analyse3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/27/docker_cmd_analyse3/" class="article-date">
+  <time datetime="2017-02-27T19:20:23.000Z" itemprop="datePublished">2017-02-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      docker命令分析--容器相关
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 刘昊</p>
+<hr>
+<p>所有命令均基于docker1.11版本</p>
+<p>容器相关的命令，主要包括容器的管理、日志、信息查看以及内容操作。<br>注：由于有些命令比较复杂，限于篇幅可能需要单独开一章，进行详细分析。</p>
+<h1 id="容器管理"><a href="#容器管理" class="headerlink" title="容器管理"></a>容器管理</h1><p>容器的管理涉及容器的整个生命周期：创建、启动、运行、挂起、唤醒、重启、停止、杀死以及删除。本文以容器的生命周期为主线一个个罗列相关命令。</p>
+<h2 id="容器的创建"><a href="#容器的创建" class="headerlink" title="容器的创建"></a>容器的创建</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Usage: docker create [OPTIONS] IMAGE [COMMAND] [ARG...]</span><br><span class="line"></span><br><span class="line">Create a new container</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<p>注意：由于docker create的选项和docker run是一样的，因此这里不详细说明，等到<a href="//2017/02/23/docker_cmd_analyse3/">docker run</a>分析的时候，再详细分析。<br>create用于创建一个新的容器，主要工作有：</p>
+<ul>
+<li>在指定镜像之上，创建容器的可写层；</li>
+<li>并且准备容器运行指定的命令</li>
+<li>输出容器ID到STDOUT</li>
+</ul>
+<p>“docker create”和”docker run -d”是基本一样的，除了不启动容器外，当然，你可以在任何时候用docker start启动创建的容器。<br>介绍几个简单的使用示例:<br>创建并启动一个可交互的容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker create -t -i fedora bash</span><br><span class="line">6d8af538ec541dd581ebc2a24153a28329acb5268abe5ef868c1f1a261221752</span><br><span class="line">$ docker start -a -i 6d8af538ec5</span><br><span class="line">bash-4.2<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>创建数据卷容器</p>
+<p>这是由于v1.4.0后容器的数据卷是在create的阶段进行初始化的，因此create容器数据卷，然后直接在其他容器使用，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker create -v /data --name data ubuntu</span><br><span class="line">240633dfbb98128fa77473d3d9018f6123b99c454b3251427ae190a7d951ad57</span><br><span class="line">$ docker run --rm --volumes-from data ubuntu ls -la /data</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  2 root root 4096 Dec  5 04:10 .</span><br><span class="line">drwxr-xr-x 48 root root 4096 Dec  5 04:11 ..</span><br></pre></td></tr></table></figure>
+<p>更详细的分析参考<a href="/2017/02/23/docker_cmd_analyse3/">docker run</a>和<a href="https://docs.docker.com/v1.11/engine/reference/run/" target="_blank" rel="noopener">Docker run refrence</a>。</p>
+<h2 id="容器的启动"><a href="#容器的启动" class="headerlink" title="容器的启动"></a>容器的启动</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker start [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Start one or more containers</span><br><span class="line"></span><br><span class="line">  -a, --attach               Attach STDOUT/STDERR and forward signals</span><br><span class="line">  --detach-keys              Specify the escape key sequence used to detach a container</span><br><span class="line">  --<span class="built_in">help</span>                     Print usage</span><br><span class="line">  -i, --interactive          Attach container STDIN</span><br></pre></td></tr></table></figure>
+<p>start命令用于启动一个或者多个容器。start命令的几个参数选项的含义和其他命令的含义是一致的：</p>
+<ul>
+<li>-a：链接到容器的STDOUT/STDERR，而且可以接收到容器的信号</li>
+<li>–detach-keys：这个指定detach的快捷键</li>
+<li>-i：表示连接到容器的STDIN，这样才能做一些输入操作，例如敲bash命令</li>
+</ul>
+<p>注意：这里的-a只是能接收STDOUT/STDERR的数据，如果另外一个shell窗口用docker exec -it连到一个容器，exec里面对容器的操作不会反抗到start -a的窗口。<br>    有点类似于-a是串口，而exec是ssh登录进去的情况。</p>
+<h2 id="容器的运行"><a href="#容器的运行" class="headerlink" title="容器的运行"></a>容器的运行</h2><p>run命令可以用于直接运行容器，可以理解为run = create + start，由于这部分内容比较多，<a href="/2017/02/23/docker_cmd_analyse3/">单独用一篇文章描述</a>。</p>
+<h2 id="容器的挂起"><a href="#容器的挂起" class="headerlink" title="容器的挂起"></a>容器的挂起</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker pause [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Pause all processes within a container</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>          Print usage</span><br></pre></td></tr></table></figure>
+<p>pause命令可以暂停一个容器内所有的进程。</p>
+<h2 id="容器的唤醒"><a href="#容器的唤醒" class="headerlink" title="容器的唤醒"></a>容器的唤醒</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker unpause [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Unpause all processes within a container</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>          Print usage</span><br></pre></td></tr></table></figure>
+<p>unpause命令与pause命令相对应，用于唤醒一个容器内所有的进程。</p>
+<h2 id="容器的重启"><a href="#容器的重启" class="headerlink" title="容器的重启"></a>容器的重启</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker restart [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Restart a container</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>             Print usage</span><br><span class="line">  -t, --time=10      Seconds to <span class="built_in">wait</span>-for-stop before killing the container</span><br></pre></td></tr></table></figure>
+<p>restart命令用于重启一个容器，可以用-t设置等待容器停止的时间，超时则杀死容器。</p>
+<h2 id="容器的停止"><a href="#容器的停止" class="headerlink" title="容器的停止"></a>容器的停止</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker stop [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Stop a container by sending SIGTERM and <span class="keyword">then</span> SIGKILL after a</span><br><span class="line">grace period</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>             Print usage</span><br><span class="line">  -t, --time=10      Seconds to <span class="built_in">wait</span>-for-stop before killing it</span><br></pre></td></tr></table></figure>
+<p>stop命令可以通过发送SIGTERM以及合理间隔后发送的SIGKILL来停止一个容器，-t选项和restart的用法一致。<br>注：只有容器的主进程才会收到SIGTERM信号，并且在合理间隔之后收到SIGKILL信号。</p>
+<h2 id="容器的杀死"><a href="#容器的杀死" class="headerlink" title="容器的杀死"></a>容器的杀死</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker <span class="built_in">kill</span> [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Kill a running container using SIGKILL or a specified signal</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>                 Print usage</span><br><span class="line">  -s, --signal=<span class="string">"KILL"</span>    Signal to send to the container</span><br></pre></td></tr></table></figure>
+<p>kill命令通过SIGKILL或者其他指定信号来杀死一个运行中的容器，-s选项可以指定一个发送给容器的信号。<br>和stop一样，主进程会收到信号。</p>
+<p>注意：如果ENTRYPOINT和CMD是以shell格式运行的，那么他们是不会收到信号的。这是由于这种情况下bash才是主进程,<br>    只有PID为1的进程能收到。关于ENTRYPOINT和CMD可以参考<a href="https://docs.docker.com/v1.11/engine/reference/builder/#entrypoint" target="_blank" rel="noopener">官方文档</a></p>
+<h2 id="容器的删除"><a href="#容器的删除" class="headerlink" title="容器的删除"></a>容器的删除</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker rm [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line"></span><br><span class="line">Remove one or more containers</span><br><span class="line"></span><br><span class="line">  -f, --force            Force the removal of a running container (uses SIGKILL)</span><br><span class="line">  --<span class="built_in">help</span>                 Print usage</span><br><span class="line">  -l, --link             Remove the specified link</span><br><span class="line">  -v, --volumes          Remove the volumes associated with the container</span><br></pre></td></tr></table></figure>
+<p>rm可以删除一个或者多个容器。<br>可以通过指定–force选项，通过发送SIGKILL信号强制删除一个运行的容器，例如：docker rm –force redis<br>可以通过–link删除默认网桥上指定的link，删除所有的网络配置，例如：docker rm –link /webapp/redis<br>注意：–link不能删除用户指定的网络，只能删除默认网桥上的link。<br>可以通过–volumes删除容器关联的数据卷，这里需要注意下面的情况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker create -v awesome:/foo -v /bar --name hello redis</span><br><span class="line">hello</span><br><span class="line">$ docker rm -v hello</span><br></pre></td></tr></table></figure>
+<p>这里只会删除/bar数据卷，/foo数据卷不会被删除，是由于/foo关联到host的文件或者目录awesome。</p>
+<p>删除所有停止的容器：docker rm $(docker ps -a -q)</p>
+<h2 id="容器的重命名"><a href="#容器的重命名" class="headerlink" title="容器的重命名"></a>容器的重命名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker rename [OPTIONS] OLD_NAME NEW_NAME</span><br><span class="line"></span><br><span class="line">Rename a container</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>          Print usage</span><br></pre></td></tr></table></figure>
+<p>rename命令可以用于重命名容器。<br>注意：如果你启动的时候没有指定容器的名字，docker会生成一个，但是你也可以用容器的ID作为OLD_NAME来重命名该容器。<br>例如：docker rename b8929ca5eda3 haozi</p>
+<h2 id="容器的更新"><a href="#容器的更新" class="headerlink" title="容器的更新"></a>容器的更新</h2><p>update命令用于更新容器的一些配置，详细可以参考<a href="/2017/01/19/docker_update_cmd/">update命令分析</a></p>
+<p>关于容器生命周期相关的命令，就结束了。下面看看其他和容器相关的一些常用的命令。</p>
+<h2 id="attach和exec命令"><a href="#attach和exec命令" class="headerlink" title="attach和exec命令"></a>attach和exec命令</h2><p>首先，attach可以挂到一个运行的容器上，而exec可以在容器内执行指定的命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker attach [OPTIONS] CONTAINER</span><br><span class="line"></span><br><span class="line">Attach to a running container</span><br><span class="line"></span><br><span class="line">  --detach-keys=<span class="string">"&lt;sequence&gt;"</span>       Set up escape key sequence</span><br><span class="line">  --<span class="built_in">help</span>                           Print usage</span><br><span class="line">  --no-stdin                       Do not attach STDIN</span><br><span class="line">  --sig-proxy=<span class="literal">true</span>                 Proxy all received signals to the process</span><br></pre></td></tr></table></figure>
+<p>attach命令可以挂到一个运行中的容器上，然后你可以看到该容器正在输出的内容，或者以交互的方式控制它。</p>
+<p>停止一个容器默认使用Ctrl-c，这个组合键会发送一个SIGKILL信号给容器。但是–sig-proxy=true被设置的话，<br>Ctrl-c会发送SIGINT给容器。可以通过Ctrl+p，Ctrl+q端口连接并保持容器运行。</p>
+<p>注意：通过attach连接到容器的stdio，Docker提供1MB的缓存接收应用的输出，如果buffer满了，会影响attach的输出速度。</p>
+<p>然后，exec可以在运行的容器中运行一条命令。当容器运行的第一条命令不是bash或者没有指定-it的时候，用attach连到容器是不能做一些输入或者指令操作的。<br>但是我们可以用exec在容器内运行bash或者其他指令来达到操作容器的目的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker <span class="built_in">exec</span> [OPTIONS] CONTAINER COMMAND [ARG...]</span><br><span class="line"></span><br><span class="line">Run a <span class="built_in">command</span> <span class="keyword">in</span> a running container</span><br><span class="line"></span><br><span class="line">  -d, --detach               Detached mode: run <span class="built_in">command</span> <span class="keyword">in</span> the background</span><br><span class="line">  --detach-keys              Specify the escape key sequence used to detach a container</span><br><span class="line">  --<span class="built_in">help</span>                     Print usage</span><br><span class="line">  -i, --interactive          Keep STDIN open even <span class="keyword">if</span> not attached</span><br><span class="line">  --privileged               Give extended Linux capabilities to the <span class="built_in">command</span></span><br><span class="line">  -t, --tty                  Allocate a pseudo-TTY</span><br><span class="line">  -u, --user=                Username or UID (format: &lt;name|uid&gt;[:&lt;group|gid&gt;])</span><br></pre></td></tr></table></figure>
+<p>注：exec只有在容器的第一个进程在运行时，才能执行。如果容器是pause状态，exec会返回失败。<br>各选项作用：</p>
+<ul>
+<li>–detach：后台执行命令</li>
+<li>–detach-keys：指定断开连接的快捷键</li>
+<li>–interactive：支持输入</li>
+<li>–privileged：设置运行命令在特权模式下运行</li>
+<li>–tty：分配一个伪终端</li>
+<li>–user：设置执行命令用户名</li>
+</ul>
+<h2 id="容器的日志"><a href="#容器的日志" class="headerlink" title="容器的日志"></a>容器的日志</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker logs [OPTIONS] CONTAINER</span><br><span class="line"></span><br><span class="line">Fetch the logs of a container</span><br><span class="line"></span><br><span class="line">  -f, --follow              Follow <span class="built_in">log</span> output</span><br><span class="line">  --<span class="built_in">help</span>                    Print usage</span><br><span class="line">  --since=<span class="string">""</span>                Show logs since timestamp</span><br><span class="line">  -t, --timestamps          Show timestamps</span><br><span class="line">  --tail=<span class="string">"all"</span>              Number of lines to show from the end of the logs</span><br></pre></td></tr></table></figure>
+<p>logs命令可以获取容器的日志信息。logs的日志信息保存位置取决于<a href="/2016/12/29/docker_container_log/">日志的驱动</a>，<br>默认容器日志的驱动为json，数据保存在/var/lib/docker/containers/container-ID/container-ID-json.log文件。<br>日志驱动可以通过docker run和docker daemon的–log-driver选项设置。</p>
+<p>logs命令的选项作用：</p>
+<ul>
+<li>–follow：命令可以持续获取容器的STDOUT和STDERR的信息。</li>
+<li>–since：命令值显示指定时间戳之后的日志</li>
+<li>–timestamps：命令在每条日志之前加上时间戳</li>
+<li>–tail：命令只显示日志最后的指定行数</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/02/27/docker_cmd_analyse3/" data-id="cjco94jbd0009hvowy1du4upe" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/28/docker_cmd_analyse4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          docker命令分析--维测相关
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/25/hexo_generate_err1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">markdown文件格式导致hexo generate失败</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 18.33px;">docker命令</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/01/21/电子书制作爬取/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/修复perl的locale异常/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/pip命令/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/nginx相关/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/21/knowledge_topology/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
