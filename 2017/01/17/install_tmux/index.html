@@ -7,17 +7,17 @@
   
   <title>从源码安装tmux | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： 刘昊  安装libevent首先，需要到官网(http://libevent.org/)去下载最新的源码，安装流程如下： 123456wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.">
+  <meta name="description" content="作者： 耗子007  安装libevent首先，需要到官网(http://libevent.org/)去下载最新的源码，安装流程如下： 123456wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stab">
 <meta name="keywords" content="tmux,ubuntu14.04,linux工具">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从源码安装tmux">
 <meta property="og:url" content="http://yoursite.com/2017/01/17/install_tmux/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： 刘昊  安装libevent首先，需要到官网(http://libevent.org/)去下载最新的源码，安装流程如下： 123456wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  安装libevent首先，需要到官网(http://libevent.org/)去下载最新的源码，安装流程如下： 123456wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stab">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从源码安装tmux">
-<meta name="twitter:description" content="作者： 刘昊  安装libevent首先，需要到官网(http://libevent.org/)去下载最新的源码，安装流程如下： 123456wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.">
+<meta name="twitter:description" content="作者： 耗子007  安装libevent首先，需要到官网(http://libevent.org/)去下载最新的源码，安装流程如下： 123456wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stab">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="安装libevent"><a href="#安装libevent" class="headerlink" title="安装libevent"></a>安装libevent</h2><p>首先，需要到官网(<a href="http://libevent.org/)去下载最新的源码，安装流程如下：" target="_blank" rel="noopener">http://libevent.org/)去下载最新的源码，安装流程如下：</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz</span><br><span class="line">tar -zxf libevent-2.0.22-stable.tar.gz</span><br><span class="line"><span class="built_in">cd</span> libevent-2.0.22-stable</span><br><span class="line">./configure -prefix=/usr</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>

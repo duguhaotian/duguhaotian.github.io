@@ -7,17 +7,17 @@
   
   <title>watchdog分析 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： haozi007  softlockup和hardlockup含义softlockup内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。 hardlockupCPU在内核模式loop时间超过hw_nmi_get_sample_p">
+  <meta name="description" content="作者： 耗子007  softlockup和hardlockup含义softlockup内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。 hardlockupCPU在内核模式loop时间超过hw_nmi_get_sample_peri">
 <meta name="keywords" content="Linux,scheduling,watchdog,softlockup,hardlockup">
 <meta property="og:type" content="article">
 <meta property="og:title" content="watchdog分析">
 <meta property="og:url" content="http://yoursite.com/2017/06/02/linux_scheduling_softlockup&hardlockup/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： haozi007  softlockup和hardlockup含义softlockup内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。 hardlockupCPU在内核模式loop时间超过hw_nmi_get_sample_p">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  softlockup和hardlockup含义softlockup内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。 hardlockupCPU在内核模式loop时间超过hw_nmi_get_sample_peri">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="watchdog分析">
-<meta name="twitter:description" content="作者： haozi007  softlockup和hardlockup含义softlockup内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。 hardlockupCPU在内核模式loop时间超过hw_nmi_get_sample_p">
+<meta name="twitter:description" content="作者： 耗子007  softlockup和hardlockup含义softlockup内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。 hardlockupCPU在内核模式loop时间超过hw_nmi_get_sample_peri">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="softlockup和hardlockup含义"><a href="#softlockup和hardlockup含义" class="headerlink" title="softlockup和hardlockup含义"></a>softlockup和hardlockup含义</h2><h3 id="softlockup"><a href="#softlockup" class="headerlink" title="softlockup"></a>softlockup</h3><p>内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。<br>简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。</p>
 <h3 id="hardlockup"><a href="#hardlockup" class="headerlink" title="hardlockup"></a>hardlockup</h3><p>CPU在内核模式loop时间超过hw_nmi_get_sample_period函数获取的阈值时间，导致其他中断不能运行的bug，称为”hardlockup”。<br>简单来说，就是中断被关闭时间超过阈值，导致其他中断无法运行。</p>

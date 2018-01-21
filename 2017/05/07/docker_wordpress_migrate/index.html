@@ -7,17 +7,17 @@
   
   <title>基于docker容器的wordpress迁移 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： haozi007  前提我的wordpress是用sqlite作为数据库的wordpress是运行在docker容器里面的网站的所有数据都有备份安装docker按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行 1dock">
+  <meta name="description" content="作者： 耗子007  前提我的wordpress是用sqlite作为数据库的wordpress是运行在docker容器里面的网站的所有数据都有备份安装docker按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行 1docker">
 <meta name="keywords" content="docker,wordpress">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于docker容器的wordpress迁移">
 <meta property="og:url" content="http://yoursite.com/2017/05/07/docker_wordpress_migrate/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： haozi007  前提我的wordpress是用sqlite作为数据库的wordpress是运行在docker容器里面的网站的所有数据都有备份安装docker按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行 1dock">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  前提我的wordpress是用sqlite作为数据库的wordpress是运行在docker容器里面的网站的所有数据都有备份安装docker按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行 1docker">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基于docker容器的wordpress迁移">
-<meta name="twitter:description" content="作者： haozi007  前提我的wordpress是用sqlite作为数据库的wordpress是运行在docker容器里面的网站的所有数据都有备份安装docker按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行 1dock">
+<meta name="twitter:description" content="作者： 耗子007  前提我的wordpress是用sqlite作为数据库的wordpress是运行在docker容器里面的网站的所有数据都有备份安装docker按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行 1docker">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>我的wordpress是用sqlite作为数据库的<br>wordpress是运行在docker容器里面的<br>网站的所有数据都有备份<br>安装docker<br>按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）<br>拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run –privileged -itd -p 8080:80 -v /workspace/wordpress/blogs/:/var/www/html wordpress_sqlite bash -l -c “/sbin/init”</span><br></pre></td></tr></table></figure>

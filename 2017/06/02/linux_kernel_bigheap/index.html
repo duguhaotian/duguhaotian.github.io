@@ -7,17 +7,17 @@
   
   <title>legacy_va_layout设置大堆 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： haozi007  设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。这样可以使得heap的上限超过2G。 120 ----------------------------------------------------------------------------------------- 3G -------- 4G保">
+  <meta name="description" content="作者： 耗子007  设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。这样可以使得heap的上限超过2G。 120 ----------------------------------------------------------------------------------------- 3G -------- 4G保留 |">
 <meta name="keywords" content="Linux,bigheap,legacy_va_layout">
 <meta property="og:type" content="article">
 <meta property="og:title" content="legacy_va_layout设置大堆">
 <meta property="og:url" content="http://yoursite.com/2017/06/02/linux_kernel_bigheap/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： haozi007  设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。这样可以使得heap的上限超过2G。 120 ----------------------------------------------------------------------------------------- 3G -------- 4G保">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。这样可以使得heap的上限超过2G。 120 ----------------------------------------------------------------------------------------- 3G -------- 4G保留 |">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="legacy_va_layout设置大堆">
-<meta name="twitter:description" content="作者： haozi007  设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。这样可以使得heap的上限超过2G。 120 ----------------------------------------------------------------------------------------- 3G -------- 4G保">
+<meta name="twitter:description" content="作者： 耗子007  设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。这样可以使得heap的上限超过2G。 120 ----------------------------------------------------------------------------------------- 3G -------- 4G保留 |">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure>

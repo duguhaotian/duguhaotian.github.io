@@ -84,7 +84,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure>
@@ -130,7 +130,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="softlockup和hardlockup含义"><a href="#softlockup和hardlockup含义" class="headerlink" title="softlockup和hardlockup含义"></a>softlockup和hardlockup含义</h2><h3 id="softlockup"><a href="#softlockup" class="headerlink" title="softlockup"></a>softlockup</h3><p>内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。<br>简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。</p>
 <h3 id="hardlockup"><a href="#hardlockup" class="headerlink" title="hardlockup"></a>hardlockup</h3><p>CPU在内核模式loop时间超过hw_nmi_get_sample_period函数获取的阈值时间，导致其他中断不能运行的bug，称为”hardlockup”。<br>简单来说，就是中断被关闭时间超过阈值，导致其他中断无法运行。</p>
@@ -178,7 +178,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>用sqlite data browser 执行update命令，报错误：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unable to open database file</span><br></pre></td></tr></table></figure>
@@ -224,7 +224,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>我的wordpress是用sqlite作为数据库的<br>wordpress是运行在docker容器里面的<br>网站的所有数据都有备份<br>安装docker<br>按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）<br>拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run –privileged -itd -p 8080:80 -v /workspace/wordpress/blogs/:/var/www/html wordpress_sqlite bash -l -c “/sbin/init”</span><br></pre></td></tr></table></figure>
@@ -286,7 +286,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>以www.example.com域名为例</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">www.example.com/wp-login.php?redirect_to=www.example.com/wp-admin%2F&amp;reauth=1</span><br></pre></td></tr></table></figure>
@@ -332,7 +332,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rt := strings.Join([]string&#123;“help”&#125;, “-“)</span><br><span class="line">fmt.Println(rt)</span><br><span class="line">return</span><br></pre></td></tr></table></figure>
 <h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>此时help后面不会加上“-”，只会打印一个“help”</p>
@@ -375,7 +375,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config –global http.proxy http://name:password@proxyhk.huawei.com:8080</span><br><span class="line"></span><br><span class="line">git config –global https.proxy http://name:password@proxyhk.huawei.com:8080</span><br></pre></td></tr></table></figure>
 <p>比如这种错误的时候fatal: unable to access ‘<a href="https://github.com/kubernetes/kubernetes.git/’" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes.git/’</a>: server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none</p>
@@ -431,7 +431,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="非systemd情况下"><a href="#非systemd情况下" class="headerlink" title="非systemd情况下"></a>非systemd情况下</h2><p>直接修改/etc/default/docker文件就行（Ubuntu下service启动docker，属于非systemd模式）</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=xxxxxx</span><br><span class="line"><span class="built_in">export</span> https_proxy=xxxxxx</span><br></pre></td></tr></table></figure>
@@ -485,7 +485,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="先用virsh-net-list获取虚拟机的网络列表"><a href="#先用virsh-net-list获取虚拟机的网络列表" class="headerlink" title="先用virsh net-list获取虚拟机的网络列表"></a>先用virsh net-list获取虚拟机的网络列表</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost vms]<span class="comment"># virsh net-list</span></span><br><span class="line">Name State Autostart Persistent</span><br><span class="line">———————————————————-</span><br><span class="line">default active yes yes</span><br></pre></td></tr></table></figure>
 <h2 id="然后获取IP的分配列表"><a href="#然后获取IP的分配列表" class="headerlink" title="然后获取IP的分配列表"></a>然后获取IP的分配列表</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost vms]<span class="comment"># virsh net-dhcp-leases default</span></span><br><span class="line">Expiry Time MAC address Protocol IP address Hostname Client ID or DUID</span><br><span class="line">——————————————————————————————————————-</span><br><span class="line">2016-09-22 21:08:03 52:54:00:00:00:12 ipv4 192.168.122.7/24 rtos –</span><br><span class="line">2016-09-22 21:08:23 52:54:00:00:00:42 ipv4 192.168.122.226/24 rtos –</span><br><span class="line">2016-09-22 21:08:35 52:54:00:00:00:62 ipv4 192.168.122.5/24 rtos –</span><br></pre></td></tr></table></figure>
@@ -532,7 +532,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="需要的材料"><a href="#需要的材料" class="headerlink" title="需要的材料"></a>需要的材料</h2><h3 id="qemu-kvm"><a href="#qemu-kvm" class="headerlink" title="qemu-kvm"></a>qemu-kvm</h3><p>能运行的qemu虚拟机镜像文件（如果你的机器是远端服务器，没办法使用virt-view等图形界面的话）<br>已有的qemu系统镜像安装了openssh-server端<br>安装qemu相关软件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer</span><br></pre></td></tr></table></figure></p>
 <p>准备可用的qemu虚拟机镜像文件<br>条件：有一台PC机器，安装好了qemu</p>

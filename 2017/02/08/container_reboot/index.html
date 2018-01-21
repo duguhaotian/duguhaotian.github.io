@@ -7,17 +7,17 @@
   
   <title>容器内调用reboot函数失败 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： 刘昊  问题描述在容器里面调用reboot函数，函数传入LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF这两个参数都返回失败。reboot return -1,errno is 22(EINVAL) 分析查看官方文档(http://man7.org/linux/man-pages/man2/reboot.2.html)： 12345678">
+  <meta name="description" content="作者： 耗子007  问题描述在容器里面调用reboot函数，函数传入LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF这两个参数都返回失败。reboot return -1,errno is 22(EINVAL) 分析查看官方文档(http://man7.org/linux/man-pages/man2/reboot.2.html)： 12345">
 <meta name="keywords" content="linux,docker,reboot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="容器内调用reboot函数失败">
 <meta property="og:url" content="http://yoursite.com/2017/02/08/container_reboot/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： 刘昊  问题描述在容器里面调用reboot函数，函数传入LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF这两个参数都返回失败。reboot return -1,errno is 22(EINVAL) 分析查看官方文档(http://man7.org/linux/man-pages/man2/reboot.2.html)： 12345678">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  问题描述在容器里面调用reboot函数，函数传入LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF这两个参数都返回失败。reboot return -1,errno is 22(EINVAL) 分析查看官方文档(http://man7.org/linux/man-pages/man2/reboot.2.html)： 12345">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="容器内调用reboot函数失败">
-<meta name="twitter:description" content="作者： 刘昊  问题描述在容器里面调用reboot函数，函数传入LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF这两个参数都返回失败。reboot return -1,errno is 22(EINVAL) 分析查看官方文档(http://man7.org/linux/man-pages/man2/reboot.2.html)： 12345678">
+<meta name="twitter:description" content="作者： 耗子007  问题描述在容器里面调用reboot函数，函数传入LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF这两个参数都返回失败。reboot return -1,errno is 22(EINVAL) 分析查看官方文档(http://man7.org/linux/man-pages/man2/reboot.2.html)： 12345">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在容器里面调用reboot函数，函数传入LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF这两个参数都返回失败。<br>reboot return -1,errno is 22(EINVAL)</p>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>查看官方文档(<a href="http://man7.org/linux/man-pages/man2/reboot.2.html)：" target="_blank" rel="noopener">http://man7.org/linux/man-pages/man2/reboot.2.html)：</a></p>

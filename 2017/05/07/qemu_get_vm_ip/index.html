@@ -7,17 +7,17 @@
   
   <title>获取qemu创建的虚拟机的IP地址 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： haozi007  先用virsh net-list获取虚拟机的网络列表1234[root@localhost vms]# virsh net-listName State Autostart Persistent———————————————————-default active yes yes 然后获取IP的分配列表123456[root@localhost vms]# virsh">
+  <meta name="description" content="作者： 耗子007  先用virsh net-list获取虚拟机的网络列表1234[root@localhost vms]# virsh net-listName State Autostart Persistent———————————————————-default active yes yes 然后获取IP的分配列表123456[root@localhost vms]# virsh net">
 <meta name="keywords" content="qemu,虚拟机">
 <meta property="og:type" content="article">
 <meta property="og:title" content="获取qemu创建的虚拟机的IP地址">
 <meta property="og:url" content="http://yoursite.com/2017/05/07/qemu_get_vm_ip/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： haozi007  先用virsh net-list获取虚拟机的网络列表1234[root@localhost vms]# virsh net-listName State Autostart Persistent———————————————————-default active yes yes 然后获取IP的分配列表123456[root@localhost vms]# virsh">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  先用virsh net-list获取虚拟机的网络列表1234[root@localhost vms]# virsh net-listName State Autostart Persistent———————————————————-default active yes yes 然后获取IP的分配列表123456[root@localhost vms]# virsh net">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="获取qemu创建的虚拟机的IP地址">
-<meta name="twitter:description" content="作者： haozi007  先用virsh net-list获取虚拟机的网络列表1234[root@localhost vms]# virsh net-listName State Autostart Persistent———————————————————-default active yes yes 然后获取IP的分配列表123456[root@localhost vms]# virsh">
+<meta name="twitter:description" content="作者： 耗子007  先用virsh net-list获取虚拟机的网络列表1234[root@localhost vms]# virsh net-listName State Autostart Persistent———————————————————-default active yes yes 然后获取IP的分配列表123456[root@localhost vms]# virsh net">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="先用virsh-net-list获取虚拟机的网络列表"><a href="#先用virsh-net-list获取虚拟机的网络列表" class="headerlink" title="先用virsh net-list获取虚拟机的网络列表"></a>先用virsh net-list获取虚拟机的网络列表</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost vms]<span class="comment"># virsh net-list</span></span><br><span class="line">Name State Autostart Persistent</span><br><span class="line">———————————————————-</span><br><span class="line">default active yes yes</span><br></pre></td></tr></table></figure>
 <h2 id="然后获取IP的分配列表"><a href="#然后获取IP的分配列表" class="headerlink" title="然后获取IP的分配列表"></a>然后获取IP的分配列表</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost vms]<span class="comment"># virsh net-dhcp-leases default</span></span><br><span class="line">Expiry Time MAC address Protocol IP address Hostname Client ID or DUID</span><br><span class="line">——————————————————————————————————————-</span><br><span class="line">2016-09-22 21:08:03 52:54:00:00:00:12 ipv4 192.168.122.7/24 rtos –</span><br><span class="line">2016-09-22 21:08:23 52:54:00:00:00:42 ipv4 192.168.122.226/24 rtos –</span><br><span class="line">2016-09-22 21:08:35 52:54:00:00:00:62 ipv4 192.168.122.5/24 rtos –</span><br></pre></td></tr></table></figure>

@@ -84,7 +84,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在容器里面调用reboot函数，函数传入LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF这两个参数都返回失败。<br>reboot return -1,errno is 22(EINVAL)</p>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>查看官方文档(<a href="http://man7.org/linux/man-pages/man2/reboot.2.html)：" target="_blank" rel="noopener">http://man7.org/linux/man-pages/man2/reboot.2.html)：</a></p>
@@ -143,7 +143,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>Linux打开文件的上限，主要受文件句柄上限和文件描述符上限的限制。</p>
 <ul>
@@ -209,7 +209,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h1 id="Google的cadvisor项目"><a href="#Google的cadvisor项目" class="headerlink" title="Google的cadvisor项目"></a>Google的cadvisor项目</h1><p>cadvisor用于分析运行容器的资源使用和利用率。cadvisor本身已经容器化，应该使用起来非常简单。<br>cadvisor的项目地址：<a href="https://github.com/google/cadvisor" target="_blank" rel="noopener">https://github.com/google/cadvisor</a><br>下载cadvisor的镜像：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull google/cadvisor</span><br></pre></td></tr></table></figure>
@@ -256,7 +256,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>update命令的主要作用：动态更新容器的配置。<br>注意：</p>
 <ul>
@@ -309,7 +309,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="安装libevent"><a href="#安装libevent" class="headerlink" title="安装libevent"></a>安装libevent</h2><p>首先，需要到官网(<a href="http://libevent.org/)去下载最新的源码，安装流程如下：" target="_blank" rel="noopener">http://libevent.org/)去下载最新的源码，安装流程如下：</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz</span><br><span class="line">tar -zxf libevent-2.0.22-stable.tar.gz</span><br><span class="line"><span class="built_in">cd</span> libevent-2.0.22-stable</span><br><span class="line">./configure -prefix=/usr</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
@@ -356,7 +356,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？<br>这里进行简单的分析一下。</p>
 <p>注：该异常的systemd版本为systemd-219-19.el7.x86_64</p>
@@ -436,7 +436,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>最近被python的条件坑了一波，在此小计一下。<br>python的IF的条件判断和C是一致的，0表示False，非0表示True。这本没什么问题，坑爹的是，很多函数的成功返回0，而失败返回-1，这就很容易被坑了。<br>先看看0和-1的情况：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">root@rtos:/home/work/rtos<span class="comment"># python</span></span><br><span class="line">Python 2.7.6 (default, Oct 26 2016, 20:30:19)</span><br><span class="line">[GCC 4.8.4] on linux2</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> 0:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is False"</span>)</span><br><span class="line">...</span><br><span class="line">0 is False</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> -1:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is False"</span>)</span><br><span class="line">...</span><br><span class="line">-1 is True</span><br></pre></td></tr></table></figure>
@@ -481,7 +481,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="搭建非安全Registry"><a href="#搭建非安全Registry" class="headerlink" title="搭建非安全Registry"></a>搭建非安全Registry</h2><p>Docker官方hub上面已提供容器化的Registry，可以通过docker run直接启动一个本地的Registry的服务。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 5000:5000 \</span><br><span class="line">    --restart=always --name registry registry:2</span><br></pre></td></tr></table></figure>
@@ -554,7 +554,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h1 id="日志驱动"><a href="#日志驱动" class="headerlink" title="日志驱动"></a>日志驱动</h1><table>
 <thead>
@@ -657,7 +657,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h1 id="安装liteide"><a href="#安装liteide" class="headerlink" title="安装liteide"></a>安装liteide</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/visualfc/liteide.git</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libqtwebkit-dev g++</span><br><span class="line">$ <span class="built_in">cd</span> liteide/build</span><br><span class="line">$ ./update_pkg.sh</span><br><span class="line">$ QTDIR=/usr ./build_linux.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">## Run it: ##</span></span><br><span class="line">$ <span class="built_in">cd</span> ~/liteide/build/liteide/bin</span><br><span class="line">$ ./liteide</span><br></pre></td></tr></table></figure>
 <h1 id="安装golang"><a href="#安装golang" class="headerlink" title="安装golang"></a>安装golang</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz</span><br><span class="line">tar -C /usr/<span class="built_in">local</span> -xzf go<span class="variable">$VERSION</span>.<span class="variable">$OS</span>-<span class="variable">$ARCH</span>.tar.gz</span><br><span class="line">vi <span class="variable">$HOME</span>/.profile</span><br><span class="line">    &gt; <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/go/bin</span><br></pre></td></tr></table></figure>

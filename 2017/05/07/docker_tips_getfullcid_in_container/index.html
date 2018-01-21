@@ -7,17 +7,17 @@
   
   <title>容器内获取容器的完整ID | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： haozi007  可以通过进程自己的cgroup的信息获取，cgroup中包含了docker容器的完整ID。在容器中运行cat /proc/self/cgroup得到如下结果： 123456789101112root@60dc9bc55a76:/home# cat /proc/self/cgroup11:devices:/docker/60dc9bc55a76c81847d502d8e">
+  <meta name="description" content="作者： 耗子007  可以通过进程自己的cgroup的信息获取，cgroup中包含了docker容器的完整ID。在容器中运行cat /proc/self/cgroup得到如下结果： 123456789101112root@60dc9bc55a76:/home# cat /proc/self/cgroup11:devices:/docker/60dc9bc55a76c81847d502d8ed43">
 <meta name="keywords" content="docker,tips">
 <meta property="og:type" content="article">
 <meta property="og:title" content="容器内获取容器的完整ID">
 <meta property="og:url" content="http://yoursite.com/2017/05/07/docker_tips_getfullcid_in_container/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： haozi007  可以通过进程自己的cgroup的信息获取，cgroup中包含了docker容器的完整ID。在容器中运行cat /proc/self/cgroup得到如下结果： 123456789101112root@60dc9bc55a76:/home# cat /proc/self/cgroup11:devices:/docker/60dc9bc55a76c81847d502d8e">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  可以通过进程自己的cgroup的信息获取，cgroup中包含了docker容器的完整ID。在容器中运行cat /proc/self/cgroup得到如下结果： 123456789101112root@60dc9bc55a76:/home# cat /proc/self/cgroup11:devices:/docker/60dc9bc55a76c81847d502d8ed43">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="容器内获取容器的完整ID">
-<meta name="twitter:description" content="作者： haozi007  可以通过进程自己的cgroup的信息获取，cgroup中包含了docker容器的完整ID。在容器中运行cat /proc/self/cgroup得到如下结果： 123456789101112root@60dc9bc55a76:/home# cat /proc/self/cgroup11:devices:/docker/60dc9bc55a76c81847d502d8e">
+<meta name="twitter:description" content="作者： 耗子007  可以通过进程自己的cgroup的信息获取，cgroup中包含了docker容器的完整ID。在容器中运行cat /proc/self/cgroup得到如下结果： 123456789101112root@60dc9bc55a76:/home# cat /proc/self/cgroup11:devices:/docker/60dc9bc55a76c81847d502d8ed43">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>可以通过进程自己的cgroup的信息获取，cgroup中包含了docker容器的完整ID。在容器中运行cat /proc/self/cgroup得到如下结果：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@60dc9bc55a76:/home<span class="comment"># cat /proc/self/cgroup</span></span><br><span class="line">11:devices:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">10:cpu,cpuacct:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">9:blkio:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">8:cpuset:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">7:freezer:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">6:hugetlb:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">5:net_cls,net_prio:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">4:memory:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">3:pids:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">2:perf_event:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">1:name=systemd:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br></pre></td></tr></table></figure>

@@ -84,7 +84,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="安装TCL"><a href="#安装TCL" class="headerlink" title="安装TCL"></a>安装TCL</h2><p>下载地址：<a href="http://www.tcl.tk/software/tcltk/download.html" target="_blank" rel="noopener">http://www.tcl.tk/software/tcltk/download.html</a></p>
 <p>目前最新版本: tcl8.5.19-src.tar.gz</p>
@@ -129,7 +129,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>以获取容器ID 为例：</p>
 <p>func GetContainerID() (string, error) {<br>cmd := exec.Command(“/bin/bash”, “-c”, “cat /proc/self/cgroup | grep docker | grep -o -E ‘[0-9a-f]{64}’| head -n 1”)<br>var out bytes.Buffer</p>
@@ -174,7 +174,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>可以通过进程自己的cgroup的信息获取，cgroup中包含了docker容器的完整ID。在容器中运行cat /proc/self/cgroup得到如下结果：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">root@60dc9bc55a76:/home<span class="comment"># cat /proc/self/cgroup</span></span><br><span class="line">11:devices:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">10:cpu,cpuacct:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">9:blkio:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">8:cpuset:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">7:freezer:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">6:hugetlb:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">5:net_cls,net_prio:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">4:memory:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">3:pids:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">2:perf_event:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br><span class="line">1:name=systemd:/docker/60dc9bc55a76c81847d502d8ed432f03c6de131a85653c7a27dbe7db25b5945a</span><br></pre></td></tr></table></figure>
@@ -220,7 +220,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>Linux支持如下的namespaces:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Namespace                            Constant                                               Isolates</span><br><span class="line"></span><br><span class="line">Cgroup                               CLONE_NEWCGROUP                                    Cgroup root directory</span><br><span class="line">IPC                                  CLONE_NEWIPC                                       System V IPC, POSIX message queues</span><br><span class="line">Network                              CLONE_NEWNET                                       Network devices, stacks, ports, etc.</span><br><span class="line">Mount                                CLONE_NEWNS                                        Mount points</span><br><span class="line">PID                                  CLONE_NEWPID                                       Process IDs</span><br><span class="line">User                                 CLONE_NEWUSER                                      User and group IDs</span><br><span class="line">UTS                                  CLONE_NEWUTS                                       Hostname and NIS domain name</span><br></pre></td></tr></table></figure>
@@ -266,7 +266,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="自定义的Dockerfile"><a href="#自定义的Dockerfile" class="headerlink" title="自定义的Dockerfile"></a>自定义的Dockerfile</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line"></span><br><span class="line">ENV http_proxy http://username:password@proxy:8080</span><br><span class="line">ENV https_proxy http://username:password@proxy:8080</span><br><span class="line"></span><br><span class="line"><span class="comment">#RUN echo “http_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/apt/apt.conf</span></span><br><span class="line"><span class="comment">#RUN echo “https_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/apt/apt.conf</span></span><br><span class="line"></span><br><span class="line">RUN touch /etc/wgetrc</span><br><span class="line">RUN <span class="built_in">echo</span> “http_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/wgetrc</span><br><span class="line">RUN <span class="built_in">echo</span> “https_proxy=http://username:password@proxy:8080” &gt;&gt; /etc/wgetrc</span><br><span class="line">RUN <span class="built_in">source</span> /etc/wgetrc</span><br><span class="line"></span><br><span class="line">RUN yum -y update</span><br><span class="line">RUN yum -y install httpd httpd-devel zip unzip tar wget</span><br><span class="line">RUN yum -y install php php-xml php-pdo php-gd php-mbstring sqlite sqlite-devel</span><br><span class="line"></span><br><span class="line">RUN wget –no-check-certificate https://wordpress.org/latest.tar.gz（中文版链接：https://cn.wordpress.org/wordpress-4.5.3-zh_CN.tar.gz）</span><br><span class="line">RUN wget –no-check-certificate https://downloads.wordpress.org/plugin/sqlite-integration.1.8.1.zip</span><br><span class="line">RUN tar xvfz ./latest.tar.gz</span><br><span class="line">RUN unzip ./sqlite-integration.1.8.1.zip</span><br><span class="line">RUN rm -f ./latest.tar.gz</span><br><span class="line">RUN rm -f ./sqlite-integration.1.8.1.zip</span><br><span class="line">RUN mv wordpress /var/lib/wordpress</span><br><span class="line">RUN chown -R apache.apache /var/lib/wordpress</span><br><span class="line">RUN mv /var/lib/wordpress/wp-config-sample.php /var/lib/wordpress/wp-config.php</span><br><span class="line">RUN mv sqlite-integration /var/lib/wordpress/wp-content/plugins/</span><br><span class="line">RUN mv /var/lib/wordpress/wp-content/plugins/sqlite-integration/db.php \</span><br><span class="line">/var/lib/wordpress/wp-content/</span><br><span class="line"></span><br><span class="line">RUN <span class="built_in">echo</span> “yes n | cp -ripf /var/lib/wordpress/* /var/www/html/ &gt; /dev/null 2&gt;&amp;1” &gt;&gt; /root/.bash_profile</span><br><span class="line">VOLUME /var/www/html</span><br><span class="line"></span><br><span class="line">RUN systemctl <span class="built_in">enable</span> httpd</span><br><span class="line"></span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line"><span class="comment">#docker run –privileged -itd -p 8080:80 -v /root/wordpress/public_html:/var/www/html wordpress_sqlite bash -l -c “/sbin/init”</span></span><br></pre></td></tr></table></figure>
 <p>然后构建docker镜像，执行命令：docker build –tag wordpress_sqlite .</p>
@@ -319,7 +319,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="安装python和ss"><a href="#安装python和ss" class="headerlink" title="安装python和ss"></a>安装python和ss</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install python-pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
 <h2 id="开启ss服务"><a href="#开启ss服务" class="headerlink" title="开启ss服务"></a>开启ss服务</h2><h3 id="直接前台开启"><a href="#直接前台开启" class="headerlink" title="直接前台开启"></a>直接前台开启</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssserver -p 443 -k password -m aes-256-cfb</span><br></pre></td></tr></table></figure>
@@ -369,7 +369,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="awk文件格式"><a href="#awk文件格式" class="headerlink" title="awk文件格式"></a>awk文件格式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">\#!/bin/awk -f  #注意头部</span><br><span class="line"></span><br><span class="line">BEGIN &#123;</span><br><span class="line"></span><br><span class="line">\#定义初始化变量</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">\#处理逻辑</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">END &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -f my.awk filename</span><br></pre></td></tr></table></figure>
@@ -422,7 +422,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="while-read"><a href="#while-read" class="headerlink" title="while read"></a>while read</h2><p>read命令接收标准输入，或其他文件描述符的输入，得到输入后，read命令将数据放入一个标准变量中．</p>
 <p>利用read读取文件时，每次调用read命令都会读取文件中的”一行”文本．</p>
@@ -475,7 +475,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="拉取官方镜像"><a href="#拉取官方镜像" class="headerlink" title="拉取官方镜像"></a>拉取官方镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull wordpress:latest</span><br><span class="line">docker pull mysql:latest</span><br></pre></td></tr></table></figure>
 <h2 id="启动mysql容器服务"><a href="#启动mysql容器服务" class="headerlink" title="启动mysql容器服务"></a>启动mysql容器服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run –name mysqlwp -e MYSQL_ROOT_PASSWORD=dockerRootMySQL \</span><br><span class="line">-e MYSQL_DATABASE=wordpress \</span><br><span class="line">-e MYSQL_USER=wordpress \</span><br><span class="line">-e MYSQL_PASSWORD=wordpresspwd \</span><br><span class="line">-d mysql</span><br></pre></td></tr></table></figure>
@@ -522,7 +522,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。<br>该特性的有效基于：</p>
 <ul>

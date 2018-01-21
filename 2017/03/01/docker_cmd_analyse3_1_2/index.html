@@ -7,17 +7,17 @@
   
   <title>docker命令分析--Seccomp特性 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： 刘昊  Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。该特性的有效基于：  Docker编译时加上了seccomp 内核打开了CONFIG_SECCOMP配置  修改默认Seccomp配置文件默认的Seccomp配置文件禁止了44个系统调用。可以参考默认的配置文件，自定义然后在docker run的时候用–">
+  <meta name="description" content="作者： 耗子007  Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。该特性的有效基于：  Docker编译时加上了seccomp 内核打开了CONFIG_SECCOMP配置  修改默认Seccomp配置文件默认的Seccomp配置文件禁止了44个系统调用。可以参考默认的配置文件，自定义然后在docker run的时">
 <meta name="keywords" content="docker,docker命令">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker命令分析--Seccomp特性">
 <meta property="og:url" content="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： 刘昊  Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。该特性的有效基于：  Docker编译时加上了seccomp 内核打开了CONFIG_SECCOMP配置  修改默认Seccomp配置文件默认的Seccomp配置文件禁止了44个系统调用。可以参考默认的配置文件，自定义然后在docker run的时候用–">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。该特性的有效基于：  Docker编译时加上了seccomp 内核打开了CONFIG_SECCOMP配置  修改默认Seccomp配置文件默认的Seccomp配置文件禁止了44个系统调用。可以参考默认的配置文件，自定义然后在docker run的时">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker命令分析--Seccomp特性">
-<meta name="twitter:description" content="作者： 刘昊  Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。该特性的有效基于：  Docker编译时加上了seccomp 内核打开了CONFIG_SECCOMP配置  修改默认Seccomp配置文件默认的Seccomp配置文件禁止了44个系统调用。可以参考默认的配置文件，自定义然后在docker run的时候用–">
+<meta name="twitter:description" content="作者： 耗子007  Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。该特性的有效基于：  Docker编译时加上了seccomp 内核打开了CONFIG_SECCOMP配置  修改默认Seccomp配置文件默认的Seccomp配置文件禁止了44个系统调用。可以参考默认的配置文件，自定义然后在docker run的时">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。<br>该特性的有效基于：</p>
 <ul>

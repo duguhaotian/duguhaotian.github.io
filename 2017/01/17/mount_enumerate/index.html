@@ -7,17 +7,17 @@
   
   <title>Systemd自动Unmount机制分析 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： haozi007  遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？这里进行简单的分析一下。 注：该异常的systemd版本为systemd-219-19.el7.x86_64 异常必现的方式1234567[root@lin ~]# mount -t ramfs /dev/nonexistent /hello/ki">
+  <meta name="description" content="作者： 耗子007  遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？这里进行简单的分析一下。 注：该异常的systemd版本为systemd-219-19.el7.x86_64 异常必现的方式1234567[root@lin ~]# mount -t ramfs /dev/nonexistent /hello/kitty">
 <meta name="keywords" content="linux,systemd">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Systemd自动Unmount机制分析">
 <meta property="og:url" content="http://yoursite.com/2017/01/17/mount_enumerate/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： haozi007  遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？这里进行简单的分析一下。 注：该异常的systemd版本为systemd-219-19.el7.x86_64 异常必现的方式1234567[root@lin ~]# mount -t ramfs /dev/nonexistent /hello/ki">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？这里进行简单的分析一下。 注：该异常的systemd版本为systemd-219-19.el7.x86_64 异常必现的方式1234567[root@lin ~]# mount -t ramfs /dev/nonexistent /hello/kitty">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Systemd自动Unmount机制分析">
-<meta name="twitter:description" content="作者： haozi007  遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？这里进行简单的分析一下。 注：该异常的systemd版本为systemd-219-19.el7.x86_64 异常必现的方式1234567[root@lin ~]# mount -t ramfs /dev/nonexistent /hello/ki">
+<meta name="twitter:description" content="作者： 耗子007  遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？这里进行简单的分析一下。 注：该异常的systemd版本为systemd-219-19.el7.x86_64 异常必现的方式1234567[root@lin ~]# mount -t ramfs /dev/nonexistent /hello/kitty">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： haozi007</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>遇到过systemd会自动unmount一些目录，导致异常。那么systemd为什么会出现autounmount的情况呢？<br>这里进行简单的分析一下。</p>
 <p>注：该异常的systemd版本为systemd-219-19.el7.x86_64</p>

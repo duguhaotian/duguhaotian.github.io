@@ -84,7 +84,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>所有命令均基于docker1.11版本</p>
 <h1 id="运行时特权和Linux能力"><a href="#运行时特权和Linux能力" class="headerlink" title="运行时特权和Linux能力"></a>运行时特权和Linux能力</h1><p>run命令与特权相关的几个选项：</p>
@@ -299,7 +299,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>所有命令均基于docker1.11版本</p>
 <p>容器最常用，也最复杂的命令应该是run命令了，这篇文章主要对docker run进行简单的分析。</p>
@@ -376,7 +376,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>所有命令均基于docker1.11版本</p>
 <p>上面的分析基本包含了容器相关的大部分命令，剩余一些系统信息、容器底层信息、容器插件或者其他组件相关的命令。<br>但是本章只关注系统信息和容器底层信息相关的命令，其他命令就不做介绍，后续有时间可能会补充。</p>
@@ -436,7 +436,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>所有命令均基于docker1.11版本</p>
 <p>这里主要分析容器维测相关的几个命令：</p>
@@ -495,7 +495,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>所有命令均基于docker1.11版本</p>
 <p>容器相关的命令，主要包括容器的管理、日志、信息查看以及内容操作。<br>注：由于有些命令比较复杂，限于篇幅可能需要单独开一章，进行详细分析。</p>
@@ -606,7 +606,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h2 id="错误日志"><a href="#错误日志" class="headerlink" title="错误日志"></a>错误日志</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">INFO  Start processing</span><br><span class="line">FATAL Something<span class="string">'s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html</span></span><br><span class="line"><span class="string">Template render error: (unknown path) [Line 191, Column 51]</span></span><br><span class="line"><span class="string">  unexpected token: .</span></span><br><span class="line"><span class="string">    at Object.exports.prettifyError (/blog/node_modules/nunjucks/src/lib.js:34:15)</span></span><br><span class="line"><span class="string">    at new_cls.render (/blog/node_modules/nunjucks/src/environment.js:469:27)</span></span><br><span class="line"><span class="string">    at new_cls.renderString (/blog/node_modules/nunjucks/src/environment.js:327:21)</span></span><br><span class="line"><span class="string">    at /blog/node_modules/hexo/lib/extend/tag.js:66:9</span></span><br><span class="line"><span class="string">    at Promise._execute (/blog/node_modules/bluebird/js/release/debuggability.js:299:9)</span></span><br><span class="line"><span class="string">    at Promise._resolveFromExecutor (/blog/node_modules/bluebird/js/release/promise.js:481:18)</span></span><br><span class="line"><span class="string">    at new Promise (/blog/node_modules/bluebird/js/release/promise.js:77:14)</span></span><br><span class="line"><span class="string">    at Tag.render (/blog/node_modules/hexo/lib/extend/tag.js:64:10)</span></span><br><span class="line"><span class="string">    at Object.tagFilter [as onRenderEnd] (/blog/node_modules/hexo/lib/hexo/post.js:253:16)</span></span><br><span class="line"><span class="string">    at /blog/node_modules/hexo/lib/hexo/render.js:65:19</span></span><br><span class="line"><span class="string">    at tryCatcher (/blog/node_modules/bluebird/js/release/util.js:16:23)</span></span><br><span class="line"><span class="string">    at Promise._settlePromiseFromHandler (/blog/node_modules/bluebird/js/release/promise.js:510:31)</span></span><br><span class="line"><span class="string">    at Promise._settlePromise (/blog/node_modules/bluebird/js/release/promise.js:567:18)</span></span><br><span class="line"><span class="string">    at Promise._settlePromise0 (/blog/node_modules/bluebird/js/release/promise.js</span></span><br><span class="line"><span class="string">FROM node</span></span><br><span class="line"><span class="string">:612:10)</span></span><br><span class="line"><span class="string">    at Promise._settlePromises (/blog/node_modules/bluebird/js/release/promise.js:691:18)</span></span><br><span class="line"><span class="string">    at Async._drainQueue (/blog/node_modules/bluebird/js/release/async.js:138:16)</span></span><br><span class="line"><span class="string">    at Async._drainQueues (/blog/node_modules/bluebird/js/release/async.js:148:10)</span></span><br><span class="line"><span class="string">    at Immediate.Async.drainQueues (/blog/node_modules/bluebird/js/release/async.js:17:14)</span></span><br><span class="line"><span class="string">    at runCallback (timers.js:649:20)</span></span><br><span class="line"><span class="string">    at tryOnImmediate (timers.js:622:5)</span></span><br><span class="line"><span class="string">    at processImmediate [as _immediateCallback] (timers.js:594:5)</span></span><br><span class="line"><span class="string">FATAL (unknown path) [Line 191, Column 51]</span></span><br><span class="line"><span class="string">  unexpected token: .</span></span><br><span class="line"><span class="string">Template render error: (unknown path) [Line 191, Column 51]</span></span><br><span class="line"><span class="string">  unexpected token: .</span></span><br><span class="line"><span class="string">    at Object.exports.prettifyError (/blog/node_modules/nunjucks/src/lib.js:34:15)</span></span><br><span class="line"><span class="string">    at new_cls.render (/blog/node_modules/nunjucks/src/environment.js:469:27)</span></span><br><span class="line"><span class="string">    at new_cls.renderString (/blog/node_modules/nunjucks/src/environment.js:327:21)</span></span><br><span class="line"><span class="string">    at /blog/node_modules/hexo/lib/extend/tag.js:66:9</span></span><br><span class="line"><span class="string">    at Promise._execute (/blog/node_modules/bluebird/js/release/debuggability.js:299:9)</span></span><br><span class="line"><span class="string">    at Promise._resolveFromExecutor (/blog/node_modules/bluebird/js/release/promise.js:481:18)</span></span><br><span class="line"><span class="string">    at new Promise (/blog/node_modules/bluebird/js/release/promise.js:77:14)</span></span><br><span class="line"><span class="string">    at Tag.render (/blog/node_modules/hexo/lib/extend/tag.js:64:10)</span></span><br><span class="line"><span class="string">    at Object.tagFilter [as onRenderEnd] (/blog/node_modules/hexo/lib/hexo/post.js:253:16)</span></span><br><span class="line"><span class="string">    at /blog/node_modules/hexo/lib/hexo/render.js:65:19</span></span><br><span class="line"><span class="string">    at tryCatcher (/blog/node_modules/bluebird/js/release/util.js:16:23)</span></span><br><span class="line"><span class="string">    at Promise._settlePromiseFromHandler (/blog/node_modules/bluebird/js/release/promise.js:510:31)</span></span><br><span class="line"><span class="string">    at Promise._settlePromise (/blog/node_modules/bluebird/js/release/promise.js:567:18)</span></span><br><span class="line"><span class="string">    at Promise._settlePromise0 (/blog/node_modules/bluebird/js/release/promise.js:612:10)</span></span><br><span class="line"><span class="string">    at Promise._settlePromises (/blog/node_modules/bluebird/js/release/promise.js:691:18)</span></span><br><span class="line"><span class="string">    at Async._drainQueue (/blog/node_modules/bluebird/js/release/async.js:138:16)</span></span><br><span class="line"><span class="string">    at Async._drainQueues (/blog/node_modules/bluebird/js/release/async.js:148:10)</span></span><br><span class="line"><span class="string">    at Immediate.Async.drainQueues (/blog/node_modules/bluebird/js/release/async.js:17:14)</span></span><br><span class="line"><span class="string">    at runCallback (timers.js:649:20)</span></span><br><span class="line"><span class="string">    at tryOnImmediate (timers.js:622:5)</span></span><br><span class="line"><span class="string">    at processImmediate [as _immediateCallback] (timers.js:594:5)</span></span><br></pre></td></tr></table></figure>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>由于markdown文件中包含了“{ { <em>*</em> } }”（注意括号之间没有空格），可以在“{加一个空格{”。</p>
@@ -649,7 +649,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>所有命令均基于docker1.11版本</p>
 <p>镜像相关的命令主要包括三类：</p>
@@ -746,7 +746,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>所有命令均基于docker1.11版本</p>
 <h2 id="镜像构建"><a href="#镜像构建" class="headerlink" title="镜像构建"></a>镜像构建</h2><p>这部分主要包含，镜像制作相关的命令分析。镜像制作有三种情况：</p>
@@ -930,7 +930,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <p>所有命令均基于docker1.11版本</p>
 <h1 id="docker命令"><a href="#docker命令" class="headerlink" title="docker命令"></a>docker命令</h1><p>可以通过docker –help查看docker命令的所有功能描述。结果如下：</p>
@@ -1019,7 +1019,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h1 id="docker-engine管理plugin系统"><a href="#docker-engine管理plugin系统" class="headerlink" title="docker engine管理plugin系统"></a>docker engine管理plugin系统</h1><p>docker plugin系统支持安装、启动、停止和删除docker引擎使用的插件。当前该机制只支持volume驱动，后续会支持更多。</p>
 <h2 id="安装与使用plugin"><a href="#安装与使用plugin" class="headerlink" title="安装与使用plugin"></a>安装与使用plugin</h2><p>插件以容器镜像的方式发布，可以保存到Docker Hub或者私有registry。<br>插件相关命令如下：</p>

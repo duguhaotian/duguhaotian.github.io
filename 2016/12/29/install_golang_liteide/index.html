@@ -7,17 +7,17 @@
   
   <title>Ubuntu 14.04安装golang和liteide | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者： 刘昊  安装liteide12345678910$ git clone https://github.com/visualfc/liteide.git$ sudo apt-get update$ sudo apt-get install qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libqtwebkit-dev g++$ cd lite">
+  <meta name="description" content="作者： 耗子007  安装liteide12345678910$ git clone https://github.com/visualfc/liteide.git$ sudo apt-get update$ sudo apt-get install qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libqtwebkit-dev g++$ cd l">
 <meta name="keywords" content="liteide,golang,ide">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu 14.04安装golang和liteide">
 <meta property="og:url" content="http://yoursite.com/2016/12/29/install_golang_liteide/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="作者： 刘昊  安装liteide12345678910$ git clone https://github.com/visualfc/liteide.git$ sudo apt-get update$ sudo apt-get install qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libqtwebkit-dev g++$ cd lite">
-<meta property="og:updated_time" content="2018-01-21T03:56:57.560Z">
+<meta property="og:description" content="作者： 耗子007  安装liteide12345678910$ git clone https://github.com/visualfc/liteide.git$ sudo apt-get update$ sudo apt-get install qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libqtwebkit-dev g++$ cd l">
+<meta property="og:updated_time" content="2018-01-21T04:16:50.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu 14.04安装golang和liteide">
-<meta name="twitter:description" content="作者： 刘昊  安装liteide12345678910$ git clone https://github.com/visualfc/liteide.git$ sudo apt-get update$ sudo apt-get install qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libqtwebkit-dev g++$ cd lite">
+<meta name="twitter:description" content="作者： 耗子007  安装liteide12345678910$ git clone https://github.com/visualfc/liteide.git$ sudo apt-get update$ sudo apt-get install qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libqtwebkit-dev g++$ cd l">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -87,7 +87,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>作者： 刘昊</p>
+<p>作者： 耗子007</p>
 <hr>
 <h1 id="安装liteide"><a href="#安装liteide" class="headerlink" title="安装liteide"></a>安装liteide</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/visualfc/liteide.git</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install qt4-dev-tools libqt4-dev libqt4-core libqt4-gui libqtwebkit-dev g++</span><br><span class="line">$ <span class="built_in">cd</span> liteide/build</span><br><span class="line">$ ./update_pkg.sh</span><br><span class="line">$ QTDIR=/usr ./build_linux.sh</span><br><span class="line"></span><br><span class="line"><span class="comment">## Run it: ##</span></span><br><span class="line">$ <span class="built_in">cd</span> ~/liteide/build/liteide/bin</span><br><span class="line">$ ./liteide</span><br></pre></td></tr></table></figure>
 <h1 id="安装golang"><a href="#安装golang" class="headerlink" title="安装golang"></a>安装golang</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://storage.googleapis.com/golang/go1.7.4.linux-amd64.tar.gz</span><br><span class="line">tar -C /usr/<span class="built_in">local</span> -xzf go<span class="variable">$VERSION</span>.<span class="variable">$OS</span>-<span class="variable">$ARCH</span>.tar.gz</span><br><span class="line">vi <span class="variable">$HOME</span>/.profile</span><br><span class="line">    &gt; <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/go/bin</span><br></pre></td></tr></table></figure>
