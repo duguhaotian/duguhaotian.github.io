@@ -526,6 +526,32 @@
                 <!-- Post Comments -->
                 
                     
+    <!-- 使用 gitcoment -->
+<div id="gitment-comment">
+    <!-- Gitment 评论框 -->
+<div id="container"></div>
+</div>
+<style>
+    #gitment-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    var gitment = new Gitment({
+        //id: '页面 ID', // 可选。默认为 location.href
+        owner: 'duguhaotian',
+        repo: 'https://github.com/duguhaotian/duguhaotian.github.io',
+        oauth: {
+            client_id: 'd2630facf40db253f343',
+            client_secret: '48175455d56f40d40baf569d3ae449143552f60e',
+        },
+    })
+    gitment.render('container')
+</script>
+
                 
             </div>
 
@@ -850,6 +876,8 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 
+
+   <!-- Gitment -->
 
 
 
