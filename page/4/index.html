@@ -109,7 +109,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/28/docker_cmd_analyse5/" data-id="cjco94jbl000jhvow7h4s2alf" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/28/docker_cmd_analyse5/" data-id="cjcob8ehy000iugowqqa8ofny" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -168,7 +168,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/28/docker_cmd_analyse4/" data-id="cjco94jbj000hhvowvvwpn5dn" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/28/docker_cmd_analyse4/" data-id="cjcob8ehx000gugow8kfvxvvf" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -279,7 +279,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/27/docker_cmd_analyse3/" data-id="cjco94jbd0009hvowy1du4upe" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/27/docker_cmd_analyse3/" data-id="cjcob8ehm0008ugowv5vs0ehe" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -322,10 +322,107 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/25/hexo_generate_err1/" data-id="cjco94jc0001ahvowjnef60sb" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/25/hexo_generate_err1/" data-id="cjcob8eih0019ugow2ynxue7q" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo错误/">hexo错误</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-docker_cmd_analyse2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/23/docker_cmd_analyse2/" class="article-date">
+  <time datetime="2017-02-23T16:50:23.000Z" itemprop="datePublished">2017-02-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/23/docker_cmd_analyse2/">docker命令分析--镜像相关</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<p>所有命令均基于docker1.11版本</p>
+<p>镜像相关的命令主要包括三类：</p>
+<ul>
+<li>镜像registry相关命令</li>
+<li>镜像构建相关命令</li>
+<li>镜像操作相关命令</li>
+</ul>
+<h2 id="镜像registry操作"><a href="#镜像registry操作" class="headerlink" title="镜像registry操作"></a>镜像registry操作</h2><p>在使用docker的过程中，可能需要从镜像registry获取镜像，或者把自己构建的镜像保存到registry。<br>包括下面几个命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">login     Log <span class="keyword">in</span> to a Docker registry</span><br><span class="line"><span class="built_in">logout</span>    Log out from a Docker registry</span><br><span class="line">pull      Pull an image or a repository from a registry</span><br><span class="line">push      Push an image or a repository to a registry</span><br><span class="line">search    Search the Docker Hub <span class="keyword">for</span> images</span><br><span class="line">tag       Tag an image into a repository</span><br></pre></td></tr></table></figure>
+<h3 id="login和logout"><a href="#login和logout" class="headerlink" title="login和logout"></a>login和logout</h3><p>这两个命令主要是用于登录和退出Docker registry的，比较简单，这里只给出基本用法。</p>
+<ol>
+<li>login命令</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker login [OPTIONS] [SERVER]</span><br><span class="line"></span><br><span class="line">Log <span class="keyword">in</span> to a Docker registry server, <span class="keyword">if</span> no server is</span><br><span class="line">specified <span class="string">"https://index.docker.io/v1/"</span> is the default.</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  -p, --password=<span class="string">""</span>    Password</span><br><span class="line">  -u, --username=<span class="string">""</span>    Username</span><br></pre></td></tr></table></figure>
+<p>如果没有指定服务器地址，默认服务器地址为：<a href="https://index.docker.io/v1/。服务器地址可以是自己搭建的本地仓库。" target="_blank" rel="noopener">https://index.docker.io/v1/。服务器地址可以是自己搭建的本地仓库。</a></p>
+<ol>
+<li>logout命令</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker <span class="built_in">logout</span> [SERVER]</span><br><span class="line"></span><br><span class="line">Log out from a Docker registry, <span class="keyword">if</span> no server is</span><br><span class="line">specified <span class="string">"https://index.docker.io/v1/"</span> is the default.</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>          Print usage</span><br></pre></td></tr></table></figure>
+<h3 id="pull、push和search"><a href="#pull、push和search" class="headerlink" title="pull、push和search"></a>pull、push和search</h3><ol>
+<li>pull命令：用于从registry下拉镜像或者</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker pull [OPTIONS] NAME[:TAG] | [REGISTRY_HOST[:REGISTRY_PORT]/]NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Pull an image or a repository from the registry</span><br><span class="line"></span><br><span class="line">  -a, --all-tags                Download all tagged images <span class="keyword">in</span> the repository</span><br><span class="line">  --<span class="built_in">disable</span>-content-trust=<span class="literal">true</span>  Skip image verification</span><br><span class="line">  --<span class="built_in">help</span>                        Print usage</span><br></pre></td></tr></table></figure>
+<p>注：如果是在内网，需要配置代理，可以参考上篇文章。</p>
+<p>用pull下载单个镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取默认debian:latest</span></span><br><span class="line">$ docker pull debian</span><br><span class="line"><span class="comment">#指定debian的tag</span></span><br><span class="line">$ docker pull debian:jessie</span><br></pre></td></tr></table></figure></p>
+<p>上面的pull镜像的方式，可以保证你获取的镜像永远是最新的版本的。但是，如果你想获取某个特定版本的，可以通过digest的方式获取。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull ubuntu:14.04</span><br><span class="line"></span><br><span class="line">14.04: Pulling from library/ubuntu</span><br><span class="line">5a132a7e7af1: Pull complete</span><br><span class="line">fd2731e4c50c: Pull complete</span><br><span class="line">28a2f68d1120: Pull complete</span><br><span class="line">a3ed95caeb02: Pull complete</span><br><span class="line">Digest: sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> ubuntu:14.04</span><br></pre></td></tr></table></figure></p>
+<p>上面的镜像会包含一个Digest信息：sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2<br>为了获取固定版本的镜像，可以通过下面的方式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu@sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2</span><br></pre></td></tr></table></figure></p>
+<p>从其他registry获取镜像或者仓库<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull myregistry.local:5000/testing/<span class="built_in">test</span>-image</span><br></pre></td></tr></table></figure></p>
+<p>注：</p>
+<ul>
+<li>docker pull默认从Docker hub上面下拉镜像。</li>
+<li>myregistry是否是支持insecure方式，如果不支持可能需要一些配置才能pull成功</li>
+</ul>
+<p>获取一个仓库的所有镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull --all-tags fedora</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>push命令：往registry推送镜像或者仓库</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker push [OPTIONS] NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Push an image or a repository to the registry</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">disable</span>-content-trust=<span class="literal">true</span>   Skip image signing</span><br><span class="line">  --<span class="built_in">help</span>                         Print usage</span><br></pre></td></tr></table></figure>
+<p>注：</p>
+<ul>
+<li>默认推送到Docker hub，可以推送的自己构建的registry。</li>
+<li>–disable-content-trust=true可以跳过镜像签名</li>
+</ul>
+<ol>
+<li>search命令：在Docker hub搜索镜像</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker search [OPTIONS] TERM</span><br><span class="line"></span><br><span class="line">Search the Docker Hub <span class="keyword">for</span> images</span><br><span class="line"></span><br><span class="line">  --automated          Only show automated builds</span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  --no-trunc           Don<span class="string">'t truncate output</span></span><br><span class="line"><span class="string">  -s, --stars=0        Only displays with at least x stars</span></span><br></pre></td></tr></table></figure>
+<p>注意：search的说明是在Docker hub上搜索，其实也可以用来搜索自己搭建的registry，但是，如果用registry容器镜像搭建的registry是没有打开search模块的。<br>    因此，search功能在这样的registry上面是不能工作的。</p>
+<p>通过镜像名搜索<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker search ubuntu</span><br></pre></td></tr></table></figure></p>
+<p>通过镜像名和stars次数搜索<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 busybox</span><br><span class="line">NAME                 DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">busybox              Busybox base image.                             325       [OK]       </span><br><span class="line">progrium/busybox                                                     50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made...   8                    [OK]</span><br></pre></td></tr></table></figure></p>
+<p>这里stars表示该镜像在Docker Hub上被人关注的次数。</p>
+<p>查询自动构建的镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 --automated busybox</span><br><span class="line">NAME                 DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">progrium/busybox                                                     50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made...   8                    [OK]</span><br></pre></td></tr></table></figure></p>
+<p>automated感觉用来标识非官方镜像</p>
+<p>查询未截断描述的镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 --no-trunc busybox</span><br><span class="line">NAME                 DESCRIPTION                                                                               STARS     OFFICIAL   AUTOMATED</span><br><span class="line">busybox              Busybox base image.                                                                       325       [OK]       </span><br><span class="line">progrium/busybox                                                                                               50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made from scratch. Comes <span class="keyword">in</span> git and cURL flavors.   8                    [OK]</span><br></pre></td></tr></table></figure></p>
+<h3 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h3><p>tag命令用于修改镜像的仓库名和tag<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Tag an image into a repository</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br></pre></td></tr></table></figure></p>
+<p>注：如果需要把镜像push到一个自定的registry，首先需要就是tag镜像到该registry的一个仓库（参考文章：搭建本地的Docker registry）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse2/" data-id="cjcob8ehj0005ugowfcwzku3u" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
 
     </footer>
   </div>
@@ -506,104 +603,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse2_2/" data-id="cjco94jbb0008hvow8o8cv27n" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-docker_cmd_analyse2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/02/23/docker_cmd_analyse2/" class="article-date">
-  <time datetime="2017-02-23T16:50:23.000Z" itemprop="datePublished">2017-02-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/23/docker_cmd_analyse2/">docker命令分析--镜像相关</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>所有命令均基于docker1.11版本</p>
-<p>镜像相关的命令主要包括三类：</p>
-<ul>
-<li>镜像registry相关命令</li>
-<li>镜像构建相关命令</li>
-<li>镜像操作相关命令</li>
-</ul>
-<h2 id="镜像registry操作"><a href="#镜像registry操作" class="headerlink" title="镜像registry操作"></a>镜像registry操作</h2><p>在使用docker的过程中，可能需要从镜像registry获取镜像，或者把自己构建的镜像保存到registry。<br>包括下面几个命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">login     Log <span class="keyword">in</span> to a Docker registry</span><br><span class="line"><span class="built_in">logout</span>    Log out from a Docker registry</span><br><span class="line">pull      Pull an image or a repository from a registry</span><br><span class="line">push      Push an image or a repository to a registry</span><br><span class="line">search    Search the Docker Hub <span class="keyword">for</span> images</span><br><span class="line">tag       Tag an image into a repository</span><br></pre></td></tr></table></figure>
-<h3 id="login和logout"><a href="#login和logout" class="headerlink" title="login和logout"></a>login和logout</h3><p>这两个命令主要是用于登录和退出Docker registry的，比较简单，这里只给出基本用法。</p>
-<ol>
-<li>login命令</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker login [OPTIONS] [SERVER]</span><br><span class="line"></span><br><span class="line">Log <span class="keyword">in</span> to a Docker registry server, <span class="keyword">if</span> no server is</span><br><span class="line">specified <span class="string">"https://index.docker.io/v1/"</span> is the default.</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  -p, --password=<span class="string">""</span>    Password</span><br><span class="line">  -u, --username=<span class="string">""</span>    Username</span><br></pre></td></tr></table></figure>
-<p>如果没有指定服务器地址，默认服务器地址为：<a href="https://index.docker.io/v1/。服务器地址可以是自己搭建的本地仓库。" target="_blank" rel="noopener">https://index.docker.io/v1/。服务器地址可以是自己搭建的本地仓库。</a></p>
-<ol>
-<li>logout命令</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker <span class="built_in">logout</span> [SERVER]</span><br><span class="line"></span><br><span class="line">Log out from a Docker registry, <span class="keyword">if</span> no server is</span><br><span class="line">specified <span class="string">"https://index.docker.io/v1/"</span> is the default.</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>          Print usage</span><br></pre></td></tr></table></figure>
-<h3 id="pull、push和search"><a href="#pull、push和search" class="headerlink" title="pull、push和search"></a>pull、push和search</h3><ol>
-<li>pull命令：用于从registry下拉镜像或者</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker pull [OPTIONS] NAME[:TAG] | [REGISTRY_HOST[:REGISTRY_PORT]/]NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Pull an image or a repository from the registry</span><br><span class="line"></span><br><span class="line">  -a, --all-tags                Download all tagged images <span class="keyword">in</span> the repository</span><br><span class="line">  --<span class="built_in">disable</span>-content-trust=<span class="literal">true</span>  Skip image verification</span><br><span class="line">  --<span class="built_in">help</span>                        Print usage</span><br></pre></td></tr></table></figure>
-<p>注：如果是在内网，需要配置代理，可以参考上篇文章。</p>
-<p>用pull下载单个镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获取默认debian:latest</span></span><br><span class="line">$ docker pull debian</span><br><span class="line"><span class="comment">#指定debian的tag</span></span><br><span class="line">$ docker pull debian:jessie</span><br></pre></td></tr></table></figure></p>
-<p>上面的pull镜像的方式，可以保证你获取的镜像永远是最新的版本的。但是，如果你想获取某个特定版本的，可以通过digest的方式获取。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull ubuntu:14.04</span><br><span class="line"></span><br><span class="line">14.04: Pulling from library/ubuntu</span><br><span class="line">5a132a7e7af1: Pull complete</span><br><span class="line">fd2731e4c50c: Pull complete</span><br><span class="line">28a2f68d1120: Pull complete</span><br><span class="line">a3ed95caeb02: Pull complete</span><br><span class="line">Digest: sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> ubuntu:14.04</span><br></pre></td></tr></table></figure></p>
-<p>上面的镜像会包含一个Digest信息：sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2<br>为了获取固定版本的镜像，可以通过下面的方式：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu@sha256:45b23dee08af5e43a7fea6c4cf9c25ccf269ee113168c19722f87876677c5cb2</span><br></pre></td></tr></table></figure></p>
-<p>从其他registry获取镜像或者仓库<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull myregistry.local:5000/testing/<span class="built_in">test</span>-image</span><br></pre></td></tr></table></figure></p>
-<p>注：</p>
-<ul>
-<li>docker pull默认从Docker hub上面下拉镜像。</li>
-<li>myregistry是否是支持insecure方式，如果不支持可能需要一些配置才能pull成功</li>
-</ul>
-<p>获取一个仓库的所有镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull --all-tags fedora</span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>push命令：往registry推送镜像或者仓库</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker push [OPTIONS] NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Push an image or a repository to the registry</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">disable</span>-content-trust=<span class="literal">true</span>   Skip image signing</span><br><span class="line">  --<span class="built_in">help</span>                         Print usage</span><br></pre></td></tr></table></figure>
-<p>注：</p>
-<ul>
-<li>默认推送到Docker hub，可以推送的自己构建的registry。</li>
-<li>–disable-content-trust=true可以跳过镜像签名</li>
-</ul>
-<ol>
-<li>search命令：在Docker hub搜索镜像</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker search [OPTIONS] TERM</span><br><span class="line"></span><br><span class="line">Search the Docker Hub <span class="keyword">for</span> images</span><br><span class="line"></span><br><span class="line">  --automated          Only show automated builds</span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br><span class="line">  --no-trunc           Don<span class="string">'t truncate output</span></span><br><span class="line"><span class="string">  -s, --stars=0        Only displays with at least x stars</span></span><br></pre></td></tr></table></figure>
-<p>注意：search的说明是在Docker hub上搜索，其实也可以用来搜索自己搭建的registry，但是，如果用registry容器镜像搭建的registry是没有打开search模块的。<br>    因此，search功能在这样的registry上面是不能工作的。</p>
-<p>通过镜像名搜索<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker search ubuntu</span><br></pre></td></tr></table></figure></p>
-<p>通过镜像名和stars次数搜索<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 busybox</span><br><span class="line">NAME                 DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">busybox              Busybox base image.                             325       [OK]       </span><br><span class="line">progrium/busybox                                                     50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made...   8                    [OK]</span><br></pre></td></tr></table></figure></p>
-<p>这里stars表示该镜像在Docker Hub上被人关注的次数。</p>
-<p>查询自动构建的镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 --automated busybox</span><br><span class="line">NAME                 DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">progrium/busybox                                                     50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made...   8                    [OK]</span><br></pre></td></tr></table></figure></p>
-<p>automated感觉用来标识非官方镜像</p>
-<p>查询未截断描述的镜像<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker search --stars=3 --no-trunc busybox</span><br><span class="line">NAME                 DESCRIPTION                                                                               STARS     OFFICIAL   AUTOMATED</span><br><span class="line">busybox              Busybox base image.                                                                       325       [OK]       </span><br><span class="line">progrium/busybox                                                                                               50                   [OK]</span><br><span class="line">radial/busyboxplus   Full-chain, Internet enabled, busybox made from scratch. Comes <span class="keyword">in</span> git and cURL flavors.   8                    [OK]</span><br></pre></td></tr></table></figure></p>
-<h3 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h3><p>tag命令用于修改镜像的仓库名和tag<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Usage: docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]</span><br><span class="line"></span><br><span class="line">Tag an image into a repository</span><br><span class="line"></span><br><span class="line">  --<span class="built_in">help</span>               Print usage</span><br></pre></td></tr></table></figure></p>
-<p>注：如果需要把镜像push到一个自定的registry，首先需要就是tag镜像到该registry的一个仓库（参考文章：搭建本地的Docker registry）。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse2/" data-id="cjco94jba0006hvowhfbppgou" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse2_2/" data-id="cjcob8ehl0007ugow3v92tvis" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -692,7 +692,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse/" data-id="cjco94jb90005hvowrwj4hjck" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/23/docker_cmd_analyse/" data-id="cjcob8ehi0004ugowqbpffr5h" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -741,51 +741,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/14/docker_plugin/" data-id="cjco94jbp000ohvow644oysir" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/14/docker_plugin/" data-id="cjcob8ei4000nugowv60u8rll" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hexo_on_gitpage" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/02/08/hexo_on_gitpage/" class="article-date">
-  <time datetime="2017-02-08T15:00:26.000Z" itemprop="datePublished">2017-02-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/08/hexo_on_gitpage/">容器内调用reboot函数失败</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/08/hexo_on_gitpage/" data-id="cjcob6fg10000tmow573hbomp" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/reboot/">reboot</a></li></ul>
 
     </footer>
   </div>
@@ -841,7 +800,48 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/08/container_reboot/" data-id="cjco94jb40002hvow7qnonboa" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/08/container_reboot/" data-id="cjcob8ehc0001ugowzoummalf" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/reboot/">reboot</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hexo_on_gitpage" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/08/hexo_on_gitpage/" class="article-date">
+  <time datetime="2017-02-08T15:00:26.000Z" itemprop="datePublished">2017-02-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/08/hexo_on_gitpage/">容器内调用reboot函数失败</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/02/08/hexo_on_gitpage/" data-id="cjcob8eii001augowwryvfd6z" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/reboot/">reboot</a></li></ul>

@@ -115,7 +115,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/02/06/linux_file_nr_max/" data-id="cjco94jcd001vhvow9x12krtu" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/02/06/linux_file_nr_max/" data-id="cjcob8ej0001yugowvx64604m" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文件/">文件</a></li></ul>
@@ -162,7 +162,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/24/docker_visual/" data-id="cjco94jbu000xhvowb459gvrw" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/01/24/docker_visual/" data-id="cjcob8ei9000wugowf9pme1m2" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/可视化/">可视化</a></li></ul>
@@ -215,57 +215,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/19/docker_update/" data-id="cjco94jbt000vhvow2w14i2pc" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/01/19/docker_update/" data-id="cjcob8ei8000uugowhpwbf9xc" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-install_tmux" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/01/17/install_tmux/" class="article-date">
-  <time datetime="2017-01-17T10:00:26.000Z" itemprop="datePublished">2017-01-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/01/17/install_tmux/">从源码安装tmux</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="安装libevent"><a href="#安装libevent" class="headerlink" title="安装libevent"></a>安装libevent</h2><p>首先，需要到官网(<a href="http://libevent.org/)去下载最新的源码，安装流程如下：" target="_blank" rel="noopener">http://libevent.org/)去下载最新的源码，安装流程如下：</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz</span><br><span class="line">tar -zxf libevent-2.0.22-stable.tar.gz</span><br><span class="line"><span class="built_in">cd</span> libevent-2.0.22-stable</span><br><span class="line">./configure -prefix=/usr</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-<h2 id="安装ncurses"><a href="#安装ncurses" class="headerlink" title="安装ncurses"></a>安装ncurses</h2><p>tmux依赖ncurses，因此需要先安装ncurses，同样通过源码安装，脚本如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget http://invisible-island.net/datafiles/release/ncurses.tar.gz</span><br><span class="line">tar -zxf ncurses.tar.gz</span><br><span class="line"><span class="built_in">cd</span> ncurses-5.9/</span><br><span class="line">./configure</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
-<h2 id="安装tmux"><a href="#安装tmux" class="headerlink" title="安装tmux"></a>安装tmux</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install automake  <span class="comment">#依赖aclocal命令</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/tmux/tmux.git</span><br><span class="line">$ <span class="built_in">cd</span> tmux</span><br><span class="line">$ sh autogen.sh</span><br><span class="line">$ ./configure -prefix=/usr <span class="comment">#注意prefix，不然安装到/usr/local/bin目录，可能执行不了</span></span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
-<p>tmux已经安装，成功了！！！</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/17/install_tmux/" data-id="cjco94jc4001fhvowa4c0v1np" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tmux/">tmux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li></ul>
 
     </footer>
   </div>
@@ -342,10 +295,57 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/17/mount_enumerate/" data-id="cjco94jci0023hvoweg34bcnz" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/01/17/mount_enumerate/" data-id="cjcob8ej40028ugowi0ohn1bi" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/systemd/">systemd</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-install_tmux" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/17/install_tmux/" class="article-date">
+  <time datetime="2017-01-17T10:00:26.000Z" itemprop="datePublished">2017-01-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/17/install_tmux/">从源码安装tmux</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="安装libevent"><a href="#安装libevent" class="headerlink" title="安装libevent"></a>安装libevent</h2><p>首先，需要到官网(<a href="http://libevent.org/)去下载最新的源码，安装流程如下：" target="_blank" rel="noopener">http://libevent.org/)去下载最新的源码，安装流程如下：</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/libevent-2.0.22-stable.tar.gz</span><br><span class="line">tar -zxf libevent-2.0.22-stable.tar.gz</span><br><span class="line"><span class="built_in">cd</span> libevent-2.0.22-stable</span><br><span class="line">./configure -prefix=/usr</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h2 id="安装ncurses"><a href="#安装ncurses" class="headerlink" title="安装ncurses"></a>安装ncurses</h2><p>tmux依赖ncurses，因此需要先安装ncurses，同样通过源码安装，脚本如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget http://invisible-island.net/datafiles/release/ncurses.tar.gz</span><br><span class="line">tar -zxf ncurses.tar.gz</span><br><span class="line"><span class="built_in">cd</span> ncurses-5.9/</span><br><span class="line">./configure</span><br><span class="line">make -j4</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h2 id="安装tmux"><a href="#安装tmux" class="headerlink" title="安装tmux"></a>安装tmux</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install automake  <span class="comment">#依赖aclocal命令</span></span><br><span class="line">$ git <span class="built_in">clone</span> https://github.com/tmux/tmux.git</span><br><span class="line">$ <span class="built_in">cd</span> tmux</span><br><span class="line">$ sh autogen.sh</span><br><span class="line">$ ./configure -prefix=/usr <span class="comment">#注意prefix，不然安装到/usr/local/bin目录，可能执行不了</span></span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<p>tmux已经安装，成功了！！！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/17/install_tmux/" data-id="cjcob8eiq001hugow93p9wdcw" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tmux/">tmux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li></ul>
 
     </footer>
   </div>
@@ -387,7 +387,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/17/python_notes_1/" data-id="cjco94jcl0029hvowt3blqwvk" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/01/17/python_notes_1/" data-id="cjcob8ej8002eugowoo07mppq" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -460,7 +460,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/03/create_local_registry/" data-id="cjco94jb80004hvowmltzxwn6" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/01/03/create_local_registry/" data-id="cjcob8ehg0003ugowspss5u50" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/容器/">容器</a></li></ul>
@@ -563,7 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/29/docker_log/" data-id="cjco94jbn000lhvowugbvt178" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/12/29/docker_log/" data-id="cjcob8ei2000kugownwqoee81" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/log/">log</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/日志/">日志</a></li></ul>
@@ -606,7 +606,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/29/install_golang_liteide/" data-id="cjco94jc3001dhvowmaw0f36f" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/12/29/install_golang_liteide/" data-id="cjcob8eio001eugowjhf58w85" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/">golang</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ide/">ide</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/liteide/">liteide</a></li></ul>
@@ -689,7 +689,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/08/kiwi_analyse/" data-id="cjco94jca001qhvowos6ks88k" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/12/08/kiwi_analyse/" data-id="cjcob8eix001tugownxj1uzgp" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>

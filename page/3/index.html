@@ -95,7 +95,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/07/docker_tips_getfullcid_in_container/" data-id="cjco94jbr000thvow4dugrp51" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/05/07/docker_tips_getfullcid_in_container/" data-id="cjcob8ei7000sugowlk0rkf0a" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tips/">tips</a></li></ul>
@@ -141,63 +141,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/07/linux_kernel_namespace/" data-id="cjco94jcf0020hvowl8irmw71" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/05/07/linux_kernel_namespace/" data-id="cjcob8ej20023ugowvfraymf4" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/namespace/">namespace</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-shell_learn_readfile_lines" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/05/07/shell_learn_readfile_lines/" class="article-date">
-  <time datetime="2017-05-07T13:02:26.000Z" itemprop="datePublished">2017-05-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/07/shell_learn_readfile_lines/">Shell逐行遍历文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="while-read"><a href="#while-read" class="headerlink" title="while read"></a>while read</h2><p>read命令接收标准输入，或其他文件描述符的输入，得到输入后，read命令将数据放入一个标准变量中．</p>
-<p>利用read读取文件时，每次调用read命令都会读取文件中的”一行”文本．</p>
-<p>当文件没有可读的行时，read命令将以非零状态退出．</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat filename| <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span> &lt; filename</span><br></pre></td></tr></table></figure>
-<h2 id="for-var-in-file"><a href="#for-var-in-file" class="headerlink" title="for  var in file"></a>for  var in file</h2><p>for var in file　表示变量var在file中循环取值．取值的分隔符由$IFS确定．</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for line in $(cat filename)</span><br><span class="line">do</span><br><span class="line">echo “File:$&#123;line&#125;”</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">for line in `cat filename`</span><br><span class="line">do</span><br><span class="line">echo “$&#123;line&#125;”</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>如果输入文本每行中没有空格，则line在输入文本中按换行符分隔符循环取值．</p>
-<p>如果输入文本中包括空格或制表符，则不是换行读取，line在输入文本中按空格分隔符或制表符或换行符特环取值．</p>
-<p>可以通过把IFS设置为换行符来达到逐行读取的功能．</p>
-<p>IFS的默认值为：空白(包括：空格，制表符，换行符)．</p>
-<p>注意：如何设置IFS为换行符</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OLD_IFS=”$IFS”</span><br><span class="line">IFS=$’\x0A’</span><br></pre></td></tr></table></figure>
-<h2 id="awk工具变量"><a href="#awk工具变量" class="headerlink" title="awk工具变量"></a>awk工具变量</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -f my.awk filename</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/07/shell_learn_readfile_lines/" data-id="cjco94jcp002ihvowx1lhueoi" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
 
     </footer>
   </div>
@@ -247,7 +194,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/07/shell_learn_awk1/" data-id="cjco94jco002ghvowirw4qo6l" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/05/07/shell_learn_awk1/" data-id="cjcob8ejb002lugowkimqkbkb" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/awk/">awk</a></li></ul>
@@ -297,7 +244,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/07/shadowsocks_in_ubuntu/" data-id="cjco94jcn002dhvowuoxxdzw2" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/05/07/shadowsocks_in_ubuntu/" data-id="cjcob8eja002jugowayag5zkm" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li></ul>
@@ -344,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/07/install_wordpress_docker_image/" data-id="cjco94jc7001jhvowkkhxzlog" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/05/07/install_wordpress_docker_image/" data-id="cjcob8eit001mugowwo9y0tsa" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker-image/">docker image</a></li></ul>
@@ -397,10 +344,278 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/07/build_wordpress_docker_image/" data-id="cjco94jb10001hvow5unadvte" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/05/07/build_wordpress_docker_image/" data-id="cjcob8eh70000ugow1xkr6wgx" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker-image/">docker image</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-shell_learn_readfile_lines" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/shell_learn_readfile_lines/" class="article-date">
+  <time datetime="2017-05-07T13:02:26.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/shell_learn_readfile_lines/">Shell逐行遍历文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="while-read"><a href="#while-read" class="headerlink" title="while read"></a>while read</h2><p>read命令接收标准输入，或其他文件描述符的输入，得到输入后，read命令将数据放入一个标准变量中．</p>
+<p>利用read读取文件时，每次调用read命令都会读取文件中的”一行”文本．</p>
+<p>当文件没有可读的行时，read命令将以非零状态退出．</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat filename| <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span> &lt; filename</span><br></pre></td></tr></table></figure>
+<h2 id="for-var-in-file"><a href="#for-var-in-file" class="headerlink" title="for  var in file"></a>for  var in file</h2><p>for var in file　表示变量var在file中循环取值．取值的分隔符由$IFS确定．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for line in $(cat filename)</span><br><span class="line">do</span><br><span class="line">echo “File:$&#123;line&#125;”</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">for line in `cat filename`</span><br><span class="line">do</span><br><span class="line">echo “$&#123;line&#125;”</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>如果输入文本每行中没有空格，则line在输入文本中按换行符分隔符循环取值．</p>
+<p>如果输入文本中包括空格或制表符，则不是换行读取，line在输入文本中按空格分隔符或制表符或换行符特环取值．</p>
+<p>可以通过把IFS设置为换行符来达到逐行读取的功能．</p>
+<p>IFS的默认值为：空白(包括：空格，制表符，换行符)．</p>
+<p>注意：如何设置IFS为换行符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OLD_IFS=”$IFS”</span><br><span class="line">IFS=$’\x0A’</span><br></pre></td></tr></table></figure>
+<h2 id="awk工具变量"><a href="#awk工具变量" class="headerlink" title="awk工具变量"></a>awk工具变量</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -f my.awk filename</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/shell_learn_readfile_lines/" data-id="cjcob8ejd002ougow79gvgtm6" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-docker_cmd_analyse3_1_1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/01/docker_cmd_analyse3_1_1/" class="article-date">
+  <time datetime="2017-03-01T19:33:39.000Z" itemprop="datePublished">2017-03-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/01/docker_cmd_analyse3_1_1/">docker命令分析--权限管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<p>所有命令均基于docker1.11版本</p>
+<h1 id="运行时特权和Linux能力"><a href="#运行时特权和Linux能力" class="headerlink" title="运行时特权和Linux能力"></a>运行时特权和Linux能力</h1><p>run命令与特权相关的几个选项：</p>
+<ul>
+<li>–cap-add: Add Linux capabilities</li>
+<li>–cap-drop: Drop Linux capabilities</li>
+<li>–privileged=false: Give extended privileges to this container</li>
+<li>–device=[]: Allows you to run devices inside the container without the –privileged flag.</li>
+</ul>
+<p>注：默认的容器都是unprivileged，因此很多系统调用、设备等特权相关的操作都是干不了的。而且1.10版本之后增加了seccomp安全控制，<br>    可能导致容器有了权限，但是一些系统调用被安全策略禁止了。关于安全策略seccomp可以参考文档<a href="/2017/03/01/docker_cmd_analyse3_1_2/">Docker安全策略</a></p>
+<p>docker run –privileged启动的容器，具有访问host上所有设备的能力，当然需要同时设置AppArmor或者SELinux允许容器相同的权限。</p>
+<p>–device可以指定一个或者多个设备在容器中能正常使用，默认情况，容器对这些设备具有read、write和mknod的权限，这些权限可以通过”:rwm”来修改。<br>mknod可以参考<a href="http://www.cnblogs.com/hnrainll/archive/2011/06/10/2077583.html" target="_blank" rel="noopener">这篇博客</a></p>
+<p>示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --device=/dev/sda:/dev/xvdc --rm -it ubuntu fdisk  /dev/xvdc</span><br><span class="line"></span><br><span class="line">Command (m for help): q</span><br><span class="line">$ docker run --device=/dev/sda:/dev/xvdc:r --rm -it ubuntu fdisk  /dev/xvdc</span><br><span class="line">You will not be able to write the partition table.</span><br><span class="line"></span><br><span class="line">Command (m for help): q</span><br><span class="line"></span><br><span class="line">$ docker run --device=/dev/sda:/dev/xvdc:w --rm -it ubuntu fdisk  /dev/xvdc</span><br><span class="line">    crash....</span><br><span class="line"></span><br><span class="line">$ docker run --device=/dev/sda:/dev/xvdc:m --rm -it ubuntu fdisk  /dev/xvdc</span><br><span class="line">fdisk: unable to open /dev/xvdc: Operation not permitted</span><br></pre></td></tr></table></figure>
+<p>相对于privileged的暴力权限，cap-add和cap-drop对权限的控制更细腻。<br>Docker目前支持的权限设置列表如下：</p>
+<table>
+<thead>
+<tr>
+<th>Capability Key</th>
+<th>Capability Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SETPCAP</td>
+<td>Modify process capabilities.</td>
+</tr>
+<tr>
+<td>SYS_MODULE</td>
+<td>Load and unload kernel modules.</td>
+</tr>
+<tr>
+<td>SYS_RAWIO</td>
+<td>Perform I/O port operations (iopl(2) and ioperm(2)).</td>
+</tr>
+<tr>
+<td>SYS_PACCT</td>
+<td>Use acct(2), switch process accounting on or off.</td>
+</tr>
+<tr>
+<td>SYS_ADMIN</td>
+<td>Perform a range of system administration operations.</td>
+</tr>
+<tr>
+<td>SYS_NICE</td>
+<td>Raise process nice value (nice(2), setpriority(2)) and change the nice value for arbitrary processes.</td>
+</tr>
+<tr>
+<td>SYS_RESOURCE</td>
+<td>Override resource Limits.</td>
+</tr>
+<tr>
+<td>SYS_TIME</td>
+<td>Set system clock (settimeofday(2), stime(2), adjtimex(2)); set real-time (hardware) clock.</td>
+</tr>
+<tr>
+<td>SYS_TTY_CONFIG</td>
+<td>Use vhangup(2); employ various privileged ioctl(2) operations on virtual terminals.</td>
+</tr>
+<tr>
+<td>MKNOD</td>
+<td>Create special files using mknod(2).</td>
+</tr>
+<tr>
+<td>AUDIT_WRITE</td>
+<td>Write records to kernel auditing log.</td>
+</tr>
+<tr>
+<td>AUDIT_CONTROL</td>
+<td>Enable and disable kernel auditing; change auditing filter rules; retrieve auditing status and filtering rules.</td>
+</tr>
+<tr>
+<td>MAC_OVERRIDE</td>
+<td>Allow MAC configuration or state changes. Implemented for the Smack LSM.</td>
+</tr>
+<tr>
+<td>MAC_ADMIN</td>
+<td>Override Mandatory Access Control (MAC). Implemented for the Smack Linux Security Module (LSM).</td>
+</tr>
+<tr>
+<td>NET_ADMIN</td>
+<td>Perform various network-related operations.</td>
+</tr>
+<tr>
+<td>SYSLOG</td>
+<td>Perform privileged syslog(2) operations.</td>
+</tr>
+<tr>
+<td>CHOWN</td>
+<td>Make arbitrary changes to file UIDs and GIDs (see chown(2)).</td>
+</tr>
+<tr>
+<td>NET_RAW</td>
+<td>Use RAW and PACKET sockets.</td>
+</tr>
+<tr>
+<td>DAC_OVERRIDE</td>
+<td>Bypass file read, write, and execute permission checks.</td>
+</tr>
+<tr>
+<td>FOWNER</td>
+<td>Bypass permission checks on operations that normally require the file system UID of the process to match the UID of the file.</td>
+</tr>
+<tr>
+<td>DAC_READ_SEARCH</td>
+<td>Bypass file read permission checks and directory read and execute permission checks.</td>
+</tr>
+<tr>
+<td>FSETID</td>
+<td>Don’t clear set-user-ID and set-group-ID permission bits when a file is modified.</td>
+</tr>
+<tr>
+<td>KILL</td>
+<td>Bypass permission checks for sending signals.</td>
+</tr>
+<tr>
+<td>SETGID</td>
+<td>Make arbitrary manipulations of process GIDs and supplementary GID list.</td>
+</tr>
+<tr>
+<td>SETUID</td>
+<td>Make arbitrary manipulations of process UIDs.</td>
+</tr>
+<tr>
+<td>LINUX_ IMMUTABLE</td>
+<td>Set the FS_APPEND_FL and FS_IMMUTABLE_FL i-node flags.</td>
+</tr>
+<tr>
+<td>NET_BIND_SERVICE</td>
+<td>Bind a socket to internet domain privileged ports (port numbers less than 1024).</td>
+</tr>
+<tr>
+<td>NET_BROADCAST</td>
+<td>Make socket broadcasts, and listen to multicasts.</td>
+</tr>
+<tr>
+<td>IPC_LOCK</td>
+<td>Lock memory (mlock(2), mlockall(2), mmap(2), shmctl(2)).</td>
+</tr>
+<tr>
+<td>IPC_OWNER</td>
+<td>Bypass permission checks for operations on System V IPC objects.</td>
+</tr>
+<tr>
+<td>SYS_CHROOT</td>
+<td>Use chroot(2), change root directory.</td>
+</tr>
+<tr>
+<td>SYS_PTRACE</td>
+<td>Trace arbitrary processes using ptrace(2).</td>
+</tr>
+<tr>
+<td>SYS_ BOOT</td>
+<td>Use reboot(2) and kexec_load(2), reboot and load a new kernel for later execution.</td>
+</tr>
+<tr>
+<td>LEASE</td>
+<td>Establish leases on arbitrary files (see fcntl(2)).</td>
+</tr>
+<tr>
+<td>SETFCAP</td>
+<td>Set file capabilities.</td>
+</tr>
+<tr>
+<td>WAKE_ALARM</td>
+<td>Trigger something that will wake up the system.</td>
+</tr>
+<tr>
+<td>BLOCK_SUSPEND</td>
+<td>Employ features that can block system suspend.</td>
+</tr>
+</tbody>
+</table>
+<p>cap-add和cap-drop都支持ALL，表示加上或者去掉所有能力。例如，加上所有能力，但是去掉MKNOD：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --cap-add=ALL --cap-drop=MKNOD ...</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_1/" data-id="cjcob8eht000cugowof59axlm" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
 
     </footer>
   </div>
@@ -665,222 +880,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_2/" data-id="cjco94jbh000ghvowuyr6h4n7" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-docker_cmd_analyse3_1_1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/01/docker_cmd_analyse3_1_1/" class="article-date">
-  <time datetime="2017-03-01T19:33:39.000Z" itemprop="datePublished">2017-03-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/01/docker_cmd_analyse3_1_1/">docker命令分析--权限管理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>所有命令均基于docker1.11版本</p>
-<h1 id="运行时特权和Linux能力"><a href="#运行时特权和Linux能力" class="headerlink" title="运行时特权和Linux能力"></a>运行时特权和Linux能力</h1><p>run命令与特权相关的几个选项：</p>
-<ul>
-<li>–cap-add: Add Linux capabilities</li>
-<li>–cap-drop: Drop Linux capabilities</li>
-<li>–privileged=false: Give extended privileges to this container</li>
-<li>–device=[]: Allows you to run devices inside the container without the –privileged flag.</li>
-</ul>
-<p>注：默认的容器都是unprivileged，因此很多系统调用、设备等特权相关的操作都是干不了的。而且1.10版本之后增加了seccomp安全控制，<br>    可能导致容器有了权限，但是一些系统调用被安全策略禁止了。关于安全策略seccomp可以参考文档<a href="/2017/03/01/docker_cmd_analyse3_1_2/">Docker安全策略</a></p>
-<p>docker run –privileged启动的容器，具有访问host上所有设备的能力，当然需要同时设置AppArmor或者SELinux允许容器相同的权限。</p>
-<p>–device可以指定一个或者多个设备在容器中能正常使用，默认情况，容器对这些设备具有read、write和mknod的权限，这些权限可以通过”:rwm”来修改。<br>mknod可以参考<a href="http://www.cnblogs.com/hnrainll/archive/2011/06/10/2077583.html" target="_blank" rel="noopener">这篇博客</a></p>
-<p>示例如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --device=/dev/sda:/dev/xvdc --rm -it ubuntu fdisk  /dev/xvdc</span><br><span class="line"></span><br><span class="line">Command (m for help): q</span><br><span class="line">$ docker run --device=/dev/sda:/dev/xvdc:r --rm -it ubuntu fdisk  /dev/xvdc</span><br><span class="line">You will not be able to write the partition table.</span><br><span class="line"></span><br><span class="line">Command (m for help): q</span><br><span class="line"></span><br><span class="line">$ docker run --device=/dev/sda:/dev/xvdc:w --rm -it ubuntu fdisk  /dev/xvdc</span><br><span class="line">    crash....</span><br><span class="line"></span><br><span class="line">$ docker run --device=/dev/sda:/dev/xvdc:m --rm -it ubuntu fdisk  /dev/xvdc</span><br><span class="line">fdisk: unable to open /dev/xvdc: Operation not permitted</span><br></pre></td></tr></table></figure>
-<p>相对于privileged的暴力权限，cap-add和cap-drop对权限的控制更细腻。<br>Docker目前支持的权限设置列表如下：</p>
-<table>
-<thead>
-<tr>
-<th>Capability Key</th>
-<th>Capability Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SETPCAP</td>
-<td>Modify process capabilities.</td>
-</tr>
-<tr>
-<td>SYS_MODULE</td>
-<td>Load and unload kernel modules.</td>
-</tr>
-<tr>
-<td>SYS_RAWIO</td>
-<td>Perform I/O port operations (iopl(2) and ioperm(2)).</td>
-</tr>
-<tr>
-<td>SYS_PACCT</td>
-<td>Use acct(2), switch process accounting on or off.</td>
-</tr>
-<tr>
-<td>SYS_ADMIN</td>
-<td>Perform a range of system administration operations.</td>
-</tr>
-<tr>
-<td>SYS_NICE</td>
-<td>Raise process nice value (nice(2), setpriority(2)) and change the nice value for arbitrary processes.</td>
-</tr>
-<tr>
-<td>SYS_RESOURCE</td>
-<td>Override resource Limits.</td>
-</tr>
-<tr>
-<td>SYS_TIME</td>
-<td>Set system clock (settimeofday(2), stime(2), adjtimex(2)); set real-time (hardware) clock.</td>
-</tr>
-<tr>
-<td>SYS_TTY_CONFIG</td>
-<td>Use vhangup(2); employ various privileged ioctl(2) operations on virtual terminals.</td>
-</tr>
-<tr>
-<td>MKNOD</td>
-<td>Create special files using mknod(2).</td>
-</tr>
-<tr>
-<td>AUDIT_WRITE</td>
-<td>Write records to kernel auditing log.</td>
-</tr>
-<tr>
-<td>AUDIT_CONTROL</td>
-<td>Enable and disable kernel auditing; change auditing filter rules; retrieve auditing status and filtering rules.</td>
-</tr>
-<tr>
-<td>MAC_OVERRIDE</td>
-<td>Allow MAC configuration or state changes. Implemented for the Smack LSM.</td>
-</tr>
-<tr>
-<td>MAC_ADMIN</td>
-<td>Override Mandatory Access Control (MAC). Implemented for the Smack Linux Security Module (LSM).</td>
-</tr>
-<tr>
-<td>NET_ADMIN</td>
-<td>Perform various network-related operations.</td>
-</tr>
-<tr>
-<td>SYSLOG</td>
-<td>Perform privileged syslog(2) operations.</td>
-</tr>
-<tr>
-<td>CHOWN</td>
-<td>Make arbitrary changes to file UIDs and GIDs (see chown(2)).</td>
-</tr>
-<tr>
-<td>NET_RAW</td>
-<td>Use RAW and PACKET sockets.</td>
-</tr>
-<tr>
-<td>DAC_OVERRIDE</td>
-<td>Bypass file read, write, and execute permission checks.</td>
-</tr>
-<tr>
-<td>FOWNER</td>
-<td>Bypass permission checks on operations that normally require the file system UID of the process to match the UID of the file.</td>
-</tr>
-<tr>
-<td>DAC_READ_SEARCH</td>
-<td>Bypass file read permission checks and directory read and execute permission checks.</td>
-</tr>
-<tr>
-<td>FSETID</td>
-<td>Don’t clear set-user-ID and set-group-ID permission bits when a file is modified.</td>
-</tr>
-<tr>
-<td>KILL</td>
-<td>Bypass permission checks for sending signals.</td>
-</tr>
-<tr>
-<td>SETGID</td>
-<td>Make arbitrary manipulations of process GIDs and supplementary GID list.</td>
-</tr>
-<tr>
-<td>SETUID</td>
-<td>Make arbitrary manipulations of process UIDs.</td>
-</tr>
-<tr>
-<td>LINUX_ IMMUTABLE</td>
-<td>Set the FS_APPEND_FL and FS_IMMUTABLE_FL i-node flags.</td>
-</tr>
-<tr>
-<td>NET_BIND_SERVICE</td>
-<td>Bind a socket to internet domain privileged ports (port numbers less than 1024).</td>
-</tr>
-<tr>
-<td>NET_BROADCAST</td>
-<td>Make socket broadcasts, and listen to multicasts.</td>
-</tr>
-<tr>
-<td>IPC_LOCK</td>
-<td>Lock memory (mlock(2), mlockall(2), mmap(2), shmctl(2)).</td>
-</tr>
-<tr>
-<td>IPC_OWNER</td>
-<td>Bypass permission checks for operations on System V IPC objects.</td>
-</tr>
-<tr>
-<td>SYS_CHROOT</td>
-<td>Use chroot(2), change root directory.</td>
-</tr>
-<tr>
-<td>SYS_PTRACE</td>
-<td>Trace arbitrary processes using ptrace(2).</td>
-</tr>
-<tr>
-<td>SYS_ BOOT</td>
-<td>Use reboot(2) and kexec_load(2), reboot and load a new kernel for later execution.</td>
-</tr>
-<tr>
-<td>LEASE</td>
-<td>Establish leases on arbitrary files (see fcntl(2)).</td>
-</tr>
-<tr>
-<td>SETFCAP</td>
-<td>Set file capabilities.</td>
-</tr>
-<tr>
-<td>WAKE_ALARM</td>
-<td>Trigger something that will wake up the system.</td>
-</tr>
-<tr>
-<td>BLOCK_SUSPEND</td>
-<td>Employ features that can block system suspend.</td>
-</tr>
-</tbody>
-</table>
-<p>cap-add和cap-drop都支持ALL，表示加上或者去掉所有能力。例如，加上所有能力，但是去掉MKNOD：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --cap-add=ALL --cap-drop=MKNOD ...</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_1/" data-id="cjco94jbf000dhvowjlqu0u3g" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_2/" data-id="cjcob8ehv000fugowj64gszhn" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
@@ -957,7 +957,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1/" data-id="cjco94jbe000bhvowae83smot" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1/" data-id="cjcob8eho000augowjdh8eofg" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker命令/">docker命令</a></li></ul>
