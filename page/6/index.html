@@ -61,89 +61,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-kiwi_analyse" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/08/kiwi_analyse/" class="article-date">
-  <time datetime="2016-12-08T18:33:28.000Z" itemprop="datePublished">2016-12-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/08/kiwi_analyse/">kiwi分析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h1 id="1-kiwi简介"><a href="#1-kiwi简介" class="headerlink" title="1. kiwi简介"></a>1. kiwi简介</h1><h2 id="1-1-kiwi是什么"><a href="#1-1-kiwi是什么" class="headerlink" title="1.1 kiwi是什么"></a>1.1 kiwi是什么</h2><p>kiwi用Perl编写的，用于制作linux镜像的命令行工具。支持制作多种格式的镜像：</p>
-<ul>
-<li>ISO</li>
-<li>Live CD/DVD</li>
-<li>PXEBoot</li>
-<li>Hard Disk</li>
-<li>USB</li>
-<li>Amazon EC2 (.ami)</li>
-<li>Docker</li>
-<li>Google Cloud Format (..gce)</li>
-<li>KVM/Qemu (.qcow2)</li>
-<li>Open Virtualization Format (.ovf, .ova)</li>
-<li>Vagrant (.vagrant</li>
-<li>VirtualBox (.vdi)</li>
-<li>Virtual Hard Disk (.vhd)</li>
-<li>VMware (.vmdk)</li>
-<li>XEN</li>
-</ul>
-<h2 id="1-2-kiwi工作流"><a href="#1-2-kiwi工作流" class="headerlink" title="1.2 kiwi工作流"></a>1.2 kiwi工作流</h2><p>kiwi的工作流分为两个流程：</p>
-<ol>
-<li>准备。创建root目录，用于保存新文件系统的内容；然后从软件源（可以是安装镜像或者在线的仓库）安装请求的软件包；然后创建镜像描述文件（config.xml）；<br>最后可选的自定义配置。该流程会输出一个“unpacked root tree”。</li>
-<li>制作。kiwi会自动使用上个流程的输出制作镜像，此流程没有交互，但是可以通过修改image.sh脚本，实现在制作镜像过程中执行用户定义动作。</li>
-</ol>
-<h2 id="1-3-kiwi使用方法"><a href="#1-3-kiwi使用方法" class="headerlink" title="1.3 kiwi使用方法"></a>1.3 kiwi使用方法</h2><p>准备流程：kiwi –prepare<br>制作流程：kiwi –create</p>
-<h1 id="2-kiwi的基本流程"><a href="#2-kiwi的基本流程" class="headerlink" title="2 kiwi的基本流程"></a>2 kiwi的基本流程</h1><p>kiwi制作镜像的流程是自动的，制作需要的必要信息主要来自config.xml的配置文件。此外，kiwi可以通过config.sh和images.sh实现可选的自定义功能。</p>
-<h2 id="2-1-制作镜像"><a href="#2-1-制作镜像" class="headerlink" title="2.1 制作镜像"></a>2.1 制作镜像</h2><p>kiwi制作镜像分为两步。第一步，prepare操作，使用config.xml配置文件生成“unpacked image tree”。第二步，create操作，基于第一步生成的<br>“unpacked image”和config.xml配置文件提供的信息创建一个“packed image”（就是镜像）。</p>
-<p><img src="https://doc.opensuse.org/projects/kiwi/doc/images/intro.png" alt="制作镜像架构图"></p>
-<p>注：<br>    (1) Unpacked Image<br>        Encapsulated system reachable via chroot<br>    (2) Packed Image<br>        Encapsulated system reachable via kernel file system/extension drivers such as loopback mounts, etc. </p>
-<h3 id="2-1-1-Prepare操作"><a href="#2-1-1-Prepare操作" class="headerlink" title="2.1.1 Prepare操作"></a>2.1.1 Prepare操作</h3><p>只有prepare操作成功，才能进行下一步的create操作。<br>prepare操作，kiwi会创建一个unpacked image（也就是root tree）。这个root tree是通过–root参数或者config.xml的defaultroot元素指定的。<br>该目录会在create操作中用于安装软件。软件管理工具是通过config.xml的packagemanager元素指定的，<br>kiwi目前支持的软件管理工具有：smart、zypper（默认选项）、yum和apt。<br>Prepare操作主要包括以下步骤：</p>
-<ol>
-<li>创建目标root目录。如果目标root目录存在，kiwi会退出并报错。可以使用–force-new-root参数，强制创建，如果指定目录存在，kiwi会先删除，<br>然后重新创建。</li>
-<li>安装软件包。把配置文件的bootstrap部分指定的软件安装到root目录。filesystem和glibc-locale（euler没指定此包）包是构建引导环境<br>必需的软件。这两个包的依赖链足以在引导环境中填充所有必需的软件，以支持将软件包安装到新root目录中。软件包管理可能安装了一些不需要的软件包，<br>可以通过”<package type="delete">package_to_be_deleted</package>“来删除多余的软件包。</li>
-<li>应用overlay目录。软件包安装完成后，KIWI将名为root的overlay目录中存在的所有文件和目录拷贝到目标root tree。<br>已经存在于目标root tree中的文件将被覆盖，其他将被添加。 这允许您覆盖在安装阶段期间软件包安装的任何文件。</li>
-<li>安装archives。在上一步完成之后，把config.xml的archive元素指定的任何archive（可以使任何文件，以tar包形式保存），解开到目标root tree。<br>可能覆盖掉已有的文件。</li>
-<li>运行用户定义的脚本config.sh。prepare操作的最后，执行config.sh脚本，运行在root tree的顶层。该脚本的主要功能是完成系统配置，例如启动一些服务。<br>更详细使用可参考 <a href="https://doc.opensuse.org/projects/kiwi/doc/#ref.kiwi.config.sh" target="_blank" rel="noopener">config.sh</a></li>
-<li>管理新的root tree。你可以通过chroot操作新的root tree，此文件系统与常用的区别在于多一个image目录，用于保存kiwi在create步骤需要用到的信息，<br>例如，config.xml配置文件的副本。</li>
-</ol>
-<h3 id="2-1-2-Create操作"><a href="#2-1-2-Create操作" class="headerlink" title="2.1.2 Create操作"></a>2.1.2 Create操作</h3><p>Prepare操作的成功时Create操作的前提。保证unpacked root tree是完整的和一致的。create操作会创建一个packed image。利用unpacked root tree能够<br>创建多种类型image，例如，OEM image或者虚拟机的images。<br>Create操作主要执行以下步骤：</p>
-<ol>
-<li>运行用户自定义脚本images.sh。如果images.sh存在，首先在root tree的顶层执行此脚本。该脚本主要作用是删除最终镜像不需要的文件。<br>更详细使用方法可参考 <a href="https://doc.opensuse.org/projects/kiwi/doc/#ref.kiwi.images.sh" target="_blank" rel="noopener">images.sh</a></li>
-<li>创建请求类型镜像。创建config.xml的type元素指定的image类型，配置文件必须包含至少一个type元素。下图显示当前支持的镜像类型。<br><img src="https://doc.opensuse.org/projects/kiwi/doc/images/types.png" alt="支持镜像类型"></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/08/kiwi_analyse/" data-id="cjco94jca001qhvowos6ks88k" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-docker_hexo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/07/docker_hexo/" class="article-date">
@@ -251,7 +168,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ip/">ip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/perl/">perl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/电子书/">电子书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
     </div>
   </div>
 
@@ -261,7 +178,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 18.33px;">docker命令</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 16.67px;">docker命令</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/ip/" style="font-size: 11.67px;">ip</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 18.33px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/perl/" style="font-size: 10px;">perl</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 11.67px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/tools/" style="font-size: 13.33px;">tools</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/电子书/" style="font-size: 10px;">电子书</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
     </div>
   </div>
 
@@ -270,7 +187,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -283,23 +200,23 @@
       <ul>
         
           <li>
-            <a href="/2018/01/21/电子书制作爬取/">(no title)</a>
+            <a href="/2018/01/21/修复perl的locale异常/">perl的locale异常</a>
           </li>
         
           <li>
-            <a href="/2018/01/21/修复perl的locale异常/">(no title)</a>
+            <a href="/2018/01/21/电子书制作爬取/">电子书制作记录</a>
           </li>
         
           <li>
-            <a href="/2018/01/21/pip命令/">(no title)</a>
+            <a href="/2018/01/08/ip命令/">IP命令使用</a>
           </li>
         
           <li>
-            <a href="/2018/01/21/nginx相关/">(no title)</a>
+            <a href="/2018/01/07/git_usages/">Git用法</a>
           </li>
         
           <li>
-            <a href="/2018/01/21/knowledge_topology/">(no title)</a>
+            <a href="/2018/01/01/knowledge_topology/">技术汇集</a>
           </li>
         
       </ul>

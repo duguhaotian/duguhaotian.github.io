@@ -61,100 +61,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-linux_kernel_bigheap" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/02/linux_kernel_bigheap/" class="article-date">
-  <time datetime="2017-06-02T16:19:29.000Z" itemprop="datePublished">2017-06-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/02/linux_kernel_bigheap/">legacy_va_layout设置大堆</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/legacy_va_layout (since Linux 2.6.9)</span><br><span class="line">              If nonzero, this disables the new 32-bit memory-mapping</span><br><span class="line">              layout; the kernel will use the legacy (2.4) layout for all</span><br><span class="line">              processes.</span><br></pre></td></tr></table></figure>
-<p>修改heap增长方向代码（以linux4.1的arm为例）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void arch_pick_mmap_layout(struct mm_struct *mm)</span><br><span class="line">&#123;</span><br><span class="line">	unsigned long random_factor = 0UL;</span><br><span class="line"></span><br><span class="line">	if (current-&gt;flags &amp; PF_RANDOMIZE)</span><br><span class="line">		random_factor = arch_mmap_rnd();</span><br><span class="line"></span><br><span class="line">	if (mmap_is_legacy()) &#123;  //获取legacy_va_layout的值，非零使用正常模式</span><br><span class="line">		mm-&gt;mmap_base = TASK_UNMAPPED_BASE + random_factor;</span><br><span class="line">		mm-&gt;get_unmapped_area = arch_get_unmapped_area;</span><br><span class="line">	&#125; else &#123;  //为零，使用自上向下的模式</span><br><span class="line">		mm-&gt;mmap_base = mmap_base(random_factor);</span><br><span class="line">		mm-&gt;get_unmapped_area = arch_get_unmapped_area_topdown;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/02/linux_kernel_bigheap/" data-id="cjco94jce001xhvowbys4zpju" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-linux_scheduling_softlockup&amp;hardlockup" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/02/linux_scheduling_softlockup&hardlockup/" class="article-date">
-  <time datetime="2017-06-02T16:19:29.000Z" itemprop="datePublished">2017-06-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/02/linux_scheduling_softlockup&hardlockup/">watchdog分析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="softlockup和hardlockup含义"><a href="#softlockup和hardlockup含义" class="headerlink" title="softlockup和hardlockup含义"></a>softlockup和hardlockup含义</h2><h3 id="softlockup"><a href="#softlockup" class="headerlink" title="softlockup"></a>softlockup</h3><p>内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。<br>简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。</p>
-<h3 id="hardlockup"><a href="#hardlockup" class="headerlink" title="hardlockup"></a>hardlockup</h3><p>CPU在内核模式loop时间超过hw_nmi_get_sample_period函数获取的阈值时间，导致其他中断不能运行的bug，称为”hardlockup”。<br>简单来说，就是中断被关闭时间超过阈值，导致其他中断无法运行。</p>
-<h2 id="softlockup注册和触发流程"><a href="#softlockup注册和触发流程" class="headerlink" title="softlockup注册和触发流程"></a>softlockup注册和触发流程</h2><h3 id="基于proc文件系统的watchdog流程"><a href="#基于proc文件系统的watchdog流程" class="headerlink" title="基于proc文件系统的watchdog流程"></a>基于proc文件系统的watchdog流程</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">proc_watchdog_update 更新watchdog状态，如果开启了watchdog，触发开狗流程</span><br><span class="line">  --&gt; watchdog_enable_all_cpus 打开所有cpu的狗</span><br><span class="line">    --&gt; smpboot_register_percpu_thread(&amp;watchdog_threads) 创建启动所有CPU上面的hotplug相关线程</span><br><span class="line">        --&gt; __smpboot_create_thread 创建线程，线程执行的函数是smpboot_thread_fn</span><br><span class="line">          --&gt; smpboot_thread_fn 开始会注册调用watchdog_threads的setup（就是watchdog_enable），正常流程会不断的执行watchdog_threads的thread_fn</span><br><span class="line">            --&gt; watchdog_enabled 会启动一个hrtimer的定时器，触发的回调函数是watchdog_timer_fn</span><br><span class="line">              --&gt; watchdog_timer_fn 根据is_softlockup判断是否发生softlockup</span><br></pre></td></tr></table></figure>
-<p>watchdog函数就是喂狗，保证不出现softlockup，这里不需要关注太详细。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static void watchdog(unsigned int cpu)</span><br><span class="line">&#123;</span><br><span class="line">	__this_cpu_write(soft_lockup_hrtimer_cnt,</span><br><span class="line">			 __this_cpu_read(hrtimer_interrupts));</span><br><span class="line">	__touch_watchdog();</span><br><span class="line"></span><br><span class="line">	if (!(watchdog_enabled &amp; NMI_WATCHDOG_ENABLED))</span><br><span class="line">		watchdog_nmi_disable(cpu);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="内核初始化时的流程"><a href="#内核初始化时的流程" class="headerlink" title="内核初始化时的流程"></a>内核初始化时的流程</h3><p>tick的方式，注册watchdog。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kernel_init 内核初始化</span><br><span class="line">  --&gt; kernel_init_freeable </span><br><span class="line">    --&gt; lockup_detector_init 如果开狗了会执行watchdog_enable_all_cpus；如果开启了CONFIG_TICKLESS，会注册tick_notify。</span><br><span class="line">      --&gt; watchdog_enable_all_cpus 后续流程和proc的一致，参考上面的分析</span><br><span class="line">      --&gt; register_tick_notifier 注册回调函数softlockup_tickonoff_callback</span><br><span class="line">        --&gt; softlockup_tickonoff_callback 注册回调函数softlockup_tick_onoff</span><br><span class="line">          --&gt; softlockup_tick_onoff 如果tick是打开的，会启动一个hrtimer，定期执行watchdog_timer_fn函数</span><br><span class="line">            --&gt; watchdog_timer_fn 和上面的流程一致了</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/02/linux_scheduling_softlockup&hardlockup/" data-id="cjco94jcg0021hvowthu0z98a" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/watchdog/">watchdog</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-sqlite_can_not_write_error" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/05/07/sqlite_can_not_write_error/" class="article-date">
@@ -562,6 +468,96 @@
 
 
   
+    <article id="post-install_expect" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/install_expect/" class="article-date">
+  <time datetime="2017-05-07T19:07:28.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/install_expect/">安装expect</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="安装TCL"><a href="#安装TCL" class="headerlink" title="安装TCL"></a>安装TCL</h2><p>下载地址：<a href="http://www.tcl.tk/software/tcltk/download.html" target="_blank" rel="noopener">http://www.tcl.tk/software/tcltk/download.html</a></p>
+<p>目前最新版本: tcl8.5.19-src.tar.gz</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://prdownloads.sourceforge.net/tcl/tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> tcl8.5.19/unix/</span><br><span class="line"></span><br><span class="line">./configure</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<h2 id="安装expect"><a href="#安装expect" class="headerlink" title="安装expect"></a>安装expect</h2><p>expect 官网：<a href="http://expect.sourceforge.net/" target="_blank" rel="noopener">http://expect.sourceforge.net/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget http://nchc.dl.sourceforge.net/project/expect/Expect/5.45/expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> expect5.45</span><br><span class="line"></span><br><span class="line">./configure  –with-tcl=/usr/<span class="built_in">local</span>/lib/ –with-tclinclude=../tcl8.5.19/generic/</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/bin/expect /usr/bin/expect</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/install_expect/" data-id="cjco94jc1001bhvowq1nyt1h0" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/softwares/">softwares</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-golang_notes_run_shell_ingo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/07/golang_notes_run_shell_ingo/" class="article-date">
+  <time datetime="2017-05-07T19:05:28.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/golang_notes_run_shell_ingo/">Golang运行shell脚本</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>以获取容器ID为例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func GetContainerID() (string, error) &#123;</span><br><span class="line">cmd := exec.Command(“/bin/bash”, “-c”, “cat /proc/self/cgroup | grep docker | grep -o -E ‘[0-9a-f]&#123;64&#125;’| head -n 1”)</span><br><span class="line">var out bytes.Buffer</span><br><span class="line"></span><br><span class="line">cmd.Stdout = &amp;out</span><br><span class="line">err := cmd.Run()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">return “”, err</span><br><span class="line">&#125;</span><br><span class="line">return out.String(), nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注：cmd.Stdout=&amp;out把脚本执行结果重定向到指定的地方。</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="http://c2pblog.sinaapp.com/archives/219" target="_blank" rel="noopener">http://c2pblog.sinaapp.com/archives/219</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/07/golang_notes_run_shell_ingo/" data-id="cjco94jby0015hvow50mkc1km" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Golang/">Golang</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
 
 
   <nav id="page-nav">
@@ -580,7 +576,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/WordPress/">WordPress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/awk/">awk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/bigheap/">bigheap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-hexo/">docker hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-image/">docker image</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker-plugin/">docker plugin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker命令/">docker命令</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hardlockup/">hardlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo错误/">hexo错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ide/">ide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ip/">ip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kiwi/">kiwi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/legacy-va-layout/">legacy_va_layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux工具/">linux工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/liteide/">liteide</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/log/">log</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/namespace/">namespace</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/perl/">perl</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/qemu/">qemu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reboot/">reboot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scheduling/">scheduling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softlockup/">softlockup</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/softwares/">softwares</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlite/">sqlite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemd/">systemd</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tips/">tips</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tmux/">tmux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ubuntu14-04/">ubuntu14.04</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/watchdog/">watchdog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/wordpress/">wordpress</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/可视化/">可视化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/容器/">容器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件/">文件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日志/">日志</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/电子书/">电子书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li></ul>
     </div>
   </div>
 
@@ -590,7 +586,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 18.33px;">docker命令</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 10px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
+      <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/Golang/" style="font-size: 11.67px;">Golang</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 13.33px;">Shell</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/WordPress/" style="font-size: 11.67px;">WordPress</a> <a href="/tags/awk/" style="font-size: 10px;">awk</a> <a href="/tags/bigheap/" style="font-size: 10px;">bigheap</a> <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/docker-hexo/" style="font-size: 10px;">docker hexo</a> <a href="/tags/docker-image/" style="font-size: 11.67px;">docker image</a> <a href="/tags/docker-plugin/" style="font-size: 10px;">docker plugin</a> <a href="/tags/docker命令/" style="font-size: 16.67px;">docker命令</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hardlockup/" style="font-size: 10px;">hardlockup</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/hexo错误/" style="font-size: 10px;">hexo错误</a> <a href="/tags/ide/" style="font-size: 10px;">ide</a> <a href="/tags/ip/" style="font-size: 11.67px;">ip</a> <a href="/tags/kiwi/" style="font-size: 10px;">kiwi</a> <a href="/tags/legacy-va-layout/" style="font-size: 10px;">legacy_va_layout</a> <a href="/tags/linux/" style="font-size: 18.33px;">linux</a> <a href="/tags/linux工具/" style="font-size: 10px;">linux工具</a> <a href="/tags/liteide/" style="font-size: 10px;">liteide</a> <a href="/tags/log/" style="font-size: 10px;">log</a> <a href="/tags/namespace/" style="font-size: 10px;">namespace</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/perl/" style="font-size: 10px;">perl</a> <a href="/tags/pip/" style="font-size: 10px;">pip</a> <a href="/tags/python/" style="font-size: 11.67px;">python</a> <a href="/tags/qemu/" style="font-size: 11.67px;">qemu</a> <a href="/tags/reboot/" style="font-size: 11.67px;">reboot</a> <a href="/tags/scheduling/" style="font-size: 10px;">scheduling</a> <a href="/tags/shadowsocks/" style="font-size: 10px;">shadowsocks</a> <a href="/tags/softlockup/" style="font-size: 10px;">softlockup</a> <a href="/tags/softwares/" style="font-size: 10px;">softwares</a> <a href="/tags/sqlite/" style="font-size: 10px;">sqlite</a> <a href="/tags/systemd/" style="font-size: 10px;">systemd</a> <a href="/tags/tips/" style="font-size: 10px;">tips</a> <a href="/tags/tmux/" style="font-size: 10px;">tmux</a> <a href="/tags/tools/" style="font-size: 13.33px;">tools</a> <a href="/tags/ubuntu14-04/" style="font-size: 10px;">ubuntu14.04</a> <a href="/tags/watchdog/" style="font-size: 10px;">watchdog</a> <a href="/tags/wordpress/" style="font-size: 11.67px;">wordpress</a> <a href="/tags/可视化/" style="font-size: 10px;">可视化</a> <a href="/tags/容器/" style="font-size: 10px;">容器</a> <a href="/tags/文件/" style="font-size: 10px;">文件</a> <a href="/tags/日志/" style="font-size: 10px;">日志</a> <a href="/tags/电子书/" style="font-size: 10px;">电子书</a> <a href="/tags/虚拟机/" style="font-size: 11.67px;">虚拟机</a>
     </div>
   </div>
 
@@ -599,7 +595,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -612,23 +608,23 @@
       <ul>
         
           <li>
-            <a href="/2018/01/21/电子书制作爬取/">(no title)</a>
+            <a href="/2018/01/21/修复perl的locale异常/">perl的locale异常</a>
           </li>
         
           <li>
-            <a href="/2018/01/21/修复perl的locale异常/">(no title)</a>
+            <a href="/2018/01/21/电子书制作爬取/">电子书制作记录</a>
           </li>
         
           <li>
-            <a href="/2018/01/21/pip命令/">(no title)</a>
+            <a href="/2018/01/08/ip命令/">IP命令使用</a>
           </li>
         
           <li>
-            <a href="/2018/01/21/nginx相关/">(no title)</a>
+            <a href="/2018/01/07/git_usages/">Git用法</a>
           </li>
         
           <li>
-            <a href="/2018/01/21/knowledge_topology/">(no title)</a>
+            <a href="/2018/01/01/knowledge_topology/">技术汇集</a>
           </li>
         
       </ul>

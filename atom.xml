@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-01-21T03:56:57.560Z</updated>
+  <updated>2018-01-21T04:54:22.520Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,225 +17,236 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/01/21/%E7%94%B5%E5%AD%90%E4%B9%A6%E5%88%B6%E4%BD%9C%E7%88%AC%E5%8F%96/"/>
-    <id>http://yoursite.com/2018/01/21/电子书制作爬取/</id>
-    <published>2018-01-21T03:56:57.560Z</published>
-    <updated>2018-01-21T03:56:57.560Z</updated>
-    
-    <content type="html"><![CDATA[<p>博客：<a href="http://abirdcfly.github.io/2016/03/07/calibre2mobi/" target="_blank" rel="noopener">http://abirdcfly.github.io/2016/03/07/calibre2mobi/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;博客：&lt;a href=&quot;http://abirdcfly.github.io/2016/03/07/calibre2mobi/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://abirdcfly.github.io/2016/03/07/cal
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title></title>
+    <title>perl的locale异常</title>
     <link href="http://yoursite.com/2018/01/21/%E4%BF%AE%E5%A4%8Dperl%E7%9A%84locale%E5%BC%82%E5%B8%B8/"/>
     <id>http://yoursite.com/2018/01/21/修复perl的locale异常/</id>
-    <published>2018-01-21T03:56:57.560Z</published>
-    <updated>2018-01-21T03:56:57.560Z</updated>
+    <published>2018-01-21T12:28:36.000Z</published>
+    <updated>2018-01-21T04:54:22.520Z</updated>
     
-    <content type="html"><![CDATA[<p>问题：<br>perl: warning: Falling back to the standard locale (“C”).<br>perl: warning: Setting locale failed.<br>sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)<br>sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)</p><p>解决方法：<br>locale-gen en_US en_US.UTF-8<br>dpkg-reconfigure locales<br>locale<br>export LC_ALL=en_US.UTF-8</p>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">perl: warning: Falling back to the standard locale (<span class="string">"C"</span>).</span><br><span class="line">perl: warning: Setting locale failed.</span><br><span class="line">sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)</span><br><span class="line">sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)</span><br></pre></td></tr></table></figure><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">locale-gen en_US en_US.UTF-8</span><br><span class="line">dpkg-reconfigure locales</span><br><span class="line">locale</span><br><span class="line">export LC_ALL=en_US.UTF-8</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;问题：&lt;br&gt;perl: warning: Falling back to the standard locale (“C”).&lt;br&gt;perl: warning: Setting locale failed.&lt;br&gt;sh: warning: setlocale: LC_A
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;问题&quot;&gt;&lt;a href=&quot;#问题&quot; class=&quot;headerlink&quot; title=&quot;问题&quot;&gt;&lt;/a&gt;问题&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td 
       
     
     </summary>
     
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="perl" scheme="http://yoursite.com/tags/perl/"/>
     
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/01/21/pip%E5%91%BD%E4%BB%A4/"/>
-    <id>http://yoursite.com/2018/01/21/pip命令/</id>
-    <published>2018-01-21T03:56:57.560Z</published>
-    <updated>2018-01-21T03:56:57.560Z</updated>
+    <title>电子书制作记录</title>
+    <link href="http://yoursite.com/2018/01/21/%E7%94%B5%E5%AD%90%E4%B9%A6%E5%88%B6%E4%BD%9C%E7%88%AC%E5%8F%96/"/>
+    <id>http://yoursite.com/2018/01/21/电子书制作爬取/</id>
+    <published>2018-01-21T12:27:18.000Z</published>
+    <updated>2018-01-21T04:54:22.530Z</updated>
     
-    <content type="html"><![CDATA[<p>#基础用法</p><p>##1. 安装指定版本的包</p><pre><code>pip3 install docker-py==1.8.1</code></pre><p>##2. 使用代理proxy</p><pre><code>pip3 --proxy=http://username:password@proxy.com:8080 install docker-py==1.8.1</code></pre>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><p>博客：<a href="http://abirdcfly.github.io/2016/03/07/calibre2mobi/" target="_blank" rel="noopener">http://abirdcfly.github.io/2016/03/07/calibre2mobi/</a></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;#基础用法&lt;/p&gt;
-&lt;p&gt;##1. 安装指定版本的包&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pip3 install docker-py==1.8.1
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;##2. 使用代理proxy&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;pip3 --proxy=http:/
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;博客：&lt;a href=&quot;http://abirdcfly.github.io/2016/03/07/calibre2mobi/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://abirdcf
       
     
     </summary>
     
+    
+      <category term="电子书" scheme="http://yoursite.com/tags/%E7%94%B5%E5%AD%90%E4%B9%A6/"/>
     
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/01/21/nginx%E7%9B%B8%E5%85%B3/"/>
-    <id>http://yoursite.com/2018/01/21/nginx相关/</id>
-    <published>2018-01-21T03:56:57.560Z</published>
-    <updated>2018-01-21T03:56:57.560Z</updated>
+    <title>IP命令使用</title>
+    <link href="http://yoursite.com/2018/01/08/ip%E5%91%BD%E4%BB%A4/"/>
+    <id>http://yoursite.com/2018/01/08/ip命令/</id>
+    <published>2018-01-08T10:50:50.000Z</published>
+    <updated>2018-01-21T04:54:22.520Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>访问nginx搭建的网站时，报403 forbidden错误的原因。</p><h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>第一，是因为缺少index.html或者index.php等<br>第二，是因为没有权限。</p><p>参考：<br><a href="http://blog.51yip.com/apachenginx/1512.html" target="_blank" rel="noopener">http://blog.51yip.com/apachenginx/1512.html</a></p>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="up-down-veth接口"><a href="#up-down-veth接口" class="headerlink" title="up/down veth接口"></a>up/down veth接口</h2><p>Usage:</p><pre><code>ip link set dev &lt;interface&gt; upip link set dev &lt;interface&gt; down</code></pre><p>Example:</p><pre><code>ip link set dev eth0 upip link set dev eth0 down</code></pre><h2 id="创建veth对"><a href="#创建veth对" class="headerlink" title="创建veth对"></a>创建veth对</h2><p>Usage:</p><pre><code>ip link add &lt;interface nameA&gt; type veth peer name &lt;interface nameB&gt;</code></pre><p>Example:</p><pre><code>ip link add veth0 type veth peer name veth1</code></pre><h2 id="设置veth网络命名空间"><a href="#设置veth网络命名空间" class="headerlink" title="设置veth网络命名空间"></a>设置veth网络命名空间</h2><p>Usage:</p><pre><code>ip link set &lt;interface&gt; netns &lt;netnamespace&gt;</code></pre><p>Example:</p><pre><code>ip netns add hello_test  //创建一个名为hell_test的netns（网络命名空间）ip link set veth1 netns hello_test</code></pre><h2 id="重命名veth接口"><a href="#重命名veth接口" class="headerlink" title="重命名veth接口"></a>重命名veth接口</h2><p>Usage:</p><pre><code>ip link set vethA name vethB</code></pre><p>Example:</p><pre><code>ip link set vethA downip link set vethA name vethBip link set vethB up</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h1&gt;&lt;p&gt;访问nginx搭建的网站时，报403 forbidden错误的原因。&lt;/p&gt;
-&lt;h1 id=&quot;解决办法&quot;&gt;&lt;a href=&quot;
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;up-down-veth接口&quot;&gt;&lt;a href=&quot;#up-down-veth接口&quot; class=&quot;headerlink&quot; title=&quot;up/down veth接口&quot;&gt;&lt;/a&gt;up/down veth接口&lt;/h
       
     
     </summary>
     
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="tools" scheme="http://yoursite.com/tags/tools/"/>
+    
+      <category term="ip" scheme="http://yoursite.com/tags/ip/"/>
     
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/01/21/knowledge_topology/"/>
-    <id>http://yoursite.com/2018/01/21/knowledge_topology/</id>
-    <published>2018-01-21T03:56:57.560Z</published>
-    <updated>2018-01-21T03:56:57.560Z</updated>
+    <title>Git用法</title>
+    <link href="http://yoursite.com/2018/01/07/git_usages/"/>
+    <id>http://yoursite.com/2018/01/07/git_usages/</id>
+    <published>2018-01-07T10:50:55.000Z</published>
+    <updated>2018-01-21T04:54:22.520Z</updated>
     
-    <content type="html"><![CDATA[<p>c语言测试套框架：<a href="https://libcheck.github.io/check/" target="_blank" rel="noopener">https://libcheck.github.io/check/</a></p>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h1 id="Git用法汇总"><a href="#Git用法汇总" class="headerlink" title="Git用法汇总"></a>Git用法汇总</h1><h2 id="Git命令自动补全"><a href="#Git命令自动补全" class="headerlink" title="Git命令自动补全"></a>Git命令自动补全</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/bash_completion.d/git</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"><span class="built_in">source</span> /usr/share/bash-completion/completions/git</span><br></pre></td></tr></table></figure><p>可以添加到~/.bashrc</p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;c语言测试套框架：&lt;a href=&quot;https://libcheck.github.io/check/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://libcheck.github.io/check/&lt;/a&gt;&lt;/p&gt;
-
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&quot;Git用法汇总&quot;&gt;&lt;a href=&quot;#Git用法汇总&quot; class=&quot;headerlink&quot; title=&quot;Git用法汇总&quot;&gt;&lt;/a&gt;Git用法汇总&lt;/h1&gt;&lt;h2 id=&quot;Git命令自动补全&quot;&gt;&lt;a href
       
     
     </summary>
     
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="tools" scheme="http://yoursite.com/tags/tools/"/>
+    
+      <category term="git" scheme="http://yoursite.com/tags/git/"/>
     
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/01/21/ip%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9Cdocker%E5%AE%B9%E5%99%A8netns/"/>
-    <id>http://yoursite.com/2018/01/21/ip命令操作docker容器netns/</id>
-    <published>2018-01-21T03:56:57.560Z</published>
-    <updated>2018-01-21T03:56:57.560Z</updated>
+    <title>技术汇集</title>
+    <link href="http://yoursite.com/2018/01/01/knowledge_topology/"/>
+    <id>http://yoursite.com/2018/01/01/knowledge_topology/</id>
+    <published>2018-01-01T01:01:01.000Z</published>
+    <updated>2018-01-21T04:54:22.520Z</updated>
     
-    <content type="html"><![CDATA[<p>在host上，操作容器的网络设备</p><pre><code>1. 需要查到容器的进程id==cpid，可以通过----cpid=$(docker inspect --format &apos;{{.State.Pid}}&apos; $1)2. 需要把容器的netns挂到ip命令能操作的netns中-----ln -s &quot;/proc/$cpid/ns/net&quot; &quot;/var/run/netns/$cpid&quot;3. 查看容器中所有的网络设备以及配置信息：ip netns exec $cpid ip a4. 查看容器中网络设备的类型信息：ip netns exec $cpid ethtool &quot;driver name（如eth0）&quot;</code></pre>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h2><p>c语言测试套框架：<a href="https://libcheck.github.io/check/" target="_blank" rel="noopener">https://libcheck.github.io/check/</a></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;在host上，操作容器的网络设备&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;1. 需要查到容器的进程id==cpid，可以通过----cpid=$(docker inspect --format &amp;apos;{{.State.Pid}}&amp;apos; $1)
-2. 需要把容器的netns
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;C语言&quot;&gt;&lt;a href=&quot;#C语言&quot; class=&quot;headerlink&quot; title=&quot;C语言&quot;&gt;&lt;/a&gt;C语言&lt;/h2&gt;&lt;p&gt;c语言测试套框架：&lt;a href=&quot;https://libcheck.gith
       
     
     </summary>
     
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/01/21/ip%E5%91%BD%E4%BB%A4/"/>
-    <id>http://yoursite.com/2018/01/21/ip命令/</id>
-    <published>2018-01-21T03:56:57.560Z</published>
-    <updated>2018-01-21T03:56:57.560Z</updated>
+    <title>pip命令初识</title>
+    <link href="http://yoursite.com/2017/12/12/pip%E5%91%BD%E4%BB%A4/"/>
+    <id>http://yoursite.com/2017/12/12/pip命令/</id>
+    <published>2017-12-12T12:01:22.000Z</published>
+    <updated>2018-01-21T04:54:22.520Z</updated>
     
-    <content type="html"><![CDATA[<p>##1. use ip to up/down interface:<br>Usage:</p><pre><code>ip link set dev &lt;interface&gt; upip link set dev &lt;interface&gt; down</code></pre><p>Example:</p><pre><code>ip link set dev eth0 upip link set dev eth0 down</code></pre><p>##2. use ip add veth pair:<br>Usage:</p><pre><code>ip link add &lt;interface nameA&gt; type veth peer name &lt;interface nameB&gt;</code></pre><p>Example:</p><pre><code>ip link add veth0 type veth peer name veth1</code></pre><p>##3. set veth to a netns:<br>Usage:</p><pre><code>ip link set &lt;interface&gt; netns &lt;netnamespace&gt;</code></pre><p>Example:</p><pre><code>ip netns add hello_test  //创建一个名为hell_test的netns（网络命名空间）ip link set veth1 netns hello_test</code></pre><p>##4. rename interface<br>Usage:</p><pre><code>ip link set vethA name vethB</code></pre><p>Example:</p><pre><code>ip link set vethA downip link set vethA name vethBip link set vethB up</code></pre>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h2><h3 id="1-安装指定版本的包"><a href="#1-安装指定版本的包" class="headerlink" title="1. 安装指定版本的包"></a>1. 安装指定版本的包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install docker-py==1.8.1</span><br></pre></td></tr></table></figure><h3 id="2-使用代理proxy"><a href="#2-使用代理proxy" class="headerlink" title="2. 使用代理proxy"></a>2. 使用代理proxy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 --proxy=http://username:password@proxy.com:8080 install docker-py==1.8.1</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;##1. use ip to up/down interface:&lt;br&gt;Usage:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ip link set dev &amp;lt;interface&amp;gt; up
-ip link set dev &amp;lt;interface&amp;gt; down
-&lt;/
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;基础用法&quot;&gt;&lt;a href=&quot;#基础用法&quot; class=&quot;headerlink&quot; title=&quot;基础用法&quot;&gt;&lt;/a&gt;基础用法&lt;/h2&gt;&lt;h3 id=&quot;1-安装指定版本的包&quot;&gt;&lt;a href=&quot;#1-安装指定版本
       
     
     </summary>
     
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+      <category term="pip" scheme="http://yoursite.com/tags/pip/"/>
     
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/01/21/README/"/>
-    <id>http://yoursite.com/2018/01/21/README/</id>
-    <published>2018-01-21T03:56:57.560Z</published>
-    <updated>2018-01-21T03:56:57.560Z</updated>
+    <title>nginx问题跟踪</title>
+    <link href="http://yoursite.com/2017/08/08/nginx%E7%9B%B8%E5%85%B3/"/>
+    <id>http://yoursite.com/2017/08/08/nginx相关/</id>
+    <published>2017-08-08T10:05:47.000Z</published>
+    <updated>2018-01-21T04:54:22.520Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="All-Notes"><a href="#All-Notes" class="headerlink" title="All Notes"></a>All Notes</h1><ul><li>Docker study notes</li><li>Linux study notes</li><li>Some Software install log</li><li>Some Bug</li></ul>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>访问nginx搭建的网站时，报403 forbidden错误的原因。</p><h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>第一，是因为缺少index.html或者index.php等<br>第二，是因为没有权限。</p><p>参考：<br><a href="http://blog.51yip.com/apachenginx/1512.html" target="_blank" rel="noopener">http://blog.51yip.com/apachenginx/1512.html</a></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;All-Notes&quot;&gt;&lt;a href=&quot;#All-Notes&quot; class=&quot;headerlink&quot; title=&quot;All Notes&quot;&gt;&lt;/a&gt;All Notes&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;Docker study notes&lt;/li&gt;
-&lt;li&gt;Linux st
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h1&gt;&lt;p&gt;访问nginx搭建的网站时，报403 forbidden错误的原因。&lt;
       
     
     </summary>
     
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="tools" scheme="http://yoursite.com/tags/tools/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/tags/nginx/"/>
     
   </entry>
   
   <entry>
-    <title></title>
-    <link href="http://yoursite.com/2018/01/21/git_usages/"/>
-    <id>http://yoursite.com/2018/01/21/git_usages/</id>
-    <published>2018-01-21T03:56:57.560Z</published>
-    <updated>2018-01-21T03:56:57.560Z</updated>
+    <title>watchdog分析</title>
+    <link href="http://yoursite.com/2017/06/02/linux_scheduling_softlockup&amp;hardlockup/"/>
+    <id>http://yoursite.com/2017/06/02/linux_scheduling_softlockup&amp;hardlockup/</id>
+    <published>2017-06-02T16:19:29.000Z</published>
+    <updated>2018-01-21T04:16:50.470Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Git用法汇总"><a href="#Git用法汇总" class="headerlink" title="Git用法汇总"></a>Git用法汇总</h1><h2 id="Git命令自动补全"><a href="#Git命令自动补全" class="headerlink" title="Git命令自动补全"></a>Git命令自动补全</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/bash_completion.d/git</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"><span class="built_in">source</span> /usr/share/bash-completion/completions/git</span><br></pre></td></tr></table></figure><p>可以添加到~/.bashrc</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;Git用法汇总&quot;&gt;&lt;a href=&quot;#Git用法汇总&quot; class=&quot;headerlink&quot; title=&quot;Git用法汇总&quot;&gt;&lt;/a&gt;Git用法汇总&lt;/h1&gt;&lt;h2 id=&quot;Git命令自动补全&quot;&gt;&lt;a href=&quot;#Git命令自动补全&quot; class=&quot;header
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2018/01/21/hello-world/"/>
-    <id>http://yoursite.com/2018/01/21/hello-world/</id>
-    <published>2018-01-21T03:49:38.951Z</published>
-    <updated>2018-01-21T03:49:38.951Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="softlockup和hardlockup含义"><a href="#softlockup和hardlockup含义" class="headerlink" title="softlockup和hardlockup含义"></a>softlockup和hardlockup含义</h2><h3 id="softlockup"><a href="#softlockup" class="headerlink" title="softlockup"></a>softlockup</h3><p>内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。<br>简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。</p><h3 id="hardlockup"><a href="#hardlockup" class="headerlink" title="hardlockup"></a>hardlockup</h3><p>CPU在内核模式loop时间超过hw_nmi_get_sample_period函数获取的阈值时间，导致其他中断不能运行的bug，称为”hardlockup”。<br>简单来说，就是中断被关闭时间超过阈值，导致其他中断无法运行。</p><h2 id="softlockup注册和触发流程"><a href="#softlockup注册和触发流程" class="headerlink" title="softlockup注册和触发流程"></a>softlockup注册和触发流程</h2><h3 id="基于proc文件系统的watchdog流程"><a href="#基于proc文件系统的watchdog流程" class="headerlink" title="基于proc文件系统的watchdog流程"></a>基于proc文件系统的watchdog流程</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">proc_watchdog_update 更新watchdog状态，如果开启了watchdog，触发开狗流程</span><br><span class="line">  --&gt; watchdog_enable_all_cpus 打开所有cpu的狗</span><br><span class="line">    --&gt; smpboot_register_percpu_thread(&amp;watchdog_threads) 创建启动所有CPU上面的hotplug相关线程</span><br><span class="line">        --&gt; __smpboot_create_thread 创建线程，线程执行的函数是smpboot_thread_fn</span><br><span class="line">          --&gt; smpboot_thread_fn 开始会注册调用watchdog_threads的setup（就是watchdog_enable），正常流程会不断的执行watchdog_threads的thread_fn</span><br><span class="line">            --&gt; watchdog_enabled 会启动一个hrtimer的定时器，触发的回调函数是watchdog_timer_fn</span><br><span class="line">              --&gt; watchdog_timer_fn 根据is_softlockup判断是否发生softlockup</span><br></pre></td></tr></table></figure><p>watchdog函数就是喂狗，保证不出现softlockup，这里不需要关注太详细。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static void watchdog(unsigned int cpu)</span><br><span class="line">&#123;</span><br><span class="line">__this_cpu_write(soft_lockup_hrtimer_cnt,</span><br><span class="line"> __this_cpu_read(hrtimer_interrupts));</span><br><span class="line">__touch_watchdog();</span><br><span class="line"></span><br><span class="line">if (!(watchdog_enabled &amp; NMI_WATCHDOG_ENABLED))</span><br><span class="line">watchdog_nmi_disable(cpu);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="内核初始化时的流程"><a href="#内核初始化时的流程" class="headerlink" title="内核初始化时的流程"></a>内核初始化时的流程</h3><p>tick的方式，注册watchdog。</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kernel_init 内核初始化</span><br><span class="line">  --&gt; kernel_init_freeable </span><br><span class="line">    --&gt; lockup_detector_init 如果开狗了会执行watchdog_enable_all_cpus；如果开启了CONFIG_TICKLESS，会注册tick_notify。</span><br><span class="line">      --&gt; watchdog_enable_all_cpus 后续流程和proc的一致，参考上面的分析</span><br><span class="line">      --&gt; register_tick_notifier 注册回调函数softlockup_tickonoff_callback</span><br><span class="line">        --&gt; softlockup_tickonoff_callback 注册回调函数softlockup_tick_onoff</span><br><span class="line">          --&gt; softlockup_tick_onoff 如果tick是打开的，会启动一个hrtimer，定期执行watchdog_timer_fn函数</span><br><span class="line">            --&gt; watchdog_timer_fn 和上面的流程一致了</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;softlockup和hardlockup含义&quot;&gt;&lt;a href=&quot;#softlockup和hardlockup含义&quot; class=&quot;headerlink&quot; title=&quot;softlockup和hardlock
       
     
     </summary>
     
+    
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+      <category term="scheduling" scheme="http://yoursite.com/tags/scheduling/"/>
+    
+      <category term="watchdog" scheme="http://yoursite.com/tags/watchdog/"/>
+    
+      <category term="softlockup" scheme="http://yoursite.com/tags/softlockup/"/>
+    
+      <category term="hardlockup" scheme="http://yoursite.com/tags/hardlockup/"/>
     
   </entry>
   
@@ -271,13 +282,13 @@ ip link set dev &amp;lt;interface&amp;gt; down
   </entry>
   
   <entry>
-    <title>watchdog分析</title>
-    <link href="http://yoursite.com/2017/06/02/linux_scheduling_softlockup&amp;hardlockup/"/>
-    <id>http://yoursite.com/2017/06/02/linux_scheduling_softlockup&amp;hardlockup/</id>
-    <published>2017-06-02T16:19:29.000Z</published>
-    <updated>2018-01-21T04:16:50.470Z</updated>
+    <title>ip操作docker容器命名空间</title>
+    <link href="http://yoursite.com/2017/05/08/ip%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9Cdocker%E5%AE%B9%E5%99%A8netns/"/>
+    <id>http://yoursite.com/2017/05/08/ip命令操作docker容器netns/</id>
+    <published>2017-05-08T19:29:26.000Z</published>
+    <updated>2018-01-21T04:54:22.520Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="softlockup和hardlockup含义"><a href="#softlockup和hardlockup含义" class="headerlink" title="softlockup和hardlockup含义"></a>softlockup和hardlockup含义</h2><h3 id="softlockup"><a href="#softlockup" class="headerlink" title="softlockup"></a>softlockup</h3><p>内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。<br>简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。</p><h3 id="hardlockup"><a href="#hardlockup" class="headerlink" title="hardlockup"></a>hardlockup</h3><p>CPU在内核模式loop时间超过hw_nmi_get_sample_period函数获取的阈值时间，导致其他中断不能运行的bug，称为”hardlockup”。<br>简单来说，就是中断被关闭时间超过阈值，导致其他中断无法运行。</p><h2 id="softlockup注册和触发流程"><a href="#softlockup注册和触发流程" class="headerlink" title="softlockup注册和触发流程"></a>softlockup注册和触发流程</h2><h3 id="基于proc文件系统的watchdog流程"><a href="#基于proc文件系统的watchdog流程" class="headerlink" title="基于proc文件系统的watchdog流程"></a>基于proc文件系统的watchdog流程</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">proc_watchdog_update 更新watchdog状态，如果开启了watchdog，触发开狗流程</span><br><span class="line">  --&gt; watchdog_enable_all_cpus 打开所有cpu的狗</span><br><span class="line">    --&gt; smpboot_register_percpu_thread(&amp;watchdog_threads) 创建启动所有CPU上面的hotplug相关线程</span><br><span class="line">        --&gt; __smpboot_create_thread 创建线程，线程执行的函数是smpboot_thread_fn</span><br><span class="line">          --&gt; smpboot_thread_fn 开始会注册调用watchdog_threads的setup（就是watchdog_enable），正常流程会不断的执行watchdog_threads的thread_fn</span><br><span class="line">            --&gt; watchdog_enabled 会启动一个hrtimer的定时器，触发的回调函数是watchdog_timer_fn</span><br><span class="line">              --&gt; watchdog_timer_fn 根据is_softlockup判断是否发生softlockup</span><br></pre></td></tr></table></figure><p>watchdog函数就是喂狗，保证不出现softlockup，这里不需要关注太详细。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static void watchdog(unsigned int cpu)</span><br><span class="line">&#123;</span><br><span class="line">__this_cpu_write(soft_lockup_hrtimer_cnt,</span><br><span class="line"> __this_cpu_read(hrtimer_interrupts));</span><br><span class="line">__touch_watchdog();</span><br><span class="line"></span><br><span class="line">if (!(watchdog_enabled &amp; NMI_WATCHDOG_ENABLED))</span><br><span class="line">watchdog_nmi_disable(cpu);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="内核初始化时的流程"><a href="#内核初始化时的流程" class="headerlink" title="内核初始化时的流程"></a>内核初始化时的流程</h3><p>tick的方式，注册watchdog。</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kernel_init 内核初始化</span><br><span class="line">  --&gt; kernel_init_freeable </span><br><span class="line">    --&gt; lockup_detector_init 如果开狗了会执行watchdog_enable_all_cpus；如果开启了CONFIG_TICKLESS，会注册tick_notify。</span><br><span class="line">      --&gt; watchdog_enable_all_cpus 后续流程和proc的一致，参考上面的分析</span><br><span class="line">      --&gt; register_tick_notifier 注册回调函数softlockup_tickonoff_callback</span><br><span class="line">        --&gt; softlockup_tickonoff_callback 注册回调函数softlockup_tick_onoff</span><br><span class="line">          --&gt; softlockup_tick_onoff 如果tick是打开的，会启动一个hrtimer，定期执行watchdog_timer_fn函数</span><br><span class="line">            --&gt; watchdog_timer_fn 和上面的流程一致了</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>在host上，操作容器的网络设备</p><ul><li><p>需要查到容器的进程id==cpid，可以通过</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpid=$(docker inspect --format &apos;&#123;&#123;.State.Pid&#125;&#125;&apos; $1)</span><br></pre></td></tr></table></figure></li><li><p>需要把容器的netns挂到ip命令能操作的netns中—–</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s &quot;/proc/$cpid/ns/net&quot; &quot;/var/run/netns/$cpid&quot;</span><br></pre></td></tr></table></figure></li><li><p>查看容器中所有的网络设备以及配置信息</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns exec $cpid ip a</span><br></pre></td></tr></table></figure></li><li><p>查看容器中网络设备的类型信息：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns exec $cpid ethtool &quot;driver name（如eth0）&quot;</span><br></pre></td></tr></table></figure></li></ul>]]></content>
     
     <summary type="html">
     
@@ -286,21 +297,19 @@ ip link set dev &amp;lt;interface&amp;gt; down
         &lt;hr&gt;
 &lt;p&gt;作者： 耗子007&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&quot;softlockup和hardlockup含义&quot;&gt;&lt;a href=&quot;#softlockup和hardlockup含义&quot; class=&quot;headerlink&quot; title=&quot;softlockup和hardlock
+&lt;h2 id=&quot;基本操作&quot;&gt;&lt;a href=&quot;#基本操作&quot; class=&quot;headerlink&quot; title=&quot;基本操作&quot;&gt;&lt;/a&gt;基本操作&lt;/h2&gt;&lt;p&gt;在host上，操作容器的网络设备&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;需要
       
     
     </summary>
     
     
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
-      <category term="scheduling" scheme="http://yoursite.com/tags/scheduling/"/>
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
     
-      <category term="watchdog" scheme="http://yoursite.com/tags/watchdog/"/>
-    
-      <category term="softlockup" scheme="http://yoursite.com/tags/softlockup/"/>
-    
-      <category term="hardlockup" scheme="http://yoursite.com/tags/hardlockup/"/>
+      <category term="ip" scheme="http://yoursite.com/tags/ip/"/>
     
   </entry>
   
@@ -519,6 +528,61 @@ ip link set dev &amp;lt;interface&amp;gt; down
       <category term="qemu" scheme="http://yoursite.com/tags/qemu/"/>
     
       <category term="虚拟机" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装expect</title>
+    <link href="http://yoursite.com/2017/05/07/install_expect/"/>
+    <id>http://yoursite.com/2017/05/07/install_expect/</id>
+    <published>2017-05-07T19:07:28.000Z</published>
+    <updated>2018-01-21T04:16:50.470Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="安装TCL"><a href="#安装TCL" class="headerlink" title="安装TCL"></a>安装TCL</h2><p>下载地址：<a href="http://www.tcl.tk/software/tcltk/download.html" target="_blank" rel="noopener">http://www.tcl.tk/software/tcltk/download.html</a></p><p>目前最新版本: tcl8.5.19-src.tar.gz</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://prdownloads.sourceforge.net/tcl/tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> tcl8.5.19/unix/</span><br><span class="line"></span><br><span class="line">./configure</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure><h2 id="安装expect"><a href="#安装expect" class="headerlink" title="安装expect"></a>安装expect</h2><p>expect 官网：<a href="http://expect.sourceforge.net/" target="_blank" rel="noopener">http://expect.sourceforge.net/</a></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget http://nchc.dl.sourceforge.net/project/expect/Expect/5.45/expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> expect5.45</span><br><span class="line"></span><br><span class="line">./configure  –with-tcl=/usr/<span class="built_in">local</span>/lib/ –with-tclinclude=../tcl8.5.19/generic/</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/bin/expect /usr/bin/expect</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;安装TCL&quot;&gt;&lt;a href=&quot;#安装TCL&quot; class=&quot;headerlink&quot; title=&quot;安装TCL&quot;&gt;&lt;/a&gt;安装TCL&lt;/h2&gt;&lt;p&gt;下载地址：&lt;a href=&quot;http://www.tcl.tk
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+      <category term="softwares" scheme="http://yoursite.com/tags/softwares/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Golang运行shell脚本</title>
+    <link href="http://yoursite.com/2017/05/07/golang_notes_run_shell_ingo/"/>
+    <id>http://yoursite.com/2017/05/07/golang_notes_run_shell_ingo/</id>
+    <published>2017-05-07T19:05:28.000Z</published>
+    <updated>2018-01-21T04:54:22.520Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>以获取容器ID为例</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func GetContainerID() (string, error) &#123;</span><br><span class="line">cmd := exec.Command(“/bin/bash”, “-c”, “cat /proc/self/cgroup | grep docker | grep -o -E ‘[0-9a-f]&#123;64&#125;’| head -n 1”)</span><br><span class="line">var out bytes.Buffer</span><br><span class="line"></span><br><span class="line">cmd.Stdout = &amp;out</span><br><span class="line">err := cmd.Run()</span><br><span class="line">if err != nil &#123;</span><br><span class="line">return “”, err</span><br><span class="line">&#125;</span><br><span class="line">return out.String(), nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>注：cmd.Stdout=&amp;out把脚本执行结果重定向到指定的地方。</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="http://c2pblog.sinaapp.com/archives/219" target="_blank" rel="noopener">http://c2pblog.sinaapp.com/archives/219</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;示例&quot;&gt;&lt;a href=&quot;#示例&quot; class=&quot;headerlink&quot; title=&quot;示例&quot;&gt;&lt;/a&gt;示例&lt;/h2&gt;&lt;p&gt;以获取容器ID为例&lt;/p&gt;
+&lt;figure class=&quot;highlight plai
+      
+    
+    </summary>
+    
+    
+      <category term="Golang" scheme="http://yoursite.com/tags/Golang/"/>
     
   </entry>
   
