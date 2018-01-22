@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-01-21T10:35:55.619Z</updated>
+  <updated>2018-01-22T14:28:41.941Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2018/01/21/hexo_on_gitpage/"/>
     <id>http://yoursite.com/2018/01/21/hexo_on_gitpage/</id>
     <published>2018-01-21T13:00:00.000Z</published>
-    <updated>2018-01-21T10:35:55.619Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul><li>docker</li><li>nodejs镜像</li><li>hexo</li><li>git相关</li></ul><h3 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h3><p>docker的安装请参考官方文档：<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="noopener">https://docs.docker.com/engine/installation/</a></p><h3 id="nodejs镜像"><a href="#nodejs镜像" class="headerlink" title="nodejs镜像"></a>nodejs镜像</h3><p>国内可以使用Docker官方的加速地址，具体配置参考官方文档： <a href="https://www.docker-cn.com/registry-mirror" target="_blank" rel="noopener">https://www.docker-cn.com/registry-mirror</a></p><p>本文使用修改config的方式：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://registry.docker-cn.com&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>然后下载nodejs的官方镜像：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull node</span><br></pre></td></tr></table></figure><h3 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h3><p>首先启动一个node的容器</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -p 4000:4000 node /bin/bash</span><br><span class="line"># 映射容器的4000端口到host的4000端口，是为了方便测试hexo生成的静态网站是否正常</span><br></pre></td></tr></table></figure><p>然后，安装hexo</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure><h3 id="创建git仓库"><a href="#创建git仓库" class="headerlink" title="创建git仓库"></a>创建git仓库</h3><p>gitpage对仓库的要求就是仓库名的格式必须为：username.github.io，例如本文仓库名：duguhaotian.github.io</p><h3 id="配置git公钥"><a href="#配置git公钥" class="headerlink" title="配置git公钥"></a>配置git公钥</h3><p>首先，在容器中生成公钥</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure><p>然后拷贝公钥到你Git上，具体步骤百度。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~/.ssh/id_rsa.pub</span><br></pre></td></tr></table></figure></p><h3 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h3><p>配置用户名和邮箱</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name   xxxx</span><br><span class="line">git config --global user.email  xxxx@xxx.com</span><br></pre></td></tr></table></figure><h2 id="构建hexo工程"><a href="#构建hexo工程" class="headerlink" title="构建hexo工程"></a>构建hexo工程</h2><p>创建工程目录，然后通过hexo初始化目录</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">hexo init test</span><br></pre></td></tr></table></figure><p>生成的目录结构如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~/test# tree -L 1</span><br><span class="line">.</span><br><span class="line">|-- _config.yml</span><br><span class="line">|-- db.json</span><br><span class="line">|-- node_modules</span><br><span class="line">|-- package-lock.json</span><br><span class="line">|-- package.json</span><br><span class="line">|-- public</span><br><span class="line">|-- scaffolds</span><br><span class="line">|-- source</span><br><span class="line">|-- themes</span><br></pre></td></tr></table></figure><p>增加博客的方式有两种：</p><ul><li>通过hexo生成新的博客文件，然后写博客</li><li>或者把写好的博客文件（markdown格式），放入test/source/_posts/目录</li></ul><h2 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h2><p>由于hexo依赖一些库，如支持推送静态页面到git的库等。最好安装下面所有库</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br><span class="line">npm install hexo-generator-index --save</span><br><span class="line">npm install hexo-generator-archive --save</span><br><span class="line">npm install hexo-generator-category --save</span><br><span class="line">npm install hexo-generator-tag --save</span><br><span class="line">npm install hexo-server --save</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-deployer-heroku --save</span><br><span class="line">npm install hexo-deployer-rsync --save</span><br><span class="line">npm install hexo-deployer-openshift --save</span><br><span class="line">npm install hexo-renderer-marked@0.2 --save</span><br><span class="line">npm install hexo-renderer-stylus@0.2 --save</span><br><span class="line">npm install hexo-generator-feed@1 --save</span><br><span class="line">npm install hexo-generator-sitemap@1 --save</span><br></pre></td></tr></table></figure><h2 id="生成静态网站"><a href="#生成静态网站" class="headerlink" title="生成静态网站"></a>生成静态网站</h2><p>在test目录执行：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 生成静态页面</span><br><span class="line">hexo g </span><br><span class="line"># 部署本地静态网站(localhost:4000)</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure><p>查看本地静态网站是否构建正常，如果无问题，直接推送到github仓库。</p><h2 id="推送到GitPage"><a href="#推送到GitPage" class="headerlink" title="推送到GitPage"></a>推送到GitPage</h2><p>当本地网站验证无误，就可以推送到你的Git仓库了，然后Github会自动部署你的GitPage</p><p>首先，修改hexo的配置文件：_config.yml ，增加deploy的配置</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: https://github.com/duguhaotian/duguhaotian.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure><p>配置文件默认情况如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:</span><br></pre></td></tr></table></figure></p><p>因此，我们增加type和对应的repository地址，还有git分支。</p><p>最后，直接利用hexo的deploy功能把hexo生成的静态页面推送到Github上我们新建的仓库。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br><span class="line"># 或者</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure><h2 id="跟换皮肤"><a href="#跟换皮肤" class="headerlink" title="跟换皮肤"></a>跟换皮肤</h2><p>首先，在hexo官网找到自己需要的皮肤：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a><br>例如，material的皮肤，然后获取git地址：<a href="https://github.com/viosey/hexo-theme-material" target="_blank" rel="noopener">https://github.com/viosey/hexo-theme-material</a></p><p>主要步骤：</p><ul><li>把该目录拷贝到themes/下面</li><li>重命名为material</li><li>修改test/_config.yml配置文件中theme为：material</li><li>把test/theme/material/_config.template.yml拷贝一份为:test/themes/material/_config.yaml，不然hexo生成静态页面会错误</li></ul><p>更多配置可以参考下面的手册：<a href="https://material.viosey.com/docs/#/" target="_blank" rel="noopener">https://material.viosey.com/docs/#/</a></p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul><li><a href="https://hexo.io/docs/" target="_blank" rel="noopener">https://hexo.io/docs/</a></li><li><a href="https://www.jianshu.com/p/15ae47eddc56" target="_blank" rel="noopener">https://www.jianshu.com/p/15ae47eddc56</a></li><li><a href="https://www.docker-cn.com/registry-mirror" target="_blank" rel="noopener">https://www.docker-cn.com/registry-mirror</a></li><li><a href="https://docs.docker.com/" target="_blank" rel="noopener">https://docs.docker.com/</a></li><li><a href="https://material.viosey.com/docs/#/" target="_blank" rel="noopener">https://material.viosey.com/docs/#/</a></li></ul>]]></content>
     
@@ -39,12 +39,12 @@
     
     </summary>
     
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
     
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+      <category term="hexo" scheme="http://yoursite.com/categories/linux/hexo/"/>
     
-      <category term="hexo" scheme="http://yoursite.com/tags/hexo/"/>
+      <category term="gitpage" scheme="http://yoursite.com/categories/linux/hexo/gitpage/"/>
     
-      <category term="gitpage" scheme="http://yoursite.com/tags/gitpage/"/>
     
   </entry>
   
@@ -53,7 +53,7 @@
     <link href="http://yoursite.com/2018/01/21/%E4%BF%AE%E5%A4%8Dperl%E7%9A%84locale%E5%BC%82%E5%B8%B8/"/>
     <id>http://yoursite.com/2018/01/21/修复perl的locale异常/</id>
     <published>2018-01-21T12:28:36.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">perl: warning: Falling back to the standard locale (<span class="string">"C"</span>).</span><br><span class="line">perl: warning: Setting locale failed.</span><br><span class="line">sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)</span><br><span class="line">sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)</span><br></pre></td></tr></table></figure><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">locale-gen en_US en_US.UTF-8</span><br><span class="line">dpkg-reconfigure locales</span><br><span class="line">locale</span><br><span class="line">export LC_ALL=en_US.UTF-8</span><br></pre></td></tr></table></figure>]]></content>
     
@@ -69,10 +69,10 @@
     
     </summary>
     
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
     
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+      <category term="perl" scheme="http://yoursite.com/categories/linux/perl/"/>
     
-      <category term="perl" scheme="http://yoursite.com/tags/perl/"/>
     
   </entry>
   
@@ -81,7 +81,7 @@
     <link href="http://yoursite.com/2018/01/21/%E7%94%B5%E5%AD%90%E4%B9%A6%E5%88%B6%E4%BD%9C%E7%88%AC%E5%8F%96/"/>
     <id>http://yoursite.com/2018/01/21/电子书制作爬取/</id>
     <published>2018-01-21T12:27:18.000Z</published>
-    <updated>2018-01-21T04:54:22.530Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><p>博客：<a href="http://abirdcfly.github.io/2016/03/07/calibre2mobi/" target="_blank" rel="noopener">http://abirdcfly.github.io/2016/03/07/calibre2mobi/</a></p>]]></content>
     
@@ -97,8 +97,38 @@
     
     </summary>
     
+      <category term="电子书" scheme="http://yoursite.com/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"/>
     
-      <category term="电子书" scheme="http://yoursite.com/tags/%E7%94%B5%E5%AD%90%E4%B9%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IP命令使用</title>
+    <link href="http://yoursite.com/2018/01/08/ip_command/"/>
+    <id>http://yoursite.com/2018/01/08/ip_command/</id>
+    <published>2018-01-08T10:50:50.000Z</published>
+    <updated>2018-01-22T14:28:41.941Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="up-down-veth接口"><a href="#up-down-veth接口" class="headerlink" title="up/down veth接口"></a>up/down veth接口</h2><p>Usage:</p><pre><code>ip link set dev &lt;interface&gt; upip link set dev &lt;interface&gt; down</code></pre><p>Example:</p><pre><code>ip link set dev eth0 upip link set dev eth0 down</code></pre><h2 id="创建veth对"><a href="#创建veth对" class="headerlink" title="创建veth对"></a>创建veth对</h2><p>Usage:</p><pre><code>ip link add &lt;interface nameA&gt; type veth peer name &lt;interface nameB&gt;</code></pre><p>Example:</p><pre><code>ip link add veth0 type veth peer name veth1</code></pre><h2 id="设置veth网络命名空间"><a href="#设置veth网络命名空间" class="headerlink" title="设置veth网络命名空间"></a>设置veth网络命名空间</h2><p>Usage:</p><pre><code>ip link set &lt;interface&gt; netns &lt;netnamespace&gt;</code></pre><p>Example:</p><pre><code>ip netns add hello_test  //创建一个名为hell_test的netns（网络命名空间）ip link set veth1 netns hello_test</code></pre><h2 id="重命名veth接口"><a href="#重命名veth接口" class="headerlink" title="重命名veth接口"></a>重命名veth接口</h2><p>Usage:</p><pre><code>ip link set vethA name vethB</code></pre><p>Example:</p><pre><code>ip link set vethA downip link set vethA name vethBip link set vethB up</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;up-down-veth接口&quot;&gt;&lt;a href=&quot;#up-down-veth接口&quot; class=&quot;headerlink&quot; title=&quot;up/down veth接口&quot;&gt;&lt;/a&gt;up/down veth接口&lt;/h
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="tools" scheme="http://yoursite.com/categories/linux/tools/"/>
+    
+      <category term="ip" scheme="http://yoursite.com/categories/linux/tools/ip/"/>
+    
     
   </entry>
   
@@ -137,7 +167,7 @@
     <link href="http://yoursite.com/2018/01/07/git_usages/"/>
     <id>http://yoursite.com/2018/01/07/git_usages/</id>
     <published>2018-01-07T10:50:55.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h1 id="Git用法汇总"><a href="#Git用法汇总" class="headerlink" title="Git用法汇总"></a>Git用法汇总</h1><h2 id="Git命令自动补全"><a href="#Git命令自动补全" class="headerlink" title="Git命令自动补全"></a>Git命令自动补全</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/bash_completion.d/git</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"><span class="built_in">source</span> /usr/share/bash-completion/completions/git</span><br></pre></td></tr></table></figure><p>可以添加到~/.bashrc</p>]]></content>
     
@@ -153,12 +183,12 @@
     
     </summary>
     
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
     
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+      <category term="tools" scheme="http://yoursite.com/categories/linux/tools/"/>
     
-      <category term="tools" scheme="http://yoursite.com/tags/tools/"/>
+      <category term="git" scheme="http://yoursite.com/categories/linux/tools/git/"/>
     
-      <category term="git" scheme="http://yoursite.com/tags/git/"/>
     
   </entry>
   
@@ -167,7 +197,7 @@
     <link href="http://yoursite.com/2018/01/01/knowledge_topology/"/>
     <id>http://yoursite.com/2018/01/01/knowledge_topology/</id>
     <published>2018-01-01T01:01:01.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h2><p>c语言测试套框架：<a href="https://libcheck.github.io/check/" target="_blank" rel="noopener">https://libcheck.github.io/check/</a></p>]]></content>
     
@@ -183,8 +213,8 @@
     
     </summary>
     
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
     
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
   </entry>
   
@@ -219,6 +249,36 @@
   </entry>
   
   <entry>
+    <title>pip命令初识</title>
+    <link href="http://yoursite.com/2017/12/12/pip_command/"/>
+    <id>http://yoursite.com/2017/12/12/pip_command/</id>
+    <published>2017-12-12T12:01:22.000Z</published>
+    <updated>2018-01-22T14:28:41.941Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h2><h3 id="1-安装指定版本的包"><a href="#1-安装指定版本的包" class="headerlink" title="1. 安装指定版本的包"></a>1. 安装指定版本的包</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install docker-py==1.8.1</span><br></pre></td></tr></table></figure><h3 id="2-使用代理proxy"><a href="#2-使用代理proxy" class="headerlink" title="2. 使用代理proxy"></a>2. 使用代理proxy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 --proxy=http://username:password@proxy.com:8080 install docker-py==1.8.1</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;基础用法&quot;&gt;&lt;a href=&quot;#基础用法&quot; class=&quot;headerlink&quot; title=&quot;基础用法&quot;&gt;&lt;/a&gt;基础用法&lt;/h2&gt;&lt;h3 id=&quot;1-安装指定版本的包&quot;&gt;&lt;a href=&quot;#1-安装指定版本
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="python" scheme="http://yoursite.com/categories/linux/python/"/>
+    
+      <category term="pip" scheme="http://yoursite.com/categories/linux/python/pip/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>nginx问题跟踪</title>
     <link href="http://yoursite.com/2017/08/08/nginx%E7%9B%B8%E5%85%B3/"/>
     <id>http://yoursite.com/2017/08/08/nginx相关/</id>
@@ -249,11 +309,41 @@
   </entry>
   
   <entry>
+    <title>nginx问题跟踪</title>
+    <link href="http://yoursite.com/2017/08/08/nginxnx_related/"/>
+    <id>http://yoursite.com/2017/08/08/nginxnx_related/</id>
+    <published>2017-08-08T10:05:47.000Z</published>
+    <updated>2018-01-22T14:28:41.941Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>访问nginx搭建的网站时，报403 forbidden错误的原因。</p><h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>第一，是因为缺少index.html或者index.php等<br>第二，是因为没有权限。</p><p>参考：<br><a href="http://blog.51yip.com/apachenginx/1512.html" target="_blank" rel="noopener">http://blog.51yip.com/apachenginx/1512.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h1&gt;&lt;p&gt;访问nginx搭建的网站时，报403 forbidden错误的原因。&lt;
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="tools" scheme="http://yoursite.com/categories/linux/tools/"/>
+    
+      <category term="nginx" scheme="http://yoursite.com/categories/linux/tools/nginx/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>watchdog分析</title>
     <link href="http://yoursite.com/2017/06/02/linux_scheduling_softlockup&amp;hardlockup/"/>
     <id>http://yoursite.com/2017/06/02/linux_scheduling_softlockup&amp;hardlockup/</id>
     <published>2017-06-02T16:19:29.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="softlockup和hardlockup含义"><a href="#softlockup和hardlockup含义" class="headerlink" title="softlockup和hardlockup含义"></a>softlockup和hardlockup含义</h2><h3 id="softlockup"><a href="#softlockup" class="headerlink" title="softlockup"></a>softlockup</h3><p>内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。<br>简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。</p><h3 id="hardlockup"><a href="#hardlockup" class="headerlink" title="hardlockup"></a>hardlockup</h3><p>CPU在内核模式loop时间超过hw_nmi_get_sample_period函数获取的阈值时间，导致其他中断不能运行的bug，称为”hardlockup”。<br>简单来说，就是中断被关闭时间超过阈值，导致其他中断无法运行。</p><h2 id="softlockup注册和触发流程"><a href="#softlockup注册和触发流程" class="headerlink" title="softlockup注册和触发流程"></a>softlockup注册和触发流程</h2><h3 id="基于proc文件系统的watchdog流程"><a href="#基于proc文件系统的watchdog流程" class="headerlink" title="基于proc文件系统的watchdog流程"></a>基于proc文件系统的watchdog流程</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">proc_watchdog_update 更新watchdog状态，如果开启了watchdog，触发开狗流程</span><br><span class="line">  --&gt; watchdog_enable_all_cpus 打开所有cpu的狗</span><br><span class="line">    --&gt; smpboot_register_percpu_thread(&amp;watchdog_threads) 创建启动所有CPU上面的hotplug相关线程</span><br><span class="line">        --&gt; __smpboot_create_thread 创建线程，线程执行的函数是smpboot_thread_fn</span><br><span class="line">          --&gt; smpboot_thread_fn 开始会注册调用watchdog_threads的setup（就是watchdog_enable），正常流程会不断的执行watchdog_threads的thread_fn</span><br><span class="line">            --&gt; watchdog_enabled 会启动一个hrtimer的定时器，触发的回调函数是watchdog_timer_fn</span><br><span class="line">              --&gt; watchdog_timer_fn 根据is_softlockup判断是否发生softlockup</span><br></pre></td></tr></table></figure><p>watchdog函数就是喂狗，保证不出现softlockup，这里不需要关注太详细。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static void watchdog(unsigned int cpu)</span><br><span class="line">&#123;</span><br><span class="line">__this_cpu_write(soft_lockup_hrtimer_cnt,</span><br><span class="line"> __this_cpu_read(hrtimer_interrupts));</span><br><span class="line">__touch_watchdog();</span><br><span class="line"></span><br><span class="line">if (!(watchdog_enabled &amp; NMI_WATCHDOG_ENABLED))</span><br><span class="line">watchdog_nmi_disable(cpu);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h3 id="内核初始化时的流程"><a href="#内核初始化时的流程" class="headerlink" title="内核初始化时的流程"></a>内核初始化时的流程</h3><p>tick的方式，注册watchdog。</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kernel_init 内核初始化</span><br><span class="line">  --&gt; kernel_init_freeable </span><br><span class="line">    --&gt; lockup_detector_init 如果开狗了会执行watchdog_enable_all_cpus；如果开启了CONFIG_TICKLESS，会注册tick_notify。</span><br><span class="line">      --&gt; watchdog_enable_all_cpus 后续流程和proc的一致，参考上面的分析</span><br><span class="line">      --&gt; register_tick_notifier 注册回调函数softlockup_tickonoff_callback</span><br><span class="line">        --&gt; softlockup_tickonoff_callback 注册回调函数softlockup_tick_onoff</span><br><span class="line">          --&gt; softlockup_tick_onoff 如果tick是打开的，会启动一个hrtimer，定期执行watchdog_timer_fn函数</span><br><span class="line">            --&gt; watchdog_timer_fn 和上面的流程一致了</span><br></pre></td></tr></table></figure>]]></content>
     
@@ -269,16 +359,16 @@
     
     </summary>
     
+      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
     
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+      <category term="scheduling" scheme="http://yoursite.com/categories/Linux/scheduling/"/>
     
-      <category term="scheduling" scheme="http://yoursite.com/tags/scheduling/"/>
+      <category term="watchdog" scheme="http://yoursite.com/categories/Linux/scheduling/watchdog/"/>
     
-      <category term="watchdog" scheme="http://yoursite.com/tags/watchdog/"/>
+      <category term="softlockup" scheme="http://yoursite.com/categories/Linux/scheduling/watchdog/softlockup/"/>
     
-      <category term="softlockup" scheme="http://yoursite.com/tags/softlockup/"/>
+      <category term="hardlockup" scheme="http://yoursite.com/categories/Linux/scheduling/watchdog/softlockup/hardlockup/"/>
     
-      <category term="hardlockup" scheme="http://yoursite.com/tags/hardlockup/"/>
     
   </entry>
   
@@ -287,7 +377,7 @@
     <link href="http://yoursite.com/2017/06/02/linux_kernel_bigheap/"/>
     <id>http://yoursite.com/2017/06/02/linux_kernel_bigheap/</id>
     <published>2017-06-02T16:19:29.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/legacy_va_layout (since Linux 2.6.9)</span><br><span class="line">              If nonzero, this disables the new 32-bit memory-mapping</span><br><span class="line">              layout; the kernel will use the legacy (2.4) layout for all</span><br><span class="line">              processes.</span><br></pre></td></tr></table></figure><p>修改heap增长方向代码（以linux4.1的arm为例）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void arch_pick_mmap_layout(struct mm_struct *mm)</span><br><span class="line">&#123;</span><br><span class="line">unsigned long random_factor = 0UL;</span><br><span class="line"></span><br><span class="line">if (current-&gt;flags &amp; PF_RANDOMIZE)</span><br><span class="line">random_factor = arch_mmap_rnd();</span><br><span class="line"></span><br><span class="line">if (mmap_is_legacy()) &#123;  //获取legacy_va_layout的值，非零使用正常模式</span><br><span class="line">mm-&gt;mmap_base = TASK_UNMAPPED_BASE + random_factor;</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area;</span><br><span class="line">&#125; else &#123;  //为零，使用自上向下的模式</span><br><span class="line">mm-&gt;mmap_base = mmap_base(random_factor);</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area_topdown;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
     
@@ -304,12 +394,12 @@
     
     </summary>
     
+      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
     
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+      <category term="bigheap" scheme="http://yoursite.com/categories/Linux/bigheap/"/>
     
-      <category term="bigheap" scheme="http://yoursite.com/tags/bigheap/"/>
+      <category term="legacy_va_layout" scheme="http://yoursite.com/categories/Linux/bigheap/legacy-va-layout/"/>
     
-      <category term="legacy_va_layout" scheme="http://yoursite.com/tags/legacy-va-layout/"/>
     
   </entry>
   
@@ -346,11 +436,43 @@
   </entry>
   
   <entry>
+    <title>ip操作docker容器命名空间</title>
+    <link href="http://yoursite.com/2017/05/08/use_ip_manipulate_docker_netns/"/>
+    <id>http://yoursite.com/2017/05/08/use_ip_manipulate_docker_netns/</id>
+    <published>2017-05-08T19:29:26.000Z</published>
+    <updated>2018-01-22T14:28:41.941Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>在host上，操作容器的网络设备</p><ul><li><p>需要查到容器的进程id==cpid，可以通过</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpid=$(docker inspect --format &apos;&#123;&#123;.State.Pid&#125;&#125;&apos; $1)</span><br></pre></td></tr></table></figure></li><li><p>需要把容器的netns挂到ip命令能操作的netns中—–</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s &quot;/proc/$cpid/ns/net&quot; &quot;/var/run/netns/$cpid&quot;</span><br></pre></td></tr></table></figure></li><li><p>查看容器中所有的网络设备以及配置信息</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns exec $cpid ip a</span><br></pre></td></tr></table></figure></li><li><p>查看容器中网络设备的类型信息：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns exec $cpid ethtool &quot;driver name（如eth0）&quot;</span><br></pre></td></tr></table></figure></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;基本操作&quot;&gt;&lt;a href=&quot;#基本操作&quot; class=&quot;headerlink&quot; title=&quot;基本操作&quot;&gt;&lt;/a&gt;基本操作&lt;/h2&gt;&lt;p&gt;在host上，操作容器的网络设备&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;需要
+      
+    
+    </summary>
+    
+      <category term="linux" scheme="http://yoursite.com/categories/linux/"/>
+    
+      <category term="docker" scheme="http://yoursite.com/categories/linux/docker/"/>
+    
+      <category term="ip" scheme="http://yoursite.com/categories/linux/docker/ip/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>sqlite数据库修改失败</title>
     <link href="http://yoursite.com/2017/05/07/sqlite_can_not_write_error/"/>
     <id>http://yoursite.com/2017/05/07/sqlite_can_not_write_error/</id>
     <published>2017-05-07T22:32:21.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>用sqlite data browser 执行update命令，报错误：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unable to open database file</span><br></pre></td></tr></table></figure><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>sqlite库在对数据库进行操作时（本人估计是写操作），会在数据库的当前文件夹下创建一个临时文件，当操作结束时，该临时文件将被删除。 而远程用户一般不具备有对临时文件足够的权限,<br>所以会造成 无法打开、写或者删除临时文件。解决的方法就是递归地（加-R）将数据库所在文件夹设置为任何用户都有可读可写可删的权限。假如sqlite数据库路径为/database/， 则：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 755 /database/</span><br></pre></td></tr></table></figure><p>参考文章：<a href="http://blog.csdn.net/benthy2/article/details/17901821" target="_blank" rel="noopener">http://blog.csdn.net/benthy2/article/details/17901821</a></p>]]></content>
     
@@ -367,8 +489,8 @@
     
     </summary>
     
+      <category term="sqlite" scheme="http://yoursite.com/categories/sqlite/"/>
     
-      <category term="sqlite" scheme="http://yoursite.com/tags/sqlite/"/>
     
   </entry>
   
@@ -377,7 +499,7 @@
     <link href="http://yoursite.com/2017/05/07/docker_wordpress_migrate/"/>
     <id>http://yoursite.com/2017/05/07/docker_wordpress_migrate/</id>
     <published>2017-05-07T22:31:33.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>我的wordpress是用sqlite作为数据库的<br>wordpress是运行在docker容器里面的<br>网站的所有数据都有备份<br>安装docker<br>按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）<br>拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run –privileged -itd -p 8080:80 -v /workspace/wordpress/blogs/:/var/www/html wordpress_sqlite bash -l -c “/sbin/init”</span><br></pre></td></tr></table></figure><p>此时，网站应该可以正常运行了。</p><p>注意：如果你修改了网站的域名，那么需要对sqlite数据库的数据进行修改。</p><p>##问题</p><p>当迁移的机器域名变化时，需要怎么修改网站配置。</p><p>准备环境：安装sqlite3，sqlitebrowser</p><p>最重要的就是需要修改两个配置：</p><p>WordPress地址（URL）—-对应wp_options的 home<br>站点地址（URL）—-对应wp_options的 siteurl</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE wp_options SET option_value = replace( option_value, ‘http://www.old.com’, ‘http://www.new.com’ ) WHERE option_name = ‘home’ OR option_name = ‘siteurl’;</span><br><span class="line">UPDATE wp_posts SET post_content = replace( post_content, ‘http://www.old.com’, ‘http://www.new.com’ ) ;</span><br><span class="line">UPDATE wp_posts SET guid = replace( guid, ‘http://www.old.com’, ‘http://www.new.com’ ) ;</span><br></pre></td></tr></table></figure><p>注意：</p><ul><li>第一，参考文章“sqlite数据库不能修改”</li><li>第二，参考文章“wordpress登陆跳转卡住”</li><li>第三，sqlitebrowser在update之后，需要执行“write changes”按钮，才能把修改写入到数据库文件中。</li></ul><p>参考文章：</p><ul><li><a href="http://www.2zzt.com/jcandcj/5883.html" target="_blank" rel="noopener">http://www.2zzt.com/jcandcj/5883.html</a></li><li><a href="http://jingyan.baidu.com/article/ff4116258f144012e48237a7.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/ff4116258f144012e48237a7.html</a></li></ul>]]></content>
     
@@ -393,10 +515,10 @@
     
     </summary>
     
+      <category term="wordpress" scheme="http://yoursite.com/categories/wordpress/"/>
     
-      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+      <category term="docker" scheme="http://yoursite.com/categories/wordpress/docker/"/>
     
-      <category term="wordpress" scheme="http://yoursite.com/tags/wordpress/"/>
     
   </entry>
   
@@ -405,7 +527,7 @@
     <link href="http://yoursite.com/2017/05/07/wordpress_login_fail/"/>
     <id>http://yoursite.com/2017/05/07/wordpress_login_fail/</id>
     <published>2017-05-07T22:30:48.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>以www.example.com域名为例</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">www.example.com/wp-login.php?redirect_to=www.example.com/wp-admin%2F&amp;reauth=1</span><br></pre></td></tr></table></figure><p>用户名和密码都是正确的，在redirect的时候，卡住不动。</p><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这是由于wp-admin文件夹的权限问题导致的，可以修改该文件夹的访问权限，“chmod -R 755 wp-admin”</p><p>参考文章：<a href="http://wordpress.stackexchange.com/questions/113161/wp-admin-url-doesnt-allow-to-login-and-redirects-to-same-page" target="_blank" rel="noopener">http://wordpress.stackexchange.com/questions/113161/wp-admin-url-doesnt-allow-to-login-and-redirects-to-same-page</a></p>]]></content>
     
@@ -422,34 +544,8 @@
     
     </summary>
     
+      <category term="wordpress" scheme="http://yoursite.com/categories/wordpress/"/>
     
-      <category term="wordpress" scheme="http://yoursite.com/tags/wordpress/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>golang strings.Join一个字符串的情况</title>
-    <link href="http://yoursite.com/2017/05/07/golang_string_join_usage/"/>
-    <id>http://yoursite.com/2017/05/07/golang_string_join_usage/</id>
-    <published>2017-05-07T22:28:28.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
-    
-    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rt := strings.Join([]string&#123;“help”&#125;, “-“)</span><br><span class="line">fmt.Println(rt)</span><br><span class="line">return</span><br></pre></td></tr></table></figure><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>此时help后面不会加上“-”，只会打印一个“help”</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;hr&gt;
-&lt;p&gt;作者： 耗子007&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;现象&quot;&gt;&lt;a href=&quot;#现象&quot; class=&quot;headerlink&quot; title=&quot;现象&quot;&gt;&lt;/a&gt;现象&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
-      
-    
-    </summary>
-    
-    
-      <category term="Golang" scheme="http://yoursite.com/tags/Golang/"/>
     
   </entry>
   
@@ -458,7 +554,7 @@
     <link href="http://yoursite.com/2017/05/07/git_use_error_fix/"/>
     <id>http://yoursite.com/2017/05/07/git_use_error_fix/</id>
     <published>2017-05-07T22:28:28.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
     <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config –global http.proxy http://name:password@proxyhk.huawei.com:8080</span><br><span class="line"></span><br><span class="line">git config –global https.proxy http://name:password@proxyhk.huawei.com:8080</span><br></pre></td></tr></table></figure><p>比如这种错误的时候fatal: unable to access ‘<a href="https://github.com/kubernetes/kubernetes.git/’" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes.git/’</a>: server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config –global http.sslverify <span class="literal">false</span> （解决证书验证问题）</span><br><span class="line"></span><br><span class="line">git config –global https.sslverify <span class="literal">false</span></span><br></pre></td></tr></table></figure><p>注：不过这样并没有解决你证书的问题，只是跳过了而已。</p><h2 id="Ubuntu在clone大的项目异常"><a href="#Ubuntu在clone大的项目异常" class="headerlink" title="Ubuntu在clone大的项目异常"></a>Ubuntu在clone大的项目异常</h2><p>可能会出下面的错误:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error: gnutls_handshake() failed: A TLS packet with unexpected length was received. while accessing …</span><br><span class="line">fatal: HTTP request failed</span><br></pre></td></tr></table></figure><p>这就需要你自己重新编译安装git了。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential fakeroot dpkg-dev libcurl4-openssl-dev</span><br><span class="line">sudo apt-get build-dep git</span><br><span class="line">mkdir ~/git-openssl</span><br><span class="line"><span class="built_in">cd</span> ~/git-openssl</span><br><span class="line">apt-get <span class="built_in">source</span> git</span><br><span class="line">dpkg-source -x git_1.7.9.5-1.dsc</span><br><span class="line"><span class="built_in">cd</span> git-1.7.9.5</span><br></pre></td></tr></table></figure><p>修改“debian/control”文件，把所有的“libcurl4-gnutls-dev” 替换成“libcurl4-openssl-dev”</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg-buildpackage -rfakeroot -b</span><br></pre></td></tr></table></figure><p>安装对应的版本：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i386: sudo dpkg -i ../git_1.7.9.5-1_i386.deb</span><br><span class="line"></span><br><span class="line">x86_64: sudo dpkg -i ../git_1.7.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure><p>注：git版本号，注意修改为你下载的对应版本号</p><p>参考文章：</p><p><a href="http://askubuntu.com/questions/186847/error-gnutls-handshake-failed-when-connecting-to-https-servers/187199#187199" target="_blank" rel="noopener">http://askubuntu.com/questions/186847/error-gnutls-handshake-failed-when-connecting-to-https-servers/187199#187199</a></p>]]></content>
     
@@ -474,21 +570,21 @@
     
     </summary>
     
+      <category term="Git" scheme="http://yoursite.com/categories/Git/"/>
     
-      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
+      <category term="Ubuntu" scheme="http://yoursite.com/categories/Git/Ubuntu/"/>
     
-      <category term="Ubuntu" scheme="http://yoursite.com/tags/Ubuntu/"/>
     
   </entry>
   
   <entry>
-    <title>Docker代理配置</title>
-    <link href="http://yoursite.com/2017/05/07/docker_set_proxy/"/>
-    <id>http://yoursite.com/2017/05/07/docker_set_proxy/</id>
-    <published>2017-05-07T22:18:28.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
+    <title>golang strings.Join一个字符串的情况</title>
+    <link href="http://yoursite.com/2017/05/07/golang_string_join_usage/"/>
+    <id>http://yoursite.com/2017/05/07/golang_string_join_usage/</id>
+    <published>2017-05-07T22:28:28.000Z</published>
+    <updated>2018-01-22T14:28:41.941Z</updated>
     
-    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="非systemd情况下"><a href="#非systemd情况下" class="headerlink" title="非systemd情况下"></a>非systemd情况下</h2><p>直接修改/etc/default/docker文件就行（Ubuntu下service启动docker，属于非systemd模式）</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=xxxxxx</span><br><span class="line"><span class="built_in">export</span> https_proxy=xxxxxx</span><br></pre></td></tr></table></figure><h2 id="systemd模式下"><a href="#systemd模式下" class="headerlink" title="systemd模式下"></a>systemd模式下</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/systemd/system/docker.service.d</span><br><span class="line">touch /etc/systemd/system/docker.service.d/http-proxy.conf</span><br></pre></td></tr></table></figure><p>添加</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Service] Environment=”HTTP_PROXY=http://proxy.example.com:80/”</span><br></pre></td></tr></table></figure><p>或者</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Environment=”HTTP_PROXY=http://proxy.example.com:80/” “NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com”</span><br></pre></td></tr></table></figure><p>刷新配置：sudo systemctl daemon-reload</p><p>验证配置是否成功：systemctl show –property=Environment docker</p><p>重启docker服务：sudo systemctl restart docker</p><p>参考文章</p><p><a href="https://docs.docker.com/engine/admin/systemd/" target="_blank" rel="noopener">https://docs.docker.com/engine/admin/systemd/</a></p><p><a href="http://www.jianshu.com/p/2e0c9ed5433d" target="_blank" rel="noopener">http://www.jianshu.com/p/2e0c9ed5433d</a></p>]]></content>
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rt := strings.Join([]string&#123;“help”&#125;, “-“)</span><br><span class="line">fmt.Println(rt)</span><br><span class="line">return</span><br></pre></td></tr></table></figure><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>此时help后面不会加上“-”，只会打印一个“help”</p>]]></content>
     
     <summary type="html">
     
@@ -497,97 +593,13 @@
         &lt;hr&gt;
 &lt;p&gt;作者： 耗子007&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id=&quot;非systemd情况下&quot;&gt;&lt;a href=&quot;#非systemd情况下&quot; class=&quot;headerlink&quot; title=&quot;非systemd情况下&quot;&gt;&lt;/a&gt;非systemd情况下&lt;/h2&gt;&lt;p&gt;直接修改/et
+&lt;h2 id=&quot;现象&quot;&gt;&lt;a href=&quot;#现象&quot; class=&quot;headerlink&quot; title=&quot;现象&quot;&gt;&lt;/a&gt;现象&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
       
     
     </summary>
     
+      <category term="Golang" scheme="http://yoursite.com/categories/Golang/"/>
     
-      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>获取qemu创建的虚拟机的IP地址</title>
-    <link href="http://yoursite.com/2017/05/07/qemu_get_vm_ip/"/>
-    <id>http://yoursite.com/2017/05/07/qemu_get_vm_ip/</id>
-    <published>2017-05-07T22:08:28.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
-    
-    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="先用virsh-net-list获取虚拟机的网络列表"><a href="#先用virsh-net-list获取虚拟机的网络列表" class="headerlink" title="先用virsh net-list获取虚拟机的网络列表"></a>先用virsh net-list获取虚拟机的网络列表</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost vms]<span class="comment"># virsh net-list</span></span><br><span class="line">Name State Autostart Persistent</span><br><span class="line">———————————————————-</span><br><span class="line">default active yes yes</span><br></pre></td></tr></table></figure><h2 id="然后获取IP的分配列表"><a href="#然后获取IP的分配列表" class="headerlink" title="然后获取IP的分配列表"></a>然后获取IP的分配列表</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost vms]<span class="comment"># virsh net-dhcp-leases default</span></span><br><span class="line">Expiry Time MAC address Protocol IP address Hostname Client ID or DUID</span><br><span class="line">——————————————————————————————————————-</span><br><span class="line">2016-09-22 21:08:03 52:54:00:00:00:12 ipv4 192.168.122.7/24 rtos –</span><br><span class="line">2016-09-22 21:08:23 52:54:00:00:00:42 ipv4 192.168.122.226/24 rtos –</span><br><span class="line">2016-09-22 21:08:35 52:54:00:00:00:62 ipv4 192.168.122.5/24 rtos –</span><br></pre></td></tr></table></figure><h2 id="获取虚拟机的列表"><a href="#获取虚拟机的列表" class="headerlink" title="获取虚拟机的列表"></a>获取虚拟机的列表</h2><p>[root@localhost vms]# virsh list<br>Id Name State<br>—————————————————-<br>12 main running<br>13 slaver1 running<br>14 slaver2 running</p><p>注：virsh net-dhcp-leases 网络名：会把该网络上分配出去的IP地址显示出来</p><h2 id="获取制定虚拟机的IP"><a href="#获取制定虚拟机的IP" class="headerlink" title="获取制定虚拟机的IP"></a>获取制定虚拟机的IP</h2><p>virsh edit vmID可以看到虚拟机的MAC地址，然后到第二步中找到对应的IP。</p><p>如果有更好的办法可以联系我：duguhaotian@gmail.com</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;hr&gt;
-&lt;p&gt;作者： 耗子007&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;先用virsh-net-list获取虚拟机的网络列表&quot;&gt;&lt;a href=&quot;#先用virsh-net-list获取虚拟机的网络列表&quot; class=&quot;headerlink&quot; title=&quot;先用virsh net-l
-      
-    
-    </summary>
-    
-    
-      <category term="qemu" scheme="http://yoursite.com/tags/qemu/"/>
-    
-      <category term="虚拟机" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Centos7 qemu虚拟机安装</title>
-    <link href="http://yoursite.com/2017/05/07/install_vm_on_centos7/"/>
-    <id>http://yoursite.com/2017/05/07/install_vm_on_centos7/</id>
-    <published>2017-05-07T19:08:28.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
-    
-    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="需要的材料"><a href="#需要的材料" class="headerlink" title="需要的材料"></a>需要的材料</h2><h3 id="qemu-kvm"><a href="#qemu-kvm" class="headerlink" title="qemu-kvm"></a>qemu-kvm</h3><p>能运行的qemu虚拟机镜像文件（如果你的机器是远端服务器，没办法使用virt-view等图形界面的话）<br>已有的qemu系统镜像安装了openssh-server端<br>安装qemu相关软件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer</span><br></pre></td></tr></table></figure></p><p>准备可用的qemu虚拟机镜像文件<br>条件：有一台PC机器，安装好了qemu</p><h3 id="新建磁盘文件"><a href="#新建磁盘文件" class="headerlink" title="新建磁盘文件"></a>新建磁盘文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-img create -f qcow2 /root/my.qcow2 20G</span><br></pre></td></tr></table></figure><h3 id="安装虚拟机"><a href="#安装虚拟机" class="headerlink" title="安装虚拟机"></a>安装虚拟机</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virt-install -r 1024 –accelerate -n <span class="built_in">test</span> -f /root/my.qcow2 –cdrom mini.iso –graphics=vnc,listen=0.0.0.0</span><br></pre></td></tr></table></figure><p>注：mini.iso是ubuntu的最小安装盘，你可以用其他的代替</p><p>图形界面正常的安装流程</p><p>然后进入虚拟机安装openssh-server端，打开root的ssh登录权限。</p><p>此时，我们安装的虚拟机系统的所有文件都在/root/my.qcow2里面。所以，我们把它拷贝到你的centos上面，然后可以直接用这个镜像文件创建虚拟机了。</p><h2 id="启动虚拟机的xml配置文件示例"><a href="#启动虚拟机的xml配置文件示例" class="headerlink" title="启动虚拟机的xml配置文件示例"></a>启动虚拟机的xml配置文件示例</h2><p>把自己的配置写到test.xml文件，如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&lt;domain type=’kvm’&gt;</span><br><span class="line">&lt;name&gt;test&lt;/name&gt;</span><br><span class="line">&lt;memory unit=’MiB’&gt;1024&lt;/memory&gt;</span><br><span class="line">&lt;currentMemory unit=’MiB’&gt;1024&lt;/currentMemory&gt;</span><br><span class="line">&lt;vcpu placement=’static’&gt;1&lt;/vcpu&gt;</span><br><span class="line">&lt;os&gt;</span><br><span class="line">&lt;type arch=’x86_64′ machine=’pc’&gt;hvm&lt;/type&gt;</span><br><span class="line">&lt;boot dev=’cdrom’/&gt;</span><br><span class="line">&lt;boot dev=’hd’/&gt;</span><br><span class="line">&lt;/os&gt;</span><br><span class="line">&lt;features&gt;</span><br><span class="line">&lt;acpi/&gt;</span><br><span class="line">&lt;apic/&gt;</span><br><span class="line">&lt;pae/&gt;</span><br><span class="line">&lt;/features&gt;</span><br><span class="line">&lt;clock offset=’utc’/&gt;</span><br><span class="line">&lt;on_poweroff&gt;destroy&lt;/on_poweroff&gt;</span><br><span class="line">&lt;on_reboot&gt;restart&lt;/on_reboot&gt;</span><br><span class="line">&lt;on_crash&gt;restart&lt;/on_crash&gt;</span><br><span class="line">&lt;devices&gt;</span><br><span class="line">&lt;emulator&gt;/usr/libexec/qemu-kvm&lt;/emulator&gt;</span><br><span class="line">&lt;disk type=’file’ device=’disk’&gt;</span><br><span class="line">&lt;driver name=’qemu’ type=’qcow2’/&gt;</span><br><span class="line">&lt;source file=’/root/guest.qcow2’/&gt;</span><br><span class="line">&lt;target dev=’vda’ bus=’virtio’/&gt;</span><br><span class="line">&lt;/disk&gt;</span><br><span class="line">&lt;controller type=’usb’ index=’0′&gt;</span><br><span class="line">&lt;/controller&gt;</span><br><span class="line">&lt;interface type=’network’&gt;</span><br><span class="line">&lt;mac address=’52:54:00:00:00:12’/&gt;</span><br><span class="line">&lt;source network=’default’/&gt;</span><br><span class="line">&lt;model type=’virtio’/&gt;</span><br><span class="line">&lt;/interface&gt;</span><br><span class="line">&lt;serial type=’pty’&gt;</span><br><span class="line">&lt;target port=’0’/&gt;</span><br><span class="line">&lt;/serial&gt;</span><br><span class="line">&lt;console type=’pty’&gt;</span><br><span class="line">&lt;target type=’serial’ port=’0’/&gt;</span><br><span class="line">&lt;/console&gt;</span><br><span class="line">&lt;channel type=’spicevmc’&gt;</span><br><span class="line">&lt;target type=’virtio’ name=’com.redhat.spice.0’/&gt;</span><br><span class="line">&lt;/channel&gt;</span><br><span class="line">&lt;input type=’tablet’ bus=’usb’/&gt;</span><br><span class="line">&lt;input type=’mouse’ bus=’ps2’/&gt;</span><br><span class="line">&lt;input type=’keyboard’ bus=’ps2’/&gt;</span><br><span class="line">&lt;graphics type=’spice’ autoport=’yes’/&gt;</span><br><span class="line">&lt;sound model=’ich6′&gt;</span><br><span class="line">&lt;/sound&gt;</span><br><span class="line">&lt;video&gt;</span><br><span class="line">&lt;model type=’qxl’ vram=’9216′ heads=’1’/&gt;</span><br><span class="line">&lt;/video&gt;</span><br><span class="line">&lt;redirdev bus=’usb’ type=’spicevmc’&gt;</span><br><span class="line">&lt;/redirdev&gt;</span><br><span class="line">&lt;memballoon model=’virtio’&gt;</span><br><span class="line">&lt;/memballoon&gt;</span><br><span class="line">&lt;/devices&gt;</span><br><span class="line">&lt;/domain&gt;</span><br></pre></td></tr></table></figure><p>注：/usr/libexec/qemu-kvm 其他系统的位置不一样（如，ubuntu是在/user/bin/qemu-system-x86_64）</p><p>然后直接运行virsh create test.xml，此时你就可以通过ssh root@ip到你的虚拟机上了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;hr&gt;
-&lt;p&gt;作者： 耗子007&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;需要的材料&quot;&gt;&lt;a href=&quot;#需要的材料&quot; class=&quot;headerlink&quot; title=&quot;需要的材料&quot;&gt;&lt;/a&gt;需要的材料&lt;/h2&gt;&lt;h3 id=&quot;qemu-kvm&quot;&gt;&lt;a href=&quot;#qemu-k
-      
-    
-    </summary>
-    
-    
-      <category term="qemu" scheme="http://yoursite.com/tags/qemu/"/>
-    
-      <category term="虚拟机" scheme="http://yoursite.com/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>安装expect</title>
-    <link href="http://yoursite.com/2017/05/07/install_expect/"/>
-    <id>http://yoursite.com/2017/05/07/install_expect/</id>
-    <published>2017-05-07T19:07:28.000Z</published>
-    <updated>2018-01-21T04:54:22.520Z</updated>
-    
-    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="安装TCL"><a href="#安装TCL" class="headerlink" title="安装TCL"></a>安装TCL</h2><p>下载地址：<a href="http://www.tcl.tk/software/tcltk/download.html" target="_blank" rel="noopener">http://www.tcl.tk/software/tcltk/download.html</a></p><p>目前最新版本: tcl8.5.19-src.tar.gz</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://prdownloads.sourceforge.net/tcl/tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> tcl8.5.19/unix/</span><br><span class="line"></span><br><span class="line">./configure</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure><h2 id="安装expect"><a href="#安装expect" class="headerlink" title="安装expect"></a>安装expect</h2><p>expect 官网：<a href="http://expect.sourceforge.net/" target="_blank" rel="noopener">http://expect.sourceforge.net/</a></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget http://nchc.dl.sourceforge.net/project/expect/Expect/5.45/expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> expect5.45</span><br><span class="line"></span><br><span class="line">./configure  –with-tcl=/usr/<span class="built_in">local</span>/lib/ –with-tclinclude=../tcl8.5.19/generic/</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/bin/expect /usr/bin/expect</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;hr&gt;
-&lt;p&gt;作者： 耗子007&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;安装TCL&quot;&gt;&lt;a href=&quot;#安装TCL&quot; class=&quot;headerlink&quot; title=&quot;安装TCL&quot;&gt;&lt;/a&gt;安装TCL&lt;/h2&gt;&lt;p&gt;下载地址：&lt;a href=&quot;http://www.tcl.tk
-      
-    
-    </summary>
-    
-    
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
-    
-      <category term="softwares" scheme="http://yoursite.com/tags/softwares/"/>
     
   </entry>
   
