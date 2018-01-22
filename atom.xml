@@ -337,9 +337,9 @@
     </summary>
     
     
-      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
-    
       <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
       <category term="ip" scheme="http://yoursite.com/tags/ip/"/>
     
