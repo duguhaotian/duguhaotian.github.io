@@ -249,6 +249,37 @@
   </entry>
   
   <entry>
+    <title>legacy_va_layout设置大堆</title>
+    <link href="http://duguhaotian.github.io/2017/06/02/linux/kernel/linux_kernel_bigheap/"/>
+    <id>http://duguhaotian.github.io/2017/06/02/linux/kernel/linux_kernel_bigheap/</id>
+    <published>2017-06-02T16:19:29.000Z</published>
+    <updated>2019-08-28T12:48:22.537Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/legacy_va_layout (since Linux 2.6.9)</span><br><span class="line">              If nonzero, this disables the new 32-bit memory-mapping</span><br><span class="line">              layout; the kernel will use the legacy (2.4) layout for all</span><br><span class="line">              processes.</span><br></pre></td></tr></table></figure><p>修改heap增长方向代码（以linux4.1的arm为例）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void arch_pick_mmap_layout(struct mm_struct *mm)</span><br><span class="line">&#123;</span><br><span class="line">unsigned long random_factor = 0UL;</span><br><span class="line"></span><br><span class="line">if (current-&gt;flags &amp; PF_RANDOMIZE)</span><br><span class="line">random_factor = arch_mmap_rnd();</span><br><span class="line"></span><br><span class="line">if (mmap_is_legacy()) &#123;  //获取legacy_va_layout的值，非零使用正常模式</span><br><span class="line">mm-&gt;mmap_base = TASK_UNMAPPED_BASE + random_factor;</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area;</span><br><span class="line">&#125; else &#123;  //为零，使用自上向下的模式</span><br><span class="line">mm-&gt;mmap_base = mmap_base(random_factor);</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area_topdown;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。&lt;br&gt;这样可以使得heap的上限超过2G。&lt;/p&gt;
+&lt;figure class=&quot;highlight p
+      
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://duguhaotian.github.io/categories/Linux/"/>
+    
+      <category term="bigheap" scheme="http://duguhaotian.github.io/categories/Linux/bigheap/"/>
+    
+      <category term="legacy_va_layout" scheme="http://duguhaotian.github.io/categories/Linux/bigheap/legacy-va-layout/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>watchdog分析</title>
     <link href="http://duguhaotian.github.io/2017/06/02/linux/kernel/linux_scheduling_softlockup&amp;hardlockup/"/>
     <id>http://duguhaotian.github.io/2017/06/02/linux/kernel/linux_scheduling_softlockup&amp;hardlockup/</id>
@@ -278,37 +309,6 @@
       <category term="softlockup" scheme="http://duguhaotian.github.io/categories/Linux/scheduling/watchdog/softlockup/"/>
     
       <category term="hardlockup" scheme="http://duguhaotian.github.io/categories/Linux/scheduling/watchdog/softlockup/hardlockup/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>legacy_va_layout设置大堆</title>
-    <link href="http://duguhaotian.github.io/2017/06/02/linux/kernel/linux_kernel_bigheap/"/>
-    <id>http://duguhaotian.github.io/2017/06/02/linux/kernel/linux_kernel_bigheap/</id>
-    <published>2017-06-02T16:19:29.000Z</published>
-    <updated>2019-08-28T12:48:22.537Z</updated>
-    
-    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/legacy_va_layout (since Linux 2.6.9)</span><br><span class="line">              If nonzero, this disables the new 32-bit memory-mapping</span><br><span class="line">              layout; the kernel will use the legacy (2.4) layout for all</span><br><span class="line">              processes.</span><br></pre></td></tr></table></figure><p>修改heap增长方向代码（以linux4.1的arm为例）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void arch_pick_mmap_layout(struct mm_struct *mm)</span><br><span class="line">&#123;</span><br><span class="line">unsigned long random_factor = 0UL;</span><br><span class="line"></span><br><span class="line">if (current-&gt;flags &amp; PF_RANDOMIZE)</span><br><span class="line">random_factor = arch_mmap_rnd();</span><br><span class="line"></span><br><span class="line">if (mmap_is_legacy()) &#123;  //获取legacy_va_layout的值，非零使用正常模式</span><br><span class="line">mm-&gt;mmap_base = TASK_UNMAPPED_BASE + random_factor;</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area;</span><br><span class="line">&#125; else &#123;  //为零，使用自上向下的模式</span><br><span class="line">mm-&gt;mmap_base = mmap_base(random_factor);</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area_topdown;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;hr&gt;
-&lt;p&gt;作者： 耗子007&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。&lt;br&gt;这样可以使得heap的上限超过2G。&lt;/p&gt;
-&lt;figure class=&quot;highlight p
-      
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://duguhaotian.github.io/categories/Linux/"/>
-    
-      <category term="bigheap" scheme="http://duguhaotian.github.io/categories/Linux/bigheap/"/>
-    
-      <category term="legacy_va_layout" scheme="http://duguhaotian.github.io/categories/Linux/bigheap/legacy-va-layout/"/>
     
     
   </entry>
@@ -427,32 +427,6 @@
   </entry>
   
   <entry>
-    <title>golang strings.Join一个字符串的情况</title>
-    <link href="http://duguhaotian.github.io/2017/05/07/golang/golang_string_join_usage/"/>
-    <id>http://duguhaotian.github.io/2017/05/07/golang/golang_string_join_usage/</id>
-    <published>2017-05-07T22:28:28.000Z</published>
-    <updated>2019-08-28T12:48:14.812Z</updated>
-    
-    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rt := strings.Join([]string&#123;“help”&#125;, “-“)</span><br><span class="line">fmt.Println(rt)</span><br><span class="line">return</span><br></pre></td></tr></table></figure><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>此时help后面不会加上“-”，只会打印一个“help”</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;hr&gt;
-&lt;p&gt;作者： 耗子007&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;现象&quot;&gt;&lt;a href=&quot;#现象&quot; class=&quot;headerlink&quot; title=&quot;现象&quot;&gt;&lt;/a&gt;现象&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
-      
-    
-    </summary>
-    
-      <category term="Golang" scheme="http://duguhaotian.github.io/categories/Golang/"/>
-    
-    
-  </entry>
-  
-  <entry>
     <title>Git代理配置及常见错误解决办法</title>
     <link href="http://duguhaotian.github.io/2017/05/07/linux/bugfix/git_use_error_fix/"/>
     <id>http://duguhaotian.github.io/2017/05/07/linux/bugfix/git_use_error_fix/</id>
@@ -476,6 +450,32 @@
       <category term="Git" scheme="http://duguhaotian.github.io/categories/Git/"/>
     
       <category term="Ubuntu" scheme="http://duguhaotian.github.io/categories/Git/Ubuntu/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>golang strings.Join一个字符串的情况</title>
+    <link href="http://duguhaotian.github.io/2017/05/07/golang/golang_string_join_usage/"/>
+    <id>http://duguhaotian.github.io/2017/05/07/golang/golang_string_join_usage/</id>
+    <published>2017-05-07T22:28:28.000Z</published>
+    <updated>2019-08-28T12:48:14.812Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rt := strings.Join([]string&#123;“help”&#125;, “-“)</span><br><span class="line">fmt.Println(rt)</span><br><span class="line">return</span><br></pre></td></tr></table></figure><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>此时help后面不会加上“-”，只会打印一个“help”</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;作者： 耗子007&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;现象&quot;&gt;&lt;a href=&quot;#现象&quot; class=&quot;headerlink&quot; title=&quot;现象&quot;&gt;&lt;/a&gt;现象&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
+      
+    
+    </summary>
+    
+      <category term="Golang" scheme="http://duguhaotian.github.io/categories/Golang/"/>
     
     
   </entry>

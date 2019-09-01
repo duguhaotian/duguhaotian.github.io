@@ -178,6 +178,29 @@
     
     
     <entry>
+      <title>legacy_va_layout设置大堆</title>
+      <link href="/2017/06/02/linux/kernel/linux_kernel_bigheap/"/>
+      <url>/2017/06/02/linux/kernel/linux_kernel_bigheap/</url>
+      
+        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/legacy_va_layout (since Linux 2.6.9)</span><br><span class="line">              If nonzero, this disables the new 32-bit memory-mapping</span><br><span class="line">              layout; the kernel will use the legacy (2.4) layout for all</span><br><span class="line">              processes.</span><br></pre></td></tr></table></figure><p>修改heap增长方向代码（以linux4.1的arm为例）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void arch_pick_mmap_layout(struct mm_struct *mm)</span><br><span class="line">&#123;</span><br><span class="line">unsigned long random_factor = 0UL;</span><br><span class="line"></span><br><span class="line">if (current-&gt;flags &amp; PF_RANDOMIZE)</span><br><span class="line">random_factor = arch_mmap_rnd();</span><br><span class="line"></span><br><span class="line">if (mmap_is_legacy()) &#123;  //获取legacy_va_layout的值，非零使用正常模式</span><br><span class="line">mm-&gt;mmap_base = TASK_UNMAPPED_BASE + random_factor;</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area;</span><br><span class="line">&#125; else &#123;  //为零，使用自上向下的模式</span><br><span class="line">mm-&gt;mmap_base = mmap_base(random_factor);</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area_topdown;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Linux </category>
+          
+          <category> bigheap </category>
+          
+          <category> legacy_va_layout </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>watchdog分析</title>
       <link href="/2017/06/02/linux/kernel/linux_scheduling_softlockup&amp;hardlockup/"/>
       <url>/2017/06/02/linux/kernel/linux_scheduling_softlockup&amp;hardlockup/</url>
@@ -196,29 +219,6 @@
           <category> softlockup </category>
           
           <category> hardlockup </category>
-          
-      </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>legacy_va_layout设置大堆</title>
-      <link href="/2017/06/02/linux/kernel/linux_kernel_bigheap/"/>
-      <url>/2017/06/02/linux/kernel/linux_kernel_bigheap/</url>
-      
-        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/vm/legacy_va_layout (since Linux 2.6.9)</span><br><span class="line">              If nonzero, this disables the new 32-bit memory-mapping</span><br><span class="line">              layout; the kernel will use the legacy (2.4) layout for all</span><br><span class="line">              processes.</span><br></pre></td></tr></table></figure><p>修改heap增长方向代码（以linux4.1的arm为例）</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void arch_pick_mmap_layout(struct mm_struct *mm)</span><br><span class="line">&#123;</span><br><span class="line">unsigned long random_factor = 0UL;</span><br><span class="line"></span><br><span class="line">if (current-&gt;flags &amp; PF_RANDOMIZE)</span><br><span class="line">random_factor = arch_mmap_rnd();</span><br><span class="line"></span><br><span class="line">if (mmap_is_legacy()) &#123;  //获取legacy_va_layout的值，非零使用正常模式</span><br><span class="line">mm-&gt;mmap_base = TASK_UNMAPPED_BASE + random_factor;</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area;</span><br><span class="line">&#125; else &#123;  //为零，使用自上向下的模式</span><br><span class="line">mm-&gt;mmap_base = mmap_base(random_factor);</span><br><span class="line">mm-&gt;get_unmapped_area = arch_get_unmapped_area_topdown;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Linux </category>
-          
-          <category> bigheap </category>
-          
-          <category> legacy_va_layout </category>
           
       </categories>
       
@@ -310,25 +310,6 @@
     
     
     <entry>
-      <title>golang strings.Join一个字符串的情况</title>
-      <link href="/2017/05/07/golang/golang_string_join_usage/"/>
-      <url>/2017/05/07/golang/golang_string_join_usage/</url>
-      
-        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rt := strings.Join([]string&#123;“help”&#125;, “-“)</span><br><span class="line">fmt.Println(rt)</span><br><span class="line">return</span><br></pre></td></tr></table></figure><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>此时help后面不会加上“-”，只会打印一个“help”</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Golang </category>
-          
-      </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Git代理配置及常见错误解决办法</title>
       <link href="/2017/05/07/linux/bugfix/git_use_error_fix/"/>
       <url>/2017/05/07/linux/bugfix/git_use_error_fix/</url>
@@ -341,6 +322,25 @@
           <category> Git </category>
           
           <category> Ubuntu </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>golang strings.Join一个字符串的情况</title>
+      <link href="/2017/05/07/golang/golang_string_join_usage/"/>
+      <url>/2017/05/07/golang/golang_string_join_usage/</url>
+      
+        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rt := strings.Join([]string&#123;“help”&#125;, “-“)</span><br><span class="line">fmt.Println(rt)</span><br><span class="line">return</span><br></pre></td></tr></table></figure><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>此时help后面不会加上“-”，只会打印一个“help”</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Golang </category>
           
       </categories>
       
@@ -495,6 +495,27 @@
     
     
     <entry>
+      <title>官方镜像安装wordpress</title>
+      <link href="/2017/05/07/linux/tools/install_wordpress_docker_image/"/>
+      <url>/2017/05/07/linux/tools/install_wordpress_docker_image/</url>
+      
+        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="拉取官方镜像"><a href="#拉取官方镜像" class="headerlink" title="拉取官方镜像"></a>拉取官方镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull wordpress:latest</span><br><span class="line">docker pull mysql:latest</span><br></pre></td></tr></table></figure><h2 id="启动mysql容器服务"><a href="#启动mysql容器服务" class="headerlink" title="启动mysql容器服务"></a>启动mysql容器服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run –name mysqlwp -e MYSQL_ROOT_PASSWORD=dockerRootMySQL \</span><br><span class="line">-e MYSQL_DATABASE=wordpress \</span><br><span class="line">-e MYSQL_USER=wordpress \</span><br><span class="line">-e MYSQL_PASSWORD=wordpresspwd \</span><br><span class="line">-d mysql</span><br></pre></td></tr></table></figure><h2 id="启动wordpress容器服务"><a href="#启动wordpress容器服务" class="headerlink" title="启动wordpress容器服务"></a>启动wordpress容器服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run –name wordpress –link mysqlwp:mysql -p 8080:80 \</span><br><span class="line">-e WORDPRESS_DB_NAME=wordpress \</span><br><span class="line">-e WORDPRESS_DB_USER=wordpress \</span><br><span class="line">-e WORDPRESS_DB_PASSWORD=wordpresspwd \</span><br><span class="line">-d wordpress</span><br></pre></td></tr></table></figure><p>注意：官方的安装方式，博客书籍到保存到MySQL数据库里，而我们的MySQL是放到容器里面了。怎么回去书籍，后续研究。</p><p>优点：构建方便、快捷</p><p>缺点：第一，两个容器大概需要800MB的存储空间；第二，需要启动二个容器</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> docker image </category>
+          
+          <category> WordPress </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>基于centos搭建wordpress的docker镜像</title>
       <link href="/2017/05/07/docker/build_wordpress_docker_image/"/>
       <url>/2017/05/07/docker/build_wordpress_docker_image/</url>
@@ -537,27 +558,6 @@
     
     
     <entry>
-      <title>Ubuntu搭载shadowsocks服务</title>
-      <link href="/2017/05/07/linux/tools/shadowsocks_in_ubuntu/"/>
-      <url>/2017/05/07/linux/tools/shadowsocks_in_ubuntu/</url>
-      
-        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="安装python和ss"><a href="#安装python和ss" class="headerlink" title="安装python和ss"></a>安装python和ss</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install python-pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure><h2 id="开启ss服务"><a href="#开启ss服务" class="headerlink" title="开启ss服务"></a>开启ss服务</h2><h3 id="直接前台开启"><a href="#直接前台开启" class="headerlink" title="直接前台开启"></a>直接前台开启</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssserver -p 443 -k password -m aes-256-cfb</span><br></pre></td></tr></table></figure><p>优点：可以看到连接输出日志<br>缺点：端口ssh连接会导致服务中断，root权限启动</p><h3 id="后台开启并使用其他权限启动"><a href="#后台开启并使用其他权限启动" class="headerlink" title="后台开启并使用其他权限启动"></a>后台开启并使用其他权限启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssserver -p 443 -k password -m aes-256-cfb –user nobody -d start</span><br></pre></td></tr></table></figure><p>配置文件设置服务<br>配置文件格式: </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">“server”:”0.0.0.0″,</span><br><span class="line">“port_password”:&#123;</span><br><span class="line">“8381”:”haozi001″,</span><br><span class="line">“8382”:”haozi001″,</span><br><span class="line">“8383”:”haozi001″</span><br><span class="line">&#125;,</span><br><span class="line">“local_address”: “127.0.0.1”,</span><br><span class="line">“local_port”:1080,</span><br><span class="line">“timeout”:600,</span><br><span class="line">“method”:”aes-256-cfb”</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>注意：如果是在google cloud platform上面设置，需要打开设置的端口号（如8381等）</p><p>优点:可以同时配置多个端口和密码，支持多用户</p><p>启动和停止命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssserver -c /etc/shadowsocks.json -d start</span><br><span class="line">ssserver -c /etc/shadowsocks.json -d stop</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> Ubuntu </category>
-          
-          <category> shadowsocks </category>
-          
-      </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>awk笔记</title>
       <link href="/2017/05/07/linux/shells/shell_learn_awk1/"/>
       <url>/2017/05/07/linux/shells/shell_learn_awk1/</url>
@@ -581,18 +581,18 @@
     
     
     <entry>
-      <title>官方镜像安装wordpress</title>
-      <link href="/2017/05/07/linux/tools/install_wordpress_docker_image/"/>
-      <url>/2017/05/07/linux/tools/install_wordpress_docker_image/</url>
+      <title>Ubuntu搭载shadowsocks服务</title>
+      <link href="/2017/05/07/linux/tools/shadowsocks_in_ubuntu/"/>
+      <url>/2017/05/07/linux/tools/shadowsocks_in_ubuntu/</url>
       
-        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="拉取官方镜像"><a href="#拉取官方镜像" class="headerlink" title="拉取官方镜像"></a>拉取官方镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull wordpress:latest</span><br><span class="line">docker pull mysql:latest</span><br></pre></td></tr></table></figure><h2 id="启动mysql容器服务"><a href="#启动mysql容器服务" class="headerlink" title="启动mysql容器服务"></a>启动mysql容器服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run –name mysqlwp -e MYSQL_ROOT_PASSWORD=dockerRootMySQL \</span><br><span class="line">-e MYSQL_DATABASE=wordpress \</span><br><span class="line">-e MYSQL_USER=wordpress \</span><br><span class="line">-e MYSQL_PASSWORD=wordpresspwd \</span><br><span class="line">-d mysql</span><br></pre></td></tr></table></figure><h2 id="启动wordpress容器服务"><a href="#启动wordpress容器服务" class="headerlink" title="启动wordpress容器服务"></a>启动wordpress容器服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run –name wordpress –link mysqlwp:mysql -p 8080:80 \</span><br><span class="line">-e WORDPRESS_DB_NAME=wordpress \</span><br><span class="line">-e WORDPRESS_DB_USER=wordpress \</span><br><span class="line">-e WORDPRESS_DB_PASSWORD=wordpresspwd \</span><br><span class="line">-d wordpress</span><br></pre></td></tr></table></figure><p>注意：官方的安装方式，博客书籍到保存到MySQL数据库里，而我们的MySQL是放到容器里面了。怎么回去书籍，后续研究。</p><p>优点：构建方便、快捷</p><p>缺点：第一，两个容器大概需要800MB的存储空间；第二，需要启动二个容器</p>]]></content>
+        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><h2 id="安装python和ss"><a href="#安装python和ss" class="headerlink" title="安装python和ss"></a>安装python和ss</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install python-pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure><h2 id="开启ss服务"><a href="#开启ss服务" class="headerlink" title="开启ss服务"></a>开启ss服务</h2><h3 id="直接前台开启"><a href="#直接前台开启" class="headerlink" title="直接前台开启"></a>直接前台开启</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssserver -p 443 -k password -m aes-256-cfb</span><br></pre></td></tr></table></figure><p>优点：可以看到连接输出日志<br>缺点：端口ssh连接会导致服务中断，root权限启动</p><h3 id="后台开启并使用其他权限启动"><a href="#后台开启并使用其他权限启动" class="headerlink" title="后台开启并使用其他权限启动"></a>后台开启并使用其他权限启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssserver -p 443 -k password -m aes-256-cfb –user nobody -d start</span><br></pre></td></tr></table></figure><p>配置文件设置服务<br>配置文件格式: </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">“server”:”0.0.0.0″,</span><br><span class="line">“port_password”:&#123;</span><br><span class="line">“8381”:”haozi001″,</span><br><span class="line">“8382”:”haozi001″,</span><br><span class="line">“8383”:”haozi001″</span><br><span class="line">&#125;,</span><br><span class="line">“local_address”: “127.0.0.1”,</span><br><span class="line">“local_port”:1080,</span><br><span class="line">“timeout”:600,</span><br><span class="line">“method”:”aes-256-cfb”</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>注意：如果是在google cloud platform上面设置，需要打开设置的端口号（如8381等）</p><p>优点:可以同时配置多个端口和密码，支持多用户</p><p>启动和停止命令：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssserver -c /etc/shadowsocks.json -d start</span><br><span class="line">ssserver -c /etc/shadowsocks.json -d stop</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
           
-          <category> docker image </category>
+          <category> Ubuntu </category>
           
-          <category> WordPress </category>
+          <category> shadowsocks </category>
           
       </categories>
       
@@ -942,25 +942,6 @@
     
     
     <entry>
-      <title>Python杂记</title>
-      <link href="/2017/01/17/python/python_notes_1/"/>
-      <url>/2017/01/17/python/python_notes_1/</url>
-      
-        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><p>最近被python的条件坑了一波，在此小计一下。<br>python的IF的条件判断和C是一致的，0表示False，非0表示True。这本没什么问题，坑爹的是，很多函数的成功返回0，而失败返回-1，这就很容易被坑了。<br>先看看0和-1的情况：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">root@rtos:/home/work/rtos<span class="comment"># python</span></span><br><span class="line">Python 2.7.6 (default, Oct 26 2016, 20:30:19)</span><br><span class="line">[GCC 4.8.4] on linux2</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> 0:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is False"</span>)</span><br><span class="line">...</span><br><span class="line">0 is False</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> -1:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is False"</span>)</span><br><span class="line">...</span><br><span class="line">-1 is True</span><br></pre></td></tr></table></figure><p>字符串的find函数，在查找失败的时候返回-1，成功时返回匹配的起始下标。当匹配的起始下标是0和查找失败的时候，在if判断时候需要注意了。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;&gt;&gt; tmp = <span class="string">"abcdefg"</span></span><br><span class="line">&gt;&gt;&gt; a = <span class="string">"abc"</span></span><br><span class="line">&gt;&gt;&gt; b = <span class="string">"bcd"</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(a):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (a, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (a, tmp))</span><br><span class="line">...</span><br><span class="line">abc cannot find <span class="keyword">in</span> abcdefg</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(b):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (b, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (b, tmp))</span><br><span class="line">...</span><br><span class="line">bcd find <span class="keyword">in</span> abcdefg</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; c = <span class="string">"234"</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(c):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (c, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (c, tmp))</span><br><span class="line">...</span><br><span class="line">234 find <span class="keyword">in</span> abcdefg</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
-      <categories>
-          
-          <category> python </category>
-          
-      </categories>
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Systemd自动Unmount机制分析</title>
       <link href="/2017/01/17/linux/mount_enumerate/"/>
       <url>/2017/01/17/linux/mount_enumerate/</url>
@@ -973,6 +954,25 @@
           <category> systemd </category>
           
           <category> linux </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Python杂记</title>
+      <link href="/2017/01/17/python/python_notes_1/"/>
+      <url>/2017/01/17/python/python_notes_1/</url>
+      
+        <content type="html"><![CDATA[<hr><p>作者： 耗子007</p><hr><p>最近被python的条件坑了一波，在此小计一下。<br>python的IF的条件判断和C是一致的，0表示False，非0表示True。这本没什么问题，坑爹的是，很多函数的成功返回0，而失败返回-1，这就很容易被坑了。<br>先看看0和-1的情况：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">root@rtos:/home/work/rtos<span class="comment"># python</span></span><br><span class="line">Python 2.7.6 (default, Oct 26 2016, 20:30:19)</span><br><span class="line">[GCC 4.8.4] on linux2</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> 0:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"0 is False"</span>)</span><br><span class="line">...</span><br><span class="line">0 is False</span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> -1:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is True"</span>)</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"-1 is False"</span>)</span><br><span class="line">...</span><br><span class="line">-1 is True</span><br></pre></td></tr></table></figure><p>字符串的find函数，在查找失败的时候返回-1，成功时返回匹配的起始下标。当匹配的起始下标是0和查找失败的时候，在if判断时候需要注意了。</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt;&gt;&gt; tmp = <span class="string">"abcdefg"</span></span><br><span class="line">&gt;&gt;&gt; a = <span class="string">"abc"</span></span><br><span class="line">&gt;&gt;&gt; b = <span class="string">"bcd"</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(a):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (a, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (a, tmp))</span><br><span class="line">...</span><br><span class="line">abc cannot find <span class="keyword">in</span> abcdefg</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(b):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (b, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (b, tmp))</span><br><span class="line">...</span><br><span class="line">bcd find <span class="keyword">in</span> abcdefg</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; c = <span class="string">"234"</span></span><br><span class="line">&gt;&gt;&gt; <span class="keyword">if</span> tmp.find(c):</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s find in %s"</span> % (c, tmp))</span><br><span class="line">... <span class="keyword">else</span>:</span><br><span class="line">...     <span class="built_in">print</span>(<span class="string">"%s cannot find in %s"</span> % (c, tmp))</span><br><span class="line">...</span><br><span class="line">234 find <span class="keyword">in</span> abcdefg</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> python </category>
           
       </categories>
       
