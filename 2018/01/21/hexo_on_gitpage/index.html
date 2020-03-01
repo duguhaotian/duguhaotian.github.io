@@ -28,7 +28,7 @@
 <meta property="og:description" content="作者： 耗子007  环境准备 docker nodejs镜像 hexo git相关  docker安装docker的安装请参考官方文档：https:&#x2F;&#x2F;docs.docker.com&#x2F;engine&#x2F;installation&#x2F; nodejs镜像国内可以使用Docker官方的加速地址，具体配置参考官方文档： https:&#x2F;&#x2F;www.docker-cn.com&#x2F;registry-mirror 本文使">
 <meta property="og:locale" content="cn">
 <meta property="article:published_time" content="2018-01-21T13:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-01T04:07:42.207Z">
+<meta property="article:modified_time" content="2020-03-01T04:13:26.354Z">
 <meta property="article:author" content="Haozi007">
 <meta name="twitter:card" content="summary">
 
@@ -218,7 +218,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 04:07:42" itemprop="dateModified" datetime="2020-03-01T04:07:42+00:00">2020-03-01</time>
+                <time title="Modified: 2020-03-01 04:13:26" itemprop="dateModified" datetime="2020-03-01T04:13:26+00:00">2020-03-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -299,8 +299,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 生成静态页面</span><br><span class="line">hexo g </span><br><span class="line"># 部署本地静态网站(localhost:4000)</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
 
 <p>查看本地静态网站是否构建正常，如果无问题，直接推送到github仓库。</p>
-<h2 id="推送到GitPage"><a href="#推送到GitPage" class="headerlink" title="推送到GitPage"></a>推送到GitPage</h2><p>当本地网站验证无误，就可以推送到你的Git仓库了，然后Github会自动部署你的GitPage</p>
-<p>首先，修改hexo的配置文件：_config.yml ，增加deploy的配置</p>
+<h2 id="推送到GitPage"><a href="#推送到GitPage" class="headerlink" title="推送到GitPage"></a>推送到GitPage</h2><p>当本地网站验证无误，就可以推送到你的Git仓库了，然后Github会自动部署你的GitPage。</p>
+<p>首先，安装依赖的插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>然后，修改hexo的配置文件：_config.yml ，增加deploy的配置</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: https:&#x2F;&#x2F;github.com&#x2F;duguhaotian&#x2F;duguhaotian.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
 <p>配置文件默认情况如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:</span><br></pre></td></tr></table></figure>
