@@ -27,10 +27,12 @@
 <meta property="og:site_name" content="苦与乐">
 <meta property="og:description" content="作者： 耗子007  环境准备 docker nodejs镜像 hexo git相关  docker安装docker的安装请参考官方文档：https:&#x2F;&#x2F;docs.docker.com&#x2F;engine&#x2F;installation&#x2F; nodejs镜像国内可以使用Docker官方的加速地址，具体配置参考官方文档： https:&#x2F;&#x2F;www.docker-cn.com&#x2F;registry-mirror 本文使">
 <meta property="og:locale" content="cn">
+<meta property="og:image" content="http://yoursite.com/images/gitalk_oauth.png">
 <meta property="article:published_time" content="2018-01-21T13:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-01T04:13:26.354Z">
+<meta property="article:modified_time" content="2020-03-01T04:37:08.874Z">
 <meta property="article:author" content="Haozi007">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/gitalk_oauth.png">
 
 <link rel="canonical" href="http://yoursite.com/2018/01/21/hexo_on_gitpage/">
 
@@ -218,7 +220,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 04:13:26" itemprop="dateModified" datetime="2020-03-01T04:13:26+00:00">2020-03-01</time>
+                <time title="Modified: 2020-03-01 04:37:08" itemprop="dateModified" datetime="2020-03-01T04:37:08+00:00">2020-03-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -332,6 +334,14 @@
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat source&#x2F;categories&#x2F;index.md </span><br><span class="line">---</span><br><span class="line">title: categories</span><br><span class="line">date: 2019-09-01 14:42:03</span><br><span class="line">type: &quot;categories&quot;   &#x2F;&#x2F;手动增加</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 
+<h3 id="配置gitalk"><a href="#配置gitalk" class="headerlink" title="配置gitalk"></a>配置gitalk</h3><p>首先，生成授权需要的id和secret，网址：<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">https://github.com/settings/applications/new</a></p>
+<p>具体配置参考下图：</p>
+<p><img src="/images/gitalk_oauth.png" alt="gitalk oauth"></p>
+<p>然后配置next/_config.yml：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gitalk:</span><br><span class="line">  enable: true</span><br><span class="line">  github_id: 你的github账号 # GitHub repo owner</span><br><span class="line">  repo: 只需要repo名字就行了，例如test # Repository name to store issues</span><br><span class="line">  client_id: 上面生成的id # GitHub Application Client ID</span><br><span class="line">  client_secret: 上面生成的秘钥 # GitHub Application Client Secret</span><br><span class="line">  admin_user: 你的github账号 # GitHub repo owner and collaborators, only these guys can initialize gitHub issues</span><br></pre></td></tr></table></figure>
+
+
+
 <p>更多配置可以参考下面的手册：<a href="https://theme-next.org/docs/getting-started/" target="_blank" rel="noopener">https://theme-next.org/docs/getting-started/</a></p>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
 <li><a href="https://hexo.io/docs/" target="_blank" rel="noopener">https://hexo.io/docs/</a></li>
@@ -419,7 +429,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">1.</span> <span class="nav-text">环境准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker安装"><span class="nav-number">1.1.</span> <span class="nav-text">docker安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nodejs镜像"><span class="nav-number">1.2.</span> <span class="nav-text">nodejs镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装hexo"><span class="nav-number">1.3.</span> <span class="nav-text">安装hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建git仓库"><span class="nav-number">1.4.</span> <span class="nav-text">创建git仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置git公钥"><span class="nav-number">1.5.</span> <span class="nav-text">配置git公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置git"><span class="nav-number">1.6.</span> <span class="nav-text">配置git</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建hexo工程"><span class="nav-number">2.</span> <span class="nav-text">构建hexo工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装依赖库"><span class="nav-number">3.</span> <span class="nav-text">安装依赖库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成静态网站"><span class="nav-number">4.</span> <span class="nav-text">生成静态网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推送到GitPage"><span class="nav-number">5.</span> <span class="nav-text">推送到GitPage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跟换主题"><span class="nav-number">6.</span> <span class="nav-text">跟换主题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主题配置"><span class="nav-number">6.1.</span> <span class="nav-text">主题配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装方法"><span class="nav-number">6.2.</span> <span class="nav-text">安装方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加tags和categories页面"><span class="nav-number">6.3.</span> <span class="nav-text">添加tags和categories页面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">7.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">1.</span> <span class="nav-text">环境准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker安装"><span class="nav-number">1.1.</span> <span class="nav-text">docker安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nodejs镜像"><span class="nav-number">1.2.</span> <span class="nav-text">nodejs镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装hexo"><span class="nav-number">1.3.</span> <span class="nav-text">安装hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建git仓库"><span class="nav-number">1.4.</span> <span class="nav-text">创建git仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置git公钥"><span class="nav-number">1.5.</span> <span class="nav-text">配置git公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置git"><span class="nav-number">1.6.</span> <span class="nav-text">配置git</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建hexo工程"><span class="nav-number">2.</span> <span class="nav-text">构建hexo工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装依赖库"><span class="nav-number">3.</span> <span class="nav-text">安装依赖库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成静态网站"><span class="nav-number">4.</span> <span class="nav-text">生成静态网站</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推送到GitPage"><span class="nav-number">5.</span> <span class="nav-text">推送到GitPage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跟换主题"><span class="nav-number">6.</span> <span class="nav-text">跟换主题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主题配置"><span class="nav-number">6.1.</span> <span class="nav-text">主题配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装方法"><span class="nav-number">6.2.</span> <span class="nav-text">安装方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加tags和categories页面"><span class="nav-number">6.3.</span> <span class="nav-text">添加tags和categories页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置gitalk"><span class="nav-number">6.4.</span> <span class="nav-text">配置gitalk</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">7.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
