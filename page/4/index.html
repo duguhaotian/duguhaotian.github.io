@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">51</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">54</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -180,6 +180,661 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/shell_learn_readfile_lines/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/05/07/shell_learn_readfile_lines/" class="post-title-link" itemprop="url">Shell逐行遍历文件</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-07 13:02:26" itemprop="dateCreated datePublished" datetime="2017-05-07T13:02:26+00:00">2017-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="while-read"><a href="#while-read" class="headerlink" title="while read"></a>while read</h2><p>read命令接收标准输入，或其他文件描述符的输入，得到输入后，read命令将数据放入一个标准变量中．</p>
+<p>利用read读取文件时，每次调用read命令都会读取文件中的”一行”文本．</p>
+<p>当文件没有可读的行时，read命令将以非零状态退出．</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat filename| <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span> &lt; filename</span><br></pre></td></tr></table></figure>
+
+<h2 id="for-var-in-file"><a href="#for-var-in-file" class="headerlink" title="for  var in file"></a>for  var in file</h2><p>for var in file　表示变量var在file中循环取值．取值的分隔符由$IFS确定．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for line in $(cat filename)</span><br><span class="line">do</span><br><span class="line">echo “File:$&#123;line&#125;”</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">for line in &#96;cat filename&#96;</span><br><span class="line">do</span><br><span class="line">echo “$&#123;line&#125;”</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>如果输入文本每行中没有空格，则line在输入文本中按换行符分隔符循环取值．</p>
+<p>如果输入文本中包括空格或制表符，则不是换行读取，line在输入文本中按空格分隔符或制表符或换行符特环取值．</p>
+<p>可以通过把IFS设置为换行符来达到逐行读取的功能．</p>
+<p>IFS的默认值为：空白(包括：空格，制表符，换行符)．</p>
+<p>注意：如何设置IFS为换行符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OLD_IFS&#x3D;”$IFS”</span><br><span class="line">IFS&#x3D;$’\x0A’</span><br></pre></td></tr></table></figure>
+
+<h2 id="awk工具变量"><a href="#awk工具变量" class="headerlink" title="awk工具变量"></a>awk工具变量</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -f my.awk filename</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/03/01/docker_cmd_analyse3_1_1/" class="post-title-link" itemprop="url">docker命令分析--权限管理</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-03-01 19:33:39" itemprop="dateCreated datePublished" datetime="2017-03-01T19:33:39+00:00">2017-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/docker%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">docker命令</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<p>所有命令均基于docker1.11版本</p>
+<h1 id="运行时特权和Linux能力"><a href="#运行时特权和Linux能力" class="headerlink" title="运行时特权和Linux能力"></a>运行时特权和Linux能力</h1><p>run命令与特权相关的几个选项：</p>
+<ul>
+<li>–cap-add: Add Linux capabilities</li>
+<li>–cap-drop: Drop Linux capabilities</li>
+<li>–privileged=false: Give extended privileges to this container</li>
+<li>–device=[]: Allows you to run devices inside the container without the –privileged flag.</li>
+</ul>
+<p>注：默认的容器都是unprivileged，因此很多系统调用、设备等特权相关的操作都是干不了的。而且1.10版本之后增加了seccomp安全控制，<br>    可能导致容器有了权限，但是一些系统调用被安全策略禁止了。关于安全策略seccomp可以参考文档<a href="/2017/03/01/docker_cmd_analyse3_1_2/">Docker安全策略</a></p>
+<p>docker run –privileged启动的容器，具有访问host上所有设备的能力，当然需要同时设置AppArmor或者SELinux允许容器相同的权限。</p>
+<p>–device可以指定一个或者多个设备在容器中能正常使用，默认情况，容器对这些设备具有read、write和mknod的权限，这些权限可以通过”:rwm”来修改。<br>mknod可以参考<a href="http://www.cnblogs.com/hnrainll/archive/2011/06/10/2077583.html" target="_blank" rel="noopener">这篇博客</a></p>
+<p>示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --device&#x3D;&#x2F;dev&#x2F;sda:&#x2F;dev&#x2F;xvdc --rm -it ubuntu fdisk  &#x2F;dev&#x2F;xvdc</span><br><span class="line"></span><br><span class="line">Command (m for help): q</span><br><span class="line">$ docker run --device&#x3D;&#x2F;dev&#x2F;sda:&#x2F;dev&#x2F;xvdc:r --rm -it ubuntu fdisk  &#x2F;dev&#x2F;xvdc</span><br><span class="line">You will not be able to write the partition table.</span><br><span class="line"></span><br><span class="line">Command (m for help): q</span><br><span class="line"></span><br><span class="line">$ docker run --device&#x3D;&#x2F;dev&#x2F;sda:&#x2F;dev&#x2F;xvdc:w --rm -it ubuntu fdisk  &#x2F;dev&#x2F;xvdc</span><br><span class="line">    crash....</span><br><span class="line"></span><br><span class="line">$ docker run --device&#x3D;&#x2F;dev&#x2F;sda:&#x2F;dev&#x2F;xvdc:m --rm -it ubuntu fdisk  &#x2F;dev&#x2F;xvdc</span><br><span class="line">fdisk: unable to open &#x2F;dev&#x2F;xvdc: Operation not permitted</span><br></pre></td></tr></table></figure>
+
+<p>相对于privileged的暴力权限，cap-add和cap-drop对权限的控制更细腻。<br>Docker目前支持的权限设置列表如下：</p>
+<table>
+<thead>
+<tr>
+<th>Capability Key</th>
+<th>Capability Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SETPCAP</td>
+<td>Modify process capabilities.</td>
+</tr>
+<tr>
+<td>SYS_MODULE</td>
+<td>Load and unload kernel modules.</td>
+</tr>
+<tr>
+<td>SYS_RAWIO</td>
+<td>Perform I/O port operations (iopl(2) and ioperm(2)).</td>
+</tr>
+<tr>
+<td>SYS_PACCT</td>
+<td>Use acct(2), switch process accounting on or off.</td>
+</tr>
+<tr>
+<td>SYS_ADMIN</td>
+<td>Perform a range of system administration operations.</td>
+</tr>
+<tr>
+<td>SYS_NICE</td>
+<td>Raise process nice value (nice(2), setpriority(2)) and change the nice value for arbitrary processes.</td>
+</tr>
+<tr>
+<td>SYS_RESOURCE</td>
+<td>Override resource Limits.</td>
+</tr>
+<tr>
+<td>SYS_TIME</td>
+<td>Set system clock (settimeofday(2), stime(2), adjtimex(2)); set real-time (hardware) clock.</td>
+</tr>
+<tr>
+<td>SYS_TTY_CONFIG</td>
+<td>Use vhangup(2); employ various privileged ioctl(2) operations on virtual terminals.</td>
+</tr>
+<tr>
+<td>MKNOD</td>
+<td>Create special files using mknod(2).</td>
+</tr>
+<tr>
+<td>AUDIT_WRITE</td>
+<td>Write records to kernel auditing log.</td>
+</tr>
+<tr>
+<td>AUDIT_CONTROL</td>
+<td>Enable and disable kernel auditing; change auditing filter rules; retrieve auditing status and filtering rules.</td>
+</tr>
+<tr>
+<td>MAC_OVERRIDE</td>
+<td>Allow MAC configuration or state changes. Implemented for the Smack LSM.</td>
+</tr>
+<tr>
+<td>MAC_ADMIN</td>
+<td>Override Mandatory Access Control (MAC). Implemented for the Smack Linux Security Module (LSM).</td>
+</tr>
+<tr>
+<td>NET_ADMIN</td>
+<td>Perform various network-related operations.</td>
+</tr>
+<tr>
+<td>SYSLOG</td>
+<td>Perform privileged syslog(2) operations.</td>
+</tr>
+<tr>
+<td>CHOWN</td>
+<td>Make arbitrary changes to file UIDs and GIDs (see chown(2)).</td>
+</tr>
+<tr>
+<td>NET_RAW</td>
+<td>Use RAW and PACKET sockets.</td>
+</tr>
+<tr>
+<td>DAC_OVERRIDE</td>
+<td>Bypass file read, write, and execute permission checks.</td>
+</tr>
+<tr>
+<td>FOWNER</td>
+<td>Bypass permission checks on operations that normally require the file system UID of the process to match the UID of the file.</td>
+</tr>
+<tr>
+<td>DAC_READ_SEARCH</td>
+<td>Bypass file read permission checks and directory read and execute permission checks.</td>
+</tr>
+<tr>
+<td>FSETID</td>
+<td>Don’t clear set-user-ID and set-group-ID permission bits when a file is modified.</td>
+</tr>
+<tr>
+<td>KILL</td>
+<td>Bypass permission checks for sending signals.</td>
+</tr>
+<tr>
+<td>SETGID</td>
+<td>Make arbitrary manipulations of process GIDs and supplementary GID list.</td>
+</tr>
+<tr>
+<td>SETUID</td>
+<td>Make arbitrary manipulations of process UIDs.</td>
+</tr>
+<tr>
+<td>LINUX_ IMMUTABLE</td>
+<td>Set the FS_APPEND_FL and FS_IMMUTABLE_FL i-node flags.</td>
+</tr>
+<tr>
+<td>NET_BIND_SERVICE</td>
+<td>Bind a socket to internet domain privileged ports (port numbers less than 1024).</td>
+</tr>
+<tr>
+<td>NET_BROADCAST</td>
+<td>Make socket broadcasts, and listen to multicasts.</td>
+</tr>
+<tr>
+<td>IPC_LOCK</td>
+<td>Lock memory (mlock(2), mlockall(2), mmap(2), shmctl(2)).</td>
+</tr>
+<tr>
+<td>IPC_OWNER</td>
+<td>Bypass permission checks for operations on System V IPC objects.</td>
+</tr>
+<tr>
+<td>SYS_CHROOT</td>
+<td>Use chroot(2), change root directory.</td>
+</tr>
+<tr>
+<td>SYS_PTRACE</td>
+<td>Trace arbitrary processes using ptrace(2).</td>
+</tr>
+<tr>
+<td>SYS_ BOOT</td>
+<td>Use reboot(2) and kexec_load(2), reboot and load a new kernel for later execution.</td>
+</tr>
+<tr>
+<td>LEASE</td>
+<td>Establish leases on arbitrary files (see fcntl(2)).</td>
+</tr>
+<tr>
+<td>SETFCAP</td>
+<td>Set file capabilities.</td>
+</tr>
+<tr>
+<td>WAKE_ALARM</td>
+<td>Trigger something that will wake up the system.</td>
+</tr>
+<tr>
+<td>BLOCK_SUSPEND</td>
+<td>Employ features that can block system suspend.</td>
+</tr>
+</tbody></table>
+<p>cap-add和cap-drop都支持ALL，表示加上或者去掉所有能力。例如，加上所有能力，但是去掉MKNOD：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --cap-add&#x3D;ALL --cap-drop&#x3D;MKNOD ...</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/03/01/docker_cmd_analyse3_1_2/" class="post-title-link" itemprop="url">docker命令分析--Seccomp特性</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-03-01 19:33:39" itemprop="dateCreated datePublished" datetime="2017-03-01T19:33:39+00:00">2017-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/docker/docker%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">docker命令</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<p>Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。<br>该特性的有效基于：</p>
+<ul>
+<li>Docker编译时加上了seccomp</li>
+<li>内核打开了CONFIG_SECCOMP配置</li>
+</ul>
+<h2 id="修改默认Seccomp配置文件"><a href="#修改默认Seccomp配置文件" class="headerlink" title="修改默认Seccomp配置文件"></a>修改默认Seccomp配置文件</h2><p><a href="https://github.com/docker/docker/blob/master/profiles/seccomp/default.json" target="_blank" rel="noopener">默认的Seccomp配置文件</a>禁止了44个系统调用。<br>可以参考默认的配置文件，自定义然后在docker run的时候用–security-opt设置自定义的配置文件，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --rm -it --security-opt seccomp&#x3D;&#x2F;path&#x2F;to&#x2F;seccomp&#x2F;profile.json hello-world</span><br></pre></td></tr></table></figure>
+<p>默认的Seccomp配置文件是一个白名单，没有指定的则是被禁止的。下表给出一些被禁止的系统调用（不是全部），以及原因。</p>
+<table>
+<thead>
+<tr>
+<th>Syscall</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>acct</td>
+<td>Accounting syscall which could let containers disable their own resource limits or process accounting. Also gated by CAP_SYS_PACCT.</td>
+</tr>
+<tr>
+<td>add_key</td>
+<td>Prevent containers from using the kernel keyring, which is not namespaced.</td>
+</tr>
+<tr>
+<td>adjtimex</td>
+<td>Similar to clock_settime and settimeofday, time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>bpf</td>
+<td>Deny loading potentially persistent bpf programs into kernel, already gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>clock_ adjtime</td>
+<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>clock_ settime</td>
+<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>clone</td>
+<td>Deny cloning new namespaces. Also gated by CAP_SYS_ADMIN for CLONE_* flags, except CLONE_USERNS.</td>
+</tr>
+<tr>
+<td>create_ module</td>
+<td>Deny manipulation and functions on kernel modules. Obsolete. Also gated by CAP_SYS_MODULE.</td>
+</tr>
+<tr>
+<td>delete_ module</td>
+<td>Deny manipulation and functions on kernel modules. Also gated by CAP_SYS_MODULE.</td>
+</tr>
+<tr>
+<td>finit_ module</td>
+<td>Deny manipulation and functions on kernel modules. Also gated by CAP_SYS_MODULE.</td>
+</tr>
+<tr>
+<td>get_kernel_syms</td>
+<td>Deny retrieval of exported kernel and module symbols. Obsolete.</td>
+</tr>
+<tr>
+<td>get_ mempolicy</td>
+<td>Syscall that modifies kernel memory and NUMA settings. Already gated by CAP_SYS_NICE.</td>
+</tr>
+<tr>
+<td>init_ module</td>
+<td>Deny manipulation and functions on kernel modules. Also gated by CAP_SYS_MODULE.</td>
+</tr>
+<tr>
+<td>ioperm</td>
+<td>Prevent containers from modifying kernel I/O privilege levels. Already gated by CAP_SYS_RAWIO.</td>
+</tr>
+<tr>
+<td>iopl</td>
+<td>Prevent containers from modifying kernel I/O privilege levels. Already gated by CAP_SYS_RAWIO.</td>
+</tr>
+<tr>
+<td>kcmp</td>
+<td>Restrict process inspection capabilities, already blocked by dropping CAP_PTRACE.</td>
+</tr>
+<tr>
+<td>kexec_file_load</td>
+<td>Sister syscall of kexec_load that does the same thing, slightly different arguments. Also gated by CAP_SYS_BOOT.</td>
+</tr>
+<tr>
+<td>kexec_ load</td>
+<td>Deny loading a new kernel for later execution. Also gated by CAP_SYS_BOOT.</td>
+</tr>
+<tr>
+<td>keyctl</td>
+<td>Prevent containers from using the kernel keyring, which is not namespaced.</td>
+</tr>
+<tr>
+<td>lookup_ dcookie</td>
+<td>Tracing/profiling syscall, which could leak a lot of information on the host. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>mbind</td>
+<td>Syscall that modifies kernel memory and NUMA settings. Already gated by CAP_SYS_NICE.</td>
+</tr>
+<tr>
+<td>mount</td>
+<td>Deny mounting, already gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>move_pages</td>
+<td>Syscall that modifies kernel memory and NUMA settings.</td>
+</tr>
+<tr>
+<td>name_to_handle_at</td>
+<td>Sister syscall to open_by_handle_at. Already gated by CAP_SYS_NICE.</td>
+</tr>
+<tr>
+<td>nfsservctl</td>
+<td>Deny interaction with the kernel nfs daemon. Obsolete since Linux 3.1.</td>
+</tr>
+<tr>
+<td>open_by_handle_at</td>
+<td>Cause of an old container breakout. Also gated by CAP_DAC_READ_SEARCH.</td>
+</tr>
+<tr>
+<td>perf_event_open</td>
+<td>Tracing/profiling syscall, which could leak a lot of information on the host.</td>
+</tr>
+<tr>
+<td>personality</td>
+<td>Prevent container from enabling BSD emulation. Not inherently dangerous, but poorly tested, potential for a lot of kernel vulns.</td>
+</tr>
+<tr>
+<td>pivot_ root</td>
+<td>Deny pivot_root, should be privileged operation.</td>
+</tr>
+<tr>
+<td>process_vm_readv</td>
+<td>Restrict process inspection capabilities, already blocked by dropping CAP_PTRACE.</td>
+</tr>
+<tr>
+<td>process_vm_writev</td>
+<td>Restrict process inspection capabilities, already blocked by dropping CAP_PTRACE.</td>
+</tr>
+<tr>
+<td>ptrace</td>
+<td>Tracing/profiling syscall, which could leak a lot of information on the host. Already blocked by dropping CAP_PTRACE.</td>
+</tr>
+<tr>
+<td>query_module</td>
+<td>Deny manipulation and functions on kernel modules. Obsolete.</td>
+</tr>
+<tr>
+<td>quotactl</td>
+<td>Quota syscall which could let containers disable their own resource limits or process accounting. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>reboot</td>
+<td>Don’t let containers reboot the host. Also gated by CAP_SYS_BOOT.</td>
+</tr>
+<tr>
+<td>request_key</td>
+<td>Prevent containers from using the kernel keyring, which is not namespaced.</td>
+</tr>
+<tr>
+<td>set_ mempolicy</td>
+<td>Syscall that modifies kernel memory and NUMA settings. Already gated by CAP_SYS_NICE.</td>
+</tr>
+<tr>
+<td>setns</td>
+<td>Deny associating a thread with a namespace. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>settimeofday</td>
+<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>stime</td>
+<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
+</tr>
+<tr>
+<td>swapon</td>
+<td>Deny start/stop swapping to file/device. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>swapoff</td>
+<td>Deny start/stop swapping to file/device. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>sysfs</td>
+<td>Obsolete syscall.</td>
+</tr>
+<tr>
+<td>_sysctl</td>
+<td>Obsolete, replaced by /proc/sys.</td>
+</tr>
+<tr>
+<td>umount</td>
+<td>Should be a privileged operation. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>umount2</td>
+<td>Should be a privileged operation. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>unshare</td>
+<td>Deny cloning new namespaces for processes. Also gated by CAP_SYS_ADMIN, with the exception of unshare –user.</td>
+</tr>
+<tr>
+<td>uselib</td>
+<td>Older syscall related to shared libraries, unused for a long time.</td>
+</tr>
+<tr>
+<td>userfaultfd</td>
+<td>Userspace page fault handling, largely needed for process migration.</td>
+</tr>
+<tr>
+<td>ustat</td>
+<td>Obsolete syscall.</td>
+</tr>
+<tr>
+<td>vm86</td>
+<td>In kernel x86 real mode virtual machine. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+<tr>
+<td>vm86old</td>
+<td>In kernel x86 real mode virtual machine. Also gated by CAP_SYS_ADMIN.</td>
+</tr>
+</tbody></table>
+<h2 id="禁用Seccomp"><a href="#禁用Seccomp" class="headerlink" title="禁用Seccomp"></a>禁用Seccomp</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --rm -it --security-opt seccomp&#x3D;unconfined debian:jessie \</span><br><span class="line">    unshare --map-root-user --user sh -c whoami</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -1133,333 +1788,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/23/docker_cmd_analyse/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/02/23/docker_cmd_analyse/" class="post-title-link" itemprop="url">docker命令分析--简介</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-02-23 15:00:39" itemprop="dateCreated datePublished" datetime="2017-02-23T15:00:39+00:00">2017-02-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/docker%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">docker命令</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>所有命令均基于docker1.11版本</p>
-<h1 id="docker命令"><a href="#docker命令" class="headerlink" title="docker命令"></a>docker命令</h1><p>可以通过docker –help查看docker命令的所有功能描述。结果如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># docker --help</span></span><br><span class="line">Usage: docker [OPTIONS] COMMAND [arg...]</span><br><span class="line">       docker daemon [ --<span class="built_in">help</span> | ... ]</span><br><span class="line">       docker [ --<span class="built_in">help</span> | -v | --version ]</span><br><span class="line"></span><br><span class="line">A self-sufficient runtime <span class="keyword">for</span> containers.</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line"></span><br><span class="line">  --config=~/.docker              Location of client config files</span><br><span class="line">  -D, --debug                     Enable debug mode</span><br><span class="line">  -H, --host=[]                   Daemon socket(s) to connect to</span><br><span class="line">  -h, --<span class="built_in">help</span>                      Print usage</span><br><span class="line">  -l, --<span class="built_in">log</span>-level=info            Set the logging level</span><br><span class="line">  --tls                           Use TLS; implied by --tlsverify</span><br><span class="line">  --tlscacert=~/.docker/ca.pem    Trust certs signed only by this CA</span><br><span class="line">  --tlscert=~/.docker/cert.pem    Path to TLS certificate file</span><br><span class="line">  --tlskey=~/.docker/key.pem      Path to TLS key file</span><br><span class="line">  --tlsverify                     Use TLS and verify the remote</span><br><span class="line">  -v, --version                   Print version information and quit</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">    accel     Manage docker accelerators</span><br><span class="line">    attach    Attach to a running container</span><br><span class="line">    build     Build an image from a Dockerfile</span><br><span class="line">    commit    Create a new image from a container<span class="string">'s changes</span></span><br><span class="line"><span class="string">    cp        Copy files/folders between a container and the local filesystem</span></span><br><span class="line"><span class="string">    create    Create a new container</span></span><br><span class="line"><span class="string">    diff      Inspect changes on a container'</span>s filesystem</span><br><span class="line">    events    Get real time events from the server</span><br><span class="line">    <span class="built_in">exec</span>      Run a <span class="built_in">command</span> <span class="keyword">in</span> a running container</span><br><span class="line">    <span class="built_in">export</span>    Export a container<span class="string">'s filesystem as a tar archive</span></span><br><span class="line"><span class="string">    history   Show the history of an image</span></span><br><span class="line"><span class="string">    images    List images</span></span><br><span class="line"><span class="string">    import    Import the contents from a tarball to create a filesystem image</span></span><br><span class="line"><span class="string">    info      Display system-wide information</span></span><br><span class="line"><span class="string">    inspect   Return low-level information on a container or image</span></span><br><span class="line"><span class="string">    kill      Kill a running container</span></span><br><span class="line"><span class="string">    load      Load an image from a tar archive or STDIN</span></span><br><span class="line"><span class="string">    login     Log in to a Docker registry</span></span><br><span class="line"><span class="string">    logout    Log out from a Docker registry</span></span><br><span class="line"><span class="string">    logs      Fetch the logs of a container</span></span><br><span class="line"><span class="string">    network   Manage Docker networks</span></span><br><span class="line"><span class="string">    pause     Pause all processes within a container</span></span><br><span class="line"><span class="string">    port      List port mappings or a specific mapping for the CONTAINER</span></span><br><span class="line"><span class="string">    ps        List containers</span></span><br><span class="line"><span class="string">    pull      Pull an image or a repository from a registry</span></span><br><span class="line"><span class="string">    push      Push an image or a repository to a registry</span></span><br><span class="line"><span class="string">    rename    Rename a container</span></span><br><span class="line"><span class="string">    restart   Restart a container</span></span><br><span class="line"><span class="string">    rm        Remove one or more containers</span></span><br><span class="line"><span class="string">    rmi       Remove one or more images</span></span><br><span class="line"><span class="string">    run       Run a command in a new container</span></span><br><span class="line"><span class="string">    save      Save one or more images to a tar archive</span></span><br><span class="line"><span class="string">    search    Search the Docker Hub for images</span></span><br><span class="line"><span class="string">    start     Start one or more stopped containers</span></span><br><span class="line"><span class="string">    stats     Display a live stream of container(s) resource usage statistics</span></span><br><span class="line"><span class="string">    stop      Stop a running container</span></span><br><span class="line"><span class="string">    tag       Tag an image into a repository</span></span><br><span class="line"><span class="string">    top       Display the running processes of a container</span></span><br><span class="line"><span class="string">    unpause   Unpause all processes within a container</span></span><br><span class="line"><span class="string">    update    Update configuration of one or more containers</span></span><br><span class="line"><span class="string">    version   Show the Docker version information</span></span><br><span class="line"><span class="string">    volume    Manage Docker volumes</span></span><br><span class="line"><span class="string">    wait      Block until a container stops, then print its exit code</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Run '</span>docker COMMAND --<span class="built_in">help</span><span class="string">' for more information on a command.</span></span><br></pre></td></tr></table></figure>
-
-<p>第一步，先介绍一下docker命令的基本格式和用法；然后，分析docker命令涉及的选项options、环境变量以及配置文件；而docker的子命令在后续的文章中详细描述。<br>需要注意，三种配置优先级：</p>
-<ul>
-<li>命令选项options优先于环境变量和配置文件</li>
-<li>环境变量优先于配置文件</li>
-</ul>
-<h2 id="docker命令格式"><a href="#docker命令格式" class="headerlink" title="docker命令格式"></a>docker命令格式</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker --help</span></span><br><span class="line">Usage: docker [OPTIONS] COMMAND [arg...]</span><br><span class="line">       docker daemon [ --<span class="built_in">help</span> | ... ]</span><br><span class="line">       docker [ --<span class="built_in">help</span> | -v | --version ]</span><br></pre></td></tr></table></figure>
-
-<h2 id="命令选项"><a href="#命令选项" class="headerlink" title="命令选项"></a>命令选项</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Options:</span><br><span class="line"></span><br><span class="line">  --config=~/.docker              client配置文件的路径</span><br><span class="line">  -D, --debug                     使能debug模式</span><br><span class="line">  -H, --host=[]                   docker daemon的socket文件路径</span><br><span class="line">  -h, --<span class="built_in">help</span>                      帮助手册</span><br><span class="line">  -l, --<span class="built_in">log</span>-level=info            设置日志级别</span><br><span class="line">  --tls                           Use TLS; implied by --tlsverify</span><br><span class="line">  --tlscacert=~/.docker/ca.pem    Trust certs signed only by this CA</span><br><span class="line">  --tlscert=~/.docker/cert.pem    Path to TLS certificate file</span><br><span class="line">  --tlskey=~/.docker/key.pem      Path to TLS key file</span><br><span class="line">  --tlsverify                     Use TLS and verify the remote</span><br><span class="line">  -v, --version                   打印版本信息</span><br></pre></td></tr></table></figure>
-
-<h2 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h2><p>docker命令行直接支持如下环境变量：</p>
-<ul>
-<li>DOCKER_API_VERSION – docker的API版本(例如：1.23)</li>
-<li>DOCKER_CONFIG – client的配置文件路径</li>
-<li>DOCKER_CERT_PATH – 证书的文件路径</li>
-<li>DOCKER_DRIVER – 镜像驱动使用</li>
-<li>DOCKER_HOST – docker daemon的socket文件路径</li>
-<li>DOCKER_NOWARN_KERNEL_VERSION – 忽略Linux内核不适配Docker的警告</li>
-<li>DOCKER_RAMDISK – If set this will disable ‘pivot_root’.</li>
-<li>DOCKER_TLS_VERIFY – 设置是否使用TLS并验证远端服务</li>
-<li>DOCKER_CONTENT_TRUST – When set Docker uses notary to sign and verify images. Equates to –disable-content-trust=false for build, create, pull, push, run.</li>
-<li>DOCKER_CONTENT_TRUST_SERVER – The URL of the Notary server to use. This defaults to the same URL as the registry.</li>
-<li>DOCKER_TMPDIR – docker临时文件存放路径</li>
-</ul>
-<p>由于Docker是用go开发的，所以Docker可以使用go runtime的所有环境变量，例如：</p>
-<ul>
-<li>HTTP_PROXY</li>
-<li>HTTPS_PROXY</li>
-<li>NO_PROXY</li>
-</ul>
-<p>注：在给Docker配置代理的时候，如果docker是用systemd启动的话，直接配置全局代理可能无效。可以使用如下方式：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	mkdir /etc/systemd/system/docker.service.d</span><br><span class="line">	touch /etc/systemd/system/docker.service.d/http-proxy.conf</span><br><span class="line">添加</span><br><span class="line">	[Service] Environment=<span class="string">"HTTP_PROXY=http://proxy.example.com:80/"</span></span><br><span class="line">	或者</span><br><span class="line">	Environment=<span class="string">"HTTP_PROXY=http://proxy.example.com:80/"</span> <span class="string">"NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"</span></span><br><span class="line"></span><br><span class="line">刷新配置：sudo systemctl daemon-reload</span><br><span class="line">验证配置是否成功：systemctl show --property=Environment docker</span><br><span class="line">重启docker服务：sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
-
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>除了，环境变量，Docker也支持通过配置文件的方式设置一些值。配置文件默认的位置是~/.docker/，可以通过两个方式修改：</p>
-<ul>
-<li>设置环境变量DOCKER_CONFIG</li>
-<li>设置docker命令选项–config</li>
-</ul>
-<p>除了config.json，配置文件目录下面其他的文件最好不好修改。config.json的配置项对应环境变量和命令行的选项的功能。<br>config.json包含很多配置项，这里只测试一下detachKeys：离开一个容器但是保持容器运行的快捷键，默认是ctrl+p,ctrl+q。这里把它修改为ctrl+e,e.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cat testconfig/config.json</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">"detachKeys"</span>: <span class="string">"ctrl-e,e"</span></span><br><span class="line">&#125;</span><br><span class="line">//加载配置文件</span><br><span class="line"><span class="comment"># docker --config ~/testconfig/ attach a03840eb1632</span></span><br></pre></td></tr></table></figure>
-
-<p>这样ctrl+e,e就可以离开容器并保持容器继续运行了。</p>
-<h2 id="子命令"><a href="#子命令" class="headerlink" title="子命令"></a>子命令</h2><p>后续的文章会把docker的子命令分为五类分析：</p>
-<ul>
-<li>镜像相关</li>
-<li>容器相关</li>
-<li>维测相关</li>
-<li>组件相关</li>
-<li>其他</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/14/docker_plugin/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/02/14/docker_plugin/" class="post-title-link" itemprop="url">docker插件简介</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-02-14 20:30:26" itemprop="dateCreated datePublished" datetime="2017-02-14T20:30:26+00:00">2017-02-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/docker-plugin/" itemprop="url" rel="index"><span itemprop="name">docker plugin</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h1 id="docker-engine管理plugin系统"><a href="#docker-engine管理plugin系统" class="headerlink" title="docker engine管理plugin系统"></a>docker engine管理plugin系统</h1><p>docker plugin系统支持安装、启动、停止和删除docker引擎使用的插件。当前该机制只支持volume驱动，后续会支持更多。</p>
-<h2 id="安装与使用plugin"><a href="#安装与使用plugin" class="headerlink" title="安装与使用plugin"></a>安装与使用plugin</h2><p>插件以容器镜像的方式发布，可以保存到Docker Hub或者私有registry。<br>插件相关命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker plugin install   //安装</span><br><span class="line">docker plugin ls        //检查安装插件</span><br></pre></td></tr></table></figure>
-<p>该命令会从Docker Hub或者私有registry下拉插件，提示你需要的权限或者capabilities，并且使能插件。</p>
-<p>安装sshfs插件示例如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ docker plugin install vieux/sshfs</span><br><span class="line"></span><br><span class="line">Plugin <span class="string">"vieux/sshfs"</span> is requesting the following privileges:</span><br><span class="line">- network: [host]</span><br><span class="line">- capabilities: [CAP_SYS_ADMIN]</span><br><span class="line">Do you grant the above permissions? [y/N] y</span><br><span class="line"></span><br><span class="line">vieux/sshfs</span><br><span class="line"></span><br><span class="line">$ docker plugin ls</span><br><span class="line"></span><br><span class="line">ID                    NAME                  TAG                 DESCRIPTION                   ENABLED</span><br><span class="line">69553ca1d789          vieux/sshfs           latest              the `sshfs` plugin            <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>使用sshfs插件创建数据卷：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker volume create -d vieux/sshfs -o sshcmd=&lt;user@host:path&gt; -o password=&lt;password&gt; sshvolume</span><br><span class="line">sshvolume</span><br><span class="line">$ docker volume ls</span><br><span class="line">DRIVER              VOLUME NAME</span><br><span class="line"><span class="built_in">local</span>               2d75de358a70ba469ac968ee852efd4234b9118b7722ee26a1c5a90dcaea6751</span><br><span class="line"><span class="built_in">local</span>               842a765a9bb11e234642c933b3dfc702dee32b73e0cf7305239436a145b89017</span><br><span class="line"><span class="built_in">local</span>               9d72c664cbd20512d4e3d5bb9b39ed11e4a632c386447461d48ed84731e44034</span><br><span class="line"><span class="built_in">local</span>               be9632386a2d396d438c9707e261f86fd9f5e72a7319417901d84041c8f14a4d</span><br><span class="line"><span class="built_in">local</span>               e1496dfe4fa27b39121e4383d1b16a0a7510f0de89f05b336aab3c0deb4dda0e</span><br><span class="line">vieux/sshfs         sshvolume</span><br></pre></td></tr></table></figure>
-
-<h1 id="开发plugin"><a href="#开发plugin" class="headerlink" title="开发plugin"></a>开发plugin</h1>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/08/container_reboot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/02/08/container_reboot/" class="post-title-link" itemprop="url">容器内调用reboot函数失败</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-02-08 15:00:26" itemprop="dateCreated datePublished" datetime="2017-02-08T15:00:26+00:00">2017-02-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/docker/reboot/" itemprop="url" rel="index"><span itemprop="name">reboot</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>在容器里面调用reboot函数，函数传入LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF这两个参数都返回失败。<br>reboot return -1,errno is 22(EINVAL)</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>查看官方文档(<a href="http://man7.org/linux/man-pages/man2/reboot.2.html)：" target="_blank" rel="noopener">http://man7.org/linux/man-pages/man2/reboot.2.html)：</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Behavior inside PID namespaces</span><br><span class="line">      Since Linux 3.4, when reboot() is called from a PID namespace (see</span><br><span class="line">      pid_namespaces(7)) other than the initial PID namespace, the effect</span><br><span class="line">      of the call is to send a signal to the namespace <span class="string">"init"</span> process.  The</span><br><span class="line">      LINUX_REBOOT_CMD_RESTART and LINUX_REBOOT_CMD_RESTART2 cmd values</span><br><span class="line">      cause a SIGHUP signal to be sent.  The LINUX_REBOOT_CMD_POWER_OFF and</span><br><span class="line">      LINUX_REBOOT_CMD_HALT cmd values cause a SIGINT signal to be sent.</span><br><span class="line">      For the other cmd values, -1 is returned and errno is <span class="built_in">set</span> to EINVAL.</span><br></pre></td></tr></table></figure>
-<p>上面的意思大概是：在非initial PID namespace中，调用reboot，会给init进程发送信号，信号取决于cmd的值。</p>
-<ul>
-<li>LINUX_REBOOT_CMD_RESTART 和 LINUX_REBOOT_CMD_RESTART2，会发送SIGHUP信号</li>
-<li>LINUX_REBOOT_CMD_POWER_OFF 和 LINUX_REBOOT_CMD_HALT，发送SIGINT信号</li>
-<li>其他的直接返回-1，errno为EINVAL</li>
-</ul>
-<p>这里可以推出我们在容器中执行reboot，入参为LINUX_REBOOT_CMD_CAD_ON, LINUX_REBOOT_CMD_CAD_OFF时，会报错的原因。</p>
-<p>查看reboot系统调用的源码验证一下官方文档，部分代码如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">SYSCALL_DEFINE4(reboot, int, magic1, int, magic2, unsigned int, cmd,</span><br><span class="line">		void __user *, arg)</span><br><span class="line">&#123;</span><br><span class="line">	struct pid_namespace *pid_ns = task_active_pid_ns(current);</span><br><span class="line">	char buffer[256];</span><br><span class="line">	int ret = 0;</span><br><span class="line"></span><br><span class="line">	/* We only trust the superuser with rebooting the system. */</span><br><span class="line">	<span class="keyword">if</span> (!ns_capable(pid_ns-&gt;user_ns, CAP_SYS_BOOT))</span><br><span class="line">		<span class="built_in">return</span> -EPERM;</span><br><span class="line"></span><br><span class="line">	/* For safety, we require <span class="string">"magic"</span> arguments. */</span><br><span class="line">	<span class="keyword">if</span> (magic1 != LINUX_REBOOT_MAGIC1 ||</span><br><span class="line">	    (magic2 != LINUX_REBOOT_MAGIC2 &amp;&amp;</span><br><span class="line">	                magic2 != LINUX_REBOOT_MAGIC2A &amp;&amp;</span><br><span class="line">			magic2 != LINUX_REBOOT_MAGIC2B &amp;&amp;</span><br><span class="line">	                magic2 != LINUX_REBOOT_MAGIC2C))</span><br><span class="line">		<span class="built_in">return</span> -EINVAL;</span><br><span class="line"></span><br><span class="line">	/*</span><br><span class="line">	 * If pid namespaces are enabled and the current task is <span class="keyword">in</span> a child</span><br><span class="line">	 * pid_namespace, the <span class="built_in">command</span> is handled by reboot_pid_ns() <span class="built_in">which</span> will</span><br><span class="line">	 * call do_exit().</span><br><span class="line">	 */</span><br><span class="line">	ret = reboot_pid_ns(pid_ns, cmd);</span><br><span class="line">	<span class="keyword">if</span> (ret)</span><br><span class="line">		<span class="built_in">return</span> ret;</span><br><span class="line">    ... ...</span><br></pre></td></tr></table></figure>
-
-<p>关键是reboot_pid_ns函数，该函数代码如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">int reboot_pid_ns(struct pid_namespace *pid_ns, int cmd)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (pid_ns == &amp;init_pid_ns)</span><br><span class="line">		<span class="built_in">return</span> 0;</span><br><span class="line"></span><br><span class="line">	switch (cmd) &#123;</span><br><span class="line">	<span class="keyword">case</span> LINUX_REBOOT_CMD_RESTART2:</span><br><span class="line">	<span class="keyword">case</span> LINUX_REBOOT_CMD_RESTART:</span><br><span class="line">		pid_ns-&gt;reboot = SIGHUP;</span><br><span class="line">		<span class="built_in">break</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">case</span> LINUX_REBOOT_CMD_POWER_OFF:</span><br><span class="line">	<span class="keyword">case</span> LINUX_REBOOT_CMD_HALT:</span><br><span class="line">		pid_ns-&gt;reboot = SIGINT;</span><br><span class="line">		<span class="built_in">break</span>;</span><br><span class="line">	default:</span><br><span class="line">		<span class="built_in">return</span> -EINVAL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	read_lock(&amp;tasklist_lock);</span><br><span class="line">	force_sig(SIGKILL, pid_ns-&gt;child_reaper);</span><br><span class="line">	read_unlock(&amp;tasklist_lock);</span><br><span class="line"></span><br><span class="line">	do_exit(0);</span><br><span class="line"></span><br><span class="line">	/* Not reached */</span><br><span class="line">	<span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>代码解析：</p>
-<ul>
-<li>如果当前的namespace是init_pid_ns，就返回0</li>
-<li>非init_pid_ns时，就如上面文档所述，非指定的cmd，就直接返回EINVAL</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1530,7 +1858,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1638,6 +1966,19 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   

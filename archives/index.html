@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">51</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">54</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -186,10 +186,73 @@
     <div class="posts-collapse">
       <div class="collection-title">
         
-        <span class="collection-header">Nice! 51 posts in total. Keep on posting.</span>
+        <span class="collection-header">Nice! 54 posts in total. Keep on posting.</span>
       </div>
 
       
+    <div class="collection-year">
+      <h1 class="collection-header">2020</h1>
+    </div>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-07T09:11:10+00:00"
+              content="2020-03-07">
+          03-07
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/03/07/rootfs/" itemprop="url">
+            <span itemprop="name">rootfs</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-07T07:50:56+00:00"
+              content="2020-03-07">
+          03-07
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/03/07/magic_create/" itemprop="url">
+            <span itemprop="name">magic_create</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-03-07T03:17:35+00:00"
+              content="2020-03-07">
+          03-07
+        </time>
+      </div>
+
+      <h2 class="post-title">
+          <a class="post-title-link" href="/2020/03/07/nsenter/" itemprop="url">
+            <span itemprop="name">nsenter</span>
+          </a>
+      </h2>
+
+    </header>
+  </article>
     <div class="collection-year">
       <h1 class="collection-header">2018</h1>
     </div>
@@ -337,66 +400,6 @@
     </header>
   </article>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2017-08-08T10:05:47+00:00"
-              content="2017-08-08">
-          08-08
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2017/08/08/nginx_related/" itemprop="url">
-            <span itemprop="name">nginx问题跟踪</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2017-06-02T16:19:29+00:00"
-              content="2017-06-02">
-          06-02
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2017/06/02/linux_kernel_bigheap/" itemprop="url">
-            <span itemprop="name">legacy_va_layout设置大堆</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2017-06-02T16:19:29+00:00"
-              content="2017-06-02">
-          06-02
-        </time>
-      </div>
-
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2017/06/02/linux_scheduling_softlockup&hardlockup/" itemprop="url">
-            <span itemprop="name">watchdog分析</span>
-          </a>
-      </h2>
-
-    </header>
-  </article>
-
 
     </div>
   </div>
@@ -472,7 +475,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -580,6 +583,19 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   

@@ -1,6 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>rootfs</title>
+    <url>/2020/03/07/rootfs/</url>
+    <content><![CDATA[<h1 id="容器创建中rootfs的蜕变之路"><a href="#容器创建中rootfs的蜕变之路" class="headerlink" title="容器创建中rootfs的蜕变之路"></a>容器创建中rootfs的蜕变之路</h1><p>待续</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>magic_create</title>
+    <url>/2020/03/07/magic_create/</url>
+    <content><![CDATA[<hr>
+<p>作者： haozi007  日期：2020-02-15</p>
+<hr>
+<h1 id="骚气的容器创建流程"><a href="#骚气的容器创建流程" class="headerlink" title="骚气的容器创建流程"></a>骚气的容器创建流程</h1><p>runc create的流程，包含不少骚气的操作，我们首先把大体流程梳理清楚，然后慢慢探索这些细节。</p>
+<pre class="mermaid">graph LR
+main.go --> createCommand
+createCommand --> revisePidFile
+createCommand --> setupSpec
+createCommand --> startContainer
+createCommand --> Exit
+setupSpec --> loadSpec
+startContainer --> newNotifySocket
+startContainer --> createContainer
+startContainer --> setupSocket
+startContainer --> runner.run.CT_ACT_CREATE</pre>
+
+<h2 id="createContainer"><a href="#createContainer" class="headerlink" title="createContainer"></a>createContainer</h2><p>负责创建libcontainer.Container结构体，并且设置容器的相关配置。主要流程如下：</p>
+<ol>
+<li><p>把oci spec转换为libcontainer能识别的配置结构体configs.Config</p>
+</li>
+<li><p>loadFactory中，初始化了cgroup的manager</p>
+</li>
+<li><p>loadFactory中，创建linuxFactory，<strong>注意InitPath和InitArgs的值</strong>，如何从runc create拉起runc init进程的关键点</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">LinuxFactory&#123;</span><br><span class="line">		Root:      root,</span><br><span class="line">		InitPath:  <span class="string">"/proc/self/exe"</span>,</span><br><span class="line">		InitArgs:  []<span class="keyword">string</span>&#123;os.Args[<span class="number">0</span>], <span class="string">"init"</span>&#125;,</span><br><span class="line">		Validator: validate.New(),</span><br><span class="line">		CriuPath:  <span class="string">"criu"</span>,</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建linuxContainer</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">linuxContainer&#123;</span><br><span class="line">		id:            id,</span><br><span class="line">		root:          containerRoot,</span><br><span class="line">		config:        config,</span><br><span class="line">		initPath:      l.InitPath,</span><br><span class="line">		initArgs:      l.InitArgs,</span><br><span class="line">		criuPath:      l.CriuPath,</span><br><span class="line">		newuidmapPath: l.NewuidmapPath,</span><br><span class="line">		newgidmapPath: l.NewgidmapPath,</span><br><span class="line">		cgroupManager: l.NewCgroupsManager(config.Cgroups, <span class="literal">nil</span>),</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>创建的容器的initPath和initArgs分别为”/proc/self/exe”和“init”，在后续的流程中会体会到其作用。</p>
+</li>
+</ol>
+<h2 id="runner-run"><a href="#runner-run" class="headerlink" title="runner.run"></a>runner.run</h2><p>首先看看utils_linux.go的runner结构体。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> runner <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// 标识启动的进程是否为容器的1号进程</span></span><br><span class="line">	init            <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// 标识当前进程作为子孙进程的收割进程（作用等价于1号进程）</span></span><br><span class="line">	enableSubreaper <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// 标识是否需要清理动作，删除cgroup、poststop hooks等等</span></span><br><span class="line">	shouldDestroy   <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// 标识是否以分离方式运行容器</span></span><br><span class="line">	detach          <span class="keyword">bool</span></span><br><span class="line">	listenFDs       []*os.File</span><br><span class="line">	preserveFDs     <span class="keyword">int</span></span><br><span class="line">	<span class="comment">// pid文件路径</span></span><br><span class="line">	pidFile         <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// 用于接收console伪终端的master，是一个AF_UNIX的socket路径</span></span><br><span class="line">	consoleSocket   <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// 上一步创建的container结构体</span></span><br><span class="line">	container       libcontainer.Container</span><br><span class="line">	<span class="comment">// runner的操作类型</span></span><br><span class="line">	action          CtAct</span><br><span class="line">	<span class="comment">// 用于notify的socket文件</span></span><br><span class="line">	notifySocket    *notifySocket</span><br><span class="line">	<span class="comment">// CRIU相关配置</span></span><br><span class="line">	criuOpts        *libcontainer.CriuOpts</span><br><span class="line">	<span class="comment">// 日志级别</span></span><br><span class="line">	logLevel        <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行runner的操作，支持CREATE，RESTORE，RUN</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *runner)</span> <span class="title">run</span><span class="params">(config *specs.Process)</span> <span class="params">(<span class="keyword">int</span>, error)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行容器的清理动作，根据状态执行对应操作</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *runner)</span> <span class="title">destroy</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 终止容器进程</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *runner)</span> <span class="title">terminate</span><span class="params">(p *libcontainer.Process)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查终端，console和detach配置是否正确</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *runner)</span> <span class="title">checkTerminal</span><span class="params">(config *specs.Process)</span> <span class="title">error</span></span></span><br></pre></td></tr></table></figure>
+
+<p>run()函数中，主要是准备一个libcontainer.Process，用于传递linuxContainer.Start流程。</p>
+<p>大体流程如下</p>
+<pre class="mermaid">graph LR
+run-->prepare
+prepare-->checkTerminal
+prepare-->newProcess
+prepare-->append-ExtraFiles
+prepare-->set-uid-gid
+prepare-->newSignalHandler
+prepare-->setupIO
+prepare-->container.Start</pre>
+
+<h3 id="准备的process"><a href="#准备的process" class="headerlink" title="准备的process"></a>准备的process</h3><p>主要包括几个方面：</p>
+<ol>
+<li>newProcess创建结构体，并且初始化容器的配置到该结构体；</li>
+<li>添加拓展的fd到该结构体的ExtraFiles，以及设置LISTEN_FDS的环境变量；</li>
+<li>设置uid，gid；</li>
+<li>初始化信号处理函数；</li>
+<li>设置io</li>
+</ol>
+<h3 id="container-Start"><a href="#container-Start" class="headerlink" title="container-Start"></a>container-Start</h3><p>第一步，创建execFIFO，这个FIFO文件的作用是，用于控制执行容器首进程的。在exec容器的首进程之前，会先往这个FIFO文件写入一个“0”字节，如果没有人打开这个FIFO，会导致写阻塞。因此，runc的start命令很简单，就是打开这个FIFO即可。</p>
+<h4 id="newParentProcess函数"><a href="#newParentProcess函数" class="headerlink" title="newParentProcess函数"></a>newParentProcess函数</h4><p>最关键的一步，创建启动容器的process。</p>
+<pre class="mermaid">graph LR
+newParentProcess-->commandTemplate
+newParentProcess-->includeExecFifo
+newParentProcess-->newInitProcess</pre>
+
+<p>commandTemplate函数，准备了运行的process的exec.Cmd结构体，比较感觉的几个配置，</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 记得上文中提到的关注点吗？这里的initPath为&quot;&#x2F;proc&#x2F;self&#x2F;exe&quot;，而initArgs[1]为&quot;init&quot;</span><br><span class="line">cmd :&#x3D; exec.Command(c.initPath, c.initArgs[1:]...)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 通过环境变量，传递INITPIPE的句柄，在nsenter模块中将会使用</span><br><span class="line">cmd.Env &#x3D; append(cmd.Env,</span><br><span class="line">		fmt.Sprintf(&quot;_LIBCONTAINER_INITPIPE&#x3D;%d&quot;, stdioFdCount+len(cmd.ExtraFiles)-1),</span><br><span class="line">		fmt.Sprintf(&quot;_LIBCONTAINER_STATEDIR&#x3D;%s&quot;, c.root),</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 通过环境变量，传递LOGPIPE的句柄，在nsenter模块中将会使用</span><br><span class="line">cmd.Env &#x3D; append(cmd.Env,</span><br><span class="line">		fmt.Sprintf(&quot;_LIBCONTAINER_LOGPIPE&#x3D;%d&quot;, stdioFdCount+len(cmd.ExtraFiles)-1),</span><br><span class="line">		fmt.Sprintf(&quot;_LIBCONTAINER_LOGLEVEL&#x3D;%s&quot;, p.LogLevel),</span><br><span class="line">	)</span><br></pre></td></tr></table></figure>
+
+<p>includeExecFifo函数，通过环境变量传递execFIFO句柄</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cmd.Env &#x3D; append(cmd.Env,</span><br><span class="line">		fmt.Sprintf(&quot;_LIBCONTAINER_FIFOFD&#x3D;%d&quot;, stdioFdCount+len(cmd.ExtraFiles)-1))</span><br></pre></td></tr></table></figure>
+
+<p>newInitProcess函数，设置初始化类型、设置bootstrap数据（nsenter模块设置的相关数据）、以及创建initProcess结构体</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">initProcess&#123;</span><br><span class="line">		cmd:             cmd,</span><br><span class="line">		messageSockPair: messageSockPair,</span><br><span class="line">		logFilePair:     logFilePair,</span><br><span class="line">		manager:         c.cgroupManager,</span><br><span class="line">		intelRdtManager: c.intelRdtManager,</span><br><span class="line">		config:          c.newInitConfig(p),</span><br><span class="line">		container:       c,</span><br><span class="line">		process:         p,</span><br><span class="line">		bootstrapData:   data,</span><br><span class="line">		sharePidns:      sharePidns,</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动initProcess"><a href="#启动initProcess" class="headerlink" title="启动initProcess"></a>启动initProcess</h4><p>第一步，就是启动commandTemplate返回的Cmd，也就是通过exec启动了一个新的进程，而该进程的二进制为”/proc/self/exe”，表示当前进程的二进制，也就是runc，而第一个参数为init。因此，相当于执行了”runc init”。</p>
+<p>那么，现在的程序结构如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Title: runc create start init process</span><br><span class="line">create-&gt;init: start new process</span><br><span class="line">Note left of create: apply cgroup sets to init.pid</span><br><span class="line">create-&gt;init: send bootstrap data to init</span><br><span class="line">init-&gt;init: get bootstrap data, and do some works</span><br><span class="line">create-&gt;create: wait child pids, and wait first child finish</span><br><span class="line">init-&gt;create: send child and grand child pids</span><br><span class="line">Note left of create: apply cgroup sets to child.pid</span><br><span class="line">create-&gt;init: send sync message -- creatCgroupns</span><br><span class="line">create-&gt;create: wait grand child finish</span><br><span class="line">Note left of create: create network interface</span><br><span class="line">create-&gt;init: send config data</span><br><span class="line">create-&gt;create: wait sync message</span><br><span class="line">Note right of init: ... now is runc init go codes...</span><br><span class="line">init-&gt;init: get config data, do many works...</span><br><span class="line">init-&gt;create: send sync message -- procReady</span><br><span class="line">create-&gt;create: 1. set cgroup sets;2. run preStart hooks</span><br><span class="line">create-&gt;init: send sync message -- procRun</span><br><span class="line">Note left of create: another sync message is procHooks</span><br><span class="line">create-&gt;create: wait init pipe closed</span><br><span class="line">Note left of create: 1. update state of container, 2. run postStart hooks</span><br><span class="line">Note left of create: finish</span><br></pre></td></tr></table></figure>
+
+
+
+<p>init进程的操作分为两部分：</p>
+<ol>
+<li>第一部分，在nsenter中，执行double fork，设置namespace等相关操作；</li>
+<li>第二部分，在init代码中，后续将进行详细分析。</li>
+</ol>
+<p>从send config data开始，为第二部分的操作了。</p>
+<pre class="mermaid">graph LR
+Init --> 配置网络
+Init --> prepareRootfs
+Init --> CreateConsole
+Init --> finalizeRootfs
+Init --> ApplyProfile
+Init --> Readonly-And-Mask-Paths
+Init --> syncParentReady
+Init --> SetProcessLabel
+Init --> InitSeccomp
+Init --> finalizeNamespace
+Init --> close-pipe-to-notify-init-complete
+Init --> open-and-write-exec-fifo-to-wait-runc-start
+Init --> exec-container-init-process</pre>
+
+<h5 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h5><p>涉及两个部分：</p>
+<ol>
+<li>设置loop网络</li>
+<li>设置路由信息</li>
+</ol>
+<h5 id="prepareRootfs"><a href="#prepareRootfs" class="headerlink" title="prepareRootfs"></a>prepareRootfs</h5><p>传播属性的概念参考<a href="https://www.missshi.cn/api/view/blog/5d117ab6ef3ee940b7000000" target="_blank" rel="noopener">文章</a>。</p>
+<blockquote>
+<p>peer group就是一个或多个挂载点的集合，他们之间可以共享挂载信息。<br>目前在下面两种情况下会使两个挂载点属于同一个peer group（前提条件是挂载点的propagation type是shared）</p>
+<ol>
+<li>利用mount –bind命令，将会使源和目的挂载点属于同一个peer group，当然前提条件是”源”必须要是一个挂载点。</li>
+<li>当创建新的mount namespace时，新namespace会拷贝一份老namespace的挂载点信息，于是新的和老的namespace里面的相同挂载点就会属于同一个peer group。</li>
+</ol>
+<p>每个挂载点都有一个propagation type标志, 由它来决定当一个挂载点的下面创建和移除挂载点的时候，是否会传播到属于相同peer group的其他挂载点下去，也即同一个peer group里的其他的挂载点下面是不是也会创建和移除相应的挂载点。现在有4种不同类型的propagation type：</p>
+<ol>
+<li>MS_SHARED: 从名字就可以看出，挂载信息会在同一个peer group的不同挂载点之间共享传播. 当一个挂载点下面添加或者删除挂载点的时候，同一个peer group里的其他挂载点下面也会挂载和卸载同样的挂载点。</li>
+<li>MS_PRIVATE: 跟上面的刚好相反，挂载信息根本就不共享，也即private的挂载点不会属于任何peer group。</li>
+<li>MS_SLAVE: 跟名字一样，信息的传播是单向的，在同一个peer group里面，master的挂载点下面发生变化的时候，slave的挂载点下面也跟着变化，但反之则不然，slave下发生变化的时候不会通知master，master不会发生变化。</li>
+<li>MS_UNBINDABLE: 这个和MS_PRIVATE相同，只是这种类型的挂载点不能作为bind mount的源，主要用来防止递归嵌套情况的出现。这种类型不常见，本篇将不介绍这种类型。</li>
+</ol>
+<p>Ps：需要补充说明的是：</p>
+<ol>
+<li>propagation type是挂载点的属性，每个挂载点都是独立的。</li>
+<li>挂载点是有父子关系的，比如挂载点/和/mnt/cdrom，/mnt/cdrom都是”/”的子挂载点，”/”是/mnt/cdrom的父挂载点。</li>
+<li>默认情况下，如果父挂载点是MS_SHARED，那么子挂载点也是MS_SHARED的，否则子挂载点将会是MS_PRIVATE，跟祖父级别挂载点没有关系。</li>
+</ol>
+</blockquote>
+<p>因此，runc首先对容器namespace的根目录的propagation type(传播属性)。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">prepareRoot</span><span class="params">(config *configs.Config)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	flag := unix.MS_SLAVE | unix.MS_REC</span><br><span class="line">	<span class="keyword">if</span> config.RootPropagation != <span class="number">0</span> &#123;</span><br><span class="line">		flag = config.RootPropagation</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err := unix.Mount(<span class="string">""</span>, <span class="string">"/"</span>, <span class="string">""</span>, <span class="keyword">uintptr</span>(flag), <span class="string">""</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Make parent mount private to make sure following bind mount does</span></span><br><span class="line">	<span class="comment">// not propagate in other namespaces. Also it will help with kernel</span></span><br><span class="line">	<span class="comment">// check pass in pivot_root. (IS_SHARED(new_mnt-&gt;mnt_parent))</span></span><br><span class="line">	<span class="keyword">if</span> err := rootfsParentMountPrivate(config.Rootfs); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> unix.Mount(config.Rootfs, config.Rootfs, <span class="string">"bind"</span>, unix.MS_BIND|unix.MS_REC, <span class="string">""</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>nsenter</title>
+    <url>/2020/03/07/nsenter/</url>
+    <content><![CDATA[<hr>
+<p>作者： haozi007  日期：2020-02-15</p>
+<hr>
+<h1 id="nsenter模块分析"><a href="#nsenter模块分析" class="headerlink" title="nsenter模块分析"></a>nsenter模块分析</h1><p>nsenter模块，主要涉及namespace管理（把当前进程加入到指定的namespace或者创建新的namespace）、uid和gid的映射管理以及串口的管理等。</p>
+<p>涉及golang和c两种语言实现，具体实现代码：</p>
+<p>libcontainer/nsenter， 核心实现在libcontainer/nsenter/nsexec.c。</p>
+<h2 id="模块入口"><a href="#模块入口" class="headerlink" title="模块入口"></a>模块入口</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> nsenter</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">#cgo CFLAGS: -Wall</span></span><br><span class="line"><span class="comment">extern void nsexec();</span></span><br><span class="line"><span class="comment">void __attribute__((constructor)) init(void) &#123;</span></span><br><span class="line"><span class="comment">	nsexec();</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">"C"</span></span><br></pre></td></tr></table></figure>
+
+<p>当有包<code>import _ &quot;github.com/opencontainers/runc/libcontainer/nsenter&quot;</code>的时候，会导致C语言实现的部分在编译的时候，编译到对应的可执行文件中。而这里的C代码，定义了一个构造函数<code>init(void)</code>，从C语言的构造函数特性，可以了解到，构造函数会在main函数执行之前运行。那么，<code>init(void)</code>函数会在可执行文件一开始就运行。所以，<code>nsexec()</code>函数会第一个执行。</p>
+<h2 id="nsexec函数"><a href="#nsexec函数" class="headerlink" title="nsexec函数"></a>nsexec函数</h2><p>主要功能如下：</p>
+<ol>
+<li>设置log pipe，用于日志传输；</li>
+<li>设置init pipe，用于namespace等配置数据的传输以及子进程pid的回传；</li>
+<li>ensure clone binary，用于解决<em>CVE-2019-5736</em>，防止/proc/self/exe导致的安全漏洞；</li>
+<li>读取并解析init pipe传入的namespace等数据信息；</li>
+<li>更新oom配置；</li>
+<li>执行double fork</li>
+</ol>
+<h3 id="ensure-clone-binary"><a href="#ensure-clone-binary" class="headerlink" title="ensure clone binary"></a>ensure clone binary</h3><p>在第一次运行时，拷贝原始的二进制文件内容到内存。后续的二进制执行，都是使用的内存数据。从而消除，运行过程中二进制被修改，导致的安全漏洞。</p>
+<p>具体实现待分析：clone_binary.c — ensure_cloned_binary()</p>
+<h3 id="double-clone"><a href="#double-clone" class="headerlink" title="double clone"></a>double clone</h3><p>nsexec中，进行了2次clone进程。</p>
+<p>至于为何需要进行2次clone操作的原因，可以参考注释：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">	 * Okay, so this is quite annoying.</span><br><span class="line">	 *</span><br><span class="line">	 * In order for this unsharing code to be more extensible we need to split</span><br><span class="line">	 * up unshare(CLONE_NEWUSER) and clone() in various ways. The ideal case</span><br><span class="line">	 * would be if we did clone(CLONE_NEWUSER) and the other namespaces</span><br><span class="line">	 * separately, but because of SELinux issues we cannot really do that. But</span><br><span class="line">	 * we cannot just dump the namespace flags into clone(...) because several</span><br><span class="line">	 * usecases (such as rootless containers) require more granularity around</span><br><span class="line">	 * the namespace setup. In addition, some older kernels had issues where</span><br><span class="line">	 * CLONE_NEWUSER wasn&#39;t handled before other namespaces (but we cannot</span><br><span class="line">	 * handle this while also dealing with SELinux so we choose SELinux support</span><br><span class="line">	 * over broken kernel support).</span><br><span class="line">	 *</span><br><span class="line">	 * However, if we unshare(2) the user namespace *before* we clone(2), then</span><br><span class="line">	 * all hell breaks loose.</span><br><span class="line">	 *</span><br><span class="line">	 * The parent no longer has permissions to do many things (unshare(2) drops</span><br><span class="line">	 * all capabilities in your old namespace), and the container cannot be set</span><br><span class="line">	 * up to have more than one &#123;uid,gid&#125; mapping. This is obviously less than</span><br><span class="line">	 * ideal. In order to fix this, we have to first clone(2) and then unshare.</span><br><span class="line">	 *</span><br><span class="line">	 * Unfortunately, it&#39;s not as simple as that. We have to fork to enter the</span><br><span class="line">	 * PID namespace (the PID namespace only applies to children). Since we&#39;ll</span><br><span class="line">	 * have to double-fork, this clone_parent() call won&#39;t be able to get the</span><br><span class="line">	 * PID of the _actual_ init process (without doing more synchronisation than</span><br><span class="line">	 * I can deal with at the moment). So we&#39;ll just get the parent to send it</span><br><span class="line">	 * for us, the only job of this process is to update</span><br><span class="line">	 * &#x2F;proc&#x2F;pid&#x2F;&#123;setgroups,uid_map,gid_map&#125;.</span><br><span class="line">	 *</span><br><span class="line">	 * And as a result of the above, we also need to setns(2) in the first child</span><br><span class="line">	 * because if we join a PID namespace in the topmost parent then our child</span><br><span class="line">	 * will be in that namespace (and it will not be able to give us a PID value</span><br><span class="line">	 * that makes sense without resorting to sending things with cmsg).</span><br><span class="line">	 *</span><br><span class="line">	 * This also deals with an older issue caused by dumping cloneflags into</span><br><span class="line">	 * clone(2): On old kernels, CLONE_PARENT didn&#39;t work with CLONE_NEWPID, so</span><br><span class="line">	 * we have to unshare(2) before clone(2) in order to do this. This was fixed</span><br><span class="line">	 * in upstream commit 1f7f4dde5c945f41a7abc2285be43d918029ecc5, and was</span><br><span class="line">	 * introduced by 40a0d32d1eaffe6aac7324ca92604b6b3977eb0e. As far as we&#39;re</span><br><span class="line">	 * aware, the last mainline kernel which had this bug was Linux 3.12.</span><br><span class="line">	 * However, we cannot comment on which kernels the broken patch was</span><br><span class="line">	 * backported to.</span><br><span class="line">	 *</span><br><span class="line">	 * -- Aleksa &quot;what has my life come to?&quot; Sarai</span><br><span class="line">	 *&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>包括父进程在内，一共涉及了3个进程，它们的关系序列如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Title: How to clone init process</span><br><span class="line">Parent-&gt;Child: clone first child</span><br><span class="line">Note right of Child:  join namespace and unshare newuser</span><br><span class="line">Child-&gt;Parent: send SYNC_USERMAP_PLS</span><br><span class="line">Note left of Parent: update groups,uid and gid</span><br><span class="line">Parent-&gt;Child: send SYNC_USERMAP_ACK</span><br><span class="line">Note right of Child: unshare other namespace, except cgroup</span><br><span class="line">Child-&gt;GrandChild: clone grand child</span><br><span class="line">Child-&gt;Parent: send SYNC_RECVPID_PLS</span><br><span class="line">Note left of Parent: get pid of childs</span><br><span class="line">Parent-&gt;Child: send SYNC_RECVPID_ACK</span><br><span class="line">Note left of Parent: send pid of childs to parent of myself(process of runc create)</span><br><span class="line">Child-&gt;Parent: send SYNC_CHILD_READY</span><br><span class="line">Note right of Child: finish</span><br><span class="line">Parent-&gt;GrandChild: send SYNC_GRANDCHILD</span><br><span class="line">Note left of Parent: wait SYNC_CHILD_READY from GrandChild</span><br><span class="line">Note right of GrandChild: set sid,uid,gid</span><br><span class="line">Note right of GrandChild: unshare cgroup namespace</span><br><span class="line">GrandChild-&gt;Parent: send SYNC_CHILD_READY</span><br><span class="line">Note left of Parent: finish</span><br><span class="line">Note right of GrandChild: let go runtime take over process</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+  </entry>
+  <entry>
     <title>Hexo搭建GitPage静态博客</title>
     <url>/2018/01/21/hexo_on_gitpage/</url>
     <content><![CDATA[<hr>
@@ -50,8 +221,9 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
 
 <h2 id="生成静态网站"><a href="#生成静态网站" class="headerlink" title="生成静态网站"></a>生成静态网站</h2><p>在test目录执行：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 生成静态页面</span><br><span class="line">hexo g </span><br><span class="line"># 部署本地静态网站(localhost:4000)</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 生成静态页面</span><br><span class="line">hexo g </span><br><span class="line"># 可以选择在generate的时候，watch源文件的变化，hexo感知到源文件变化，会自动重新出发generate，从而达到动态更新博客的效果</span><br><span class="line">hexo g -w</span><br><span class="line"></span><br><span class="line"># 部署本地静态网站(localhost:4000)</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
 
+<p><strong><em>注意：这里的watch会为我们后续自动更新博客做到很好的支持</em></strong></p>
 <p>查看本地静态网站是否构建正常，如果无问题，直接推送到github仓库。</p>
 <h2 id="推送到GitPage"><a href="#推送到GitPage" class="headerlink" title="推送到GitPage"></a>推送到GitPage</h2><p>当本地网站验证无误，就可以推送到你的Git仓库了，然后Github会自动部署你的GitPage。</p>
 <p>首先，安装依赖的插件：</p>
@@ -92,9 +264,46 @@
 <p>然后配置next/_config.yml：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">gitalk:</span><br><span class="line">  enable: true</span><br><span class="line">  github_id: 你的github账号 # GitHub repo owner</span><br><span class="line">  repo: 只需要repo名字就行了，例如test # Repository name to store issues</span><br><span class="line">  client_id: 上面生成的id # GitHub Application Client ID</span><br><span class="line">  client_secret: 上面生成的秘钥 # GitHub Application Client Secret</span><br><span class="line">  admin_user: 你的github账号 # GitHub repo owner and collaborators, only these guys can initialize gitHub issues</span><br></pre></td></tr></table></figure>
 
-
-
 <p>更多配置可以参考下面的手册：<a href="https://theme-next.org/docs/getting-started/" target="_blank" rel="noopener">https://theme-next.org/docs/getting-started/</a></p>
+<h3 id="支持mermaid"><a href="#支持mermaid" class="headerlink" title="支持mermaid"></a>支持mermaid</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install -s hexo-filter-mermaid-diagrams</span><br></pre></td></tr></table></figure>
+
+<p>next主题支持mermaid，需要开启，开启方法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Mermaid tag</span><br><span class="line">mermaid:</span><br><span class="line">  enable: true</span><br><span class="line">  # Available themes: default | dark | forest | neutral</span><br><span class="line">  theme: default</span><br><span class="line">  cdn: &#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mermaid@8&#x2F;dist&#x2F;mermaid.min.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="自动更新博客"><a href="#自动更新博客" class="headerlink" title="自动更新博客"></a>自动更新博客</h2><p>当我们的博客源文件存储在github上面的时候，那么在修改、删除和新增博客时，每次都需要把博客拷贝到我们的hexo的工作目录，加上上面的watch功能，可以自动生成新的博客，并且更新hexo服务器中的博客。</p>
+<p>那么，如果我们借助github的webhook功能，动态感知博客源文件仓库的变化，然后自动更新博客源文件，然后出发hexo的自动更新功能。答案是可以的。下面是一个简单的尝试 ，后续有时间会继续优化。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"bytes"</span></span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"flag"</span></span><br><span class="line">	<span class="string">"io/ioutil"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	<span class="string">"os/exec"</span></span><br><span class="line">	<span class="string">"path"</span></span><br><span class="line">	<span class="string">"sync"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	notesPath <span class="keyword">string</span></span><br><span class="line">	hexoPath  <span class="keyword">string</span></span><br><span class="line">	lock      sync.Mutex</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	flag.StringVar(&amp;notesPath, <span class="string">"notes"</span>, <span class="string">"./notes"</span>, <span class="string">"path where store notes"</span>)</span><br><span class="line">	flag.StringVar(&amp;hexoPath, <span class="string">"hexo"</span>, <span class="string">"./test/source/_posts/"</span>, <span class="string">"path where store hexo source post"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name     <span class="keyword">string</span> <span class="string">`json:"name,omitempty"`</span></span><br><span class="line">	Email    <span class="keyword">string</span> <span class="string">`json:"email,omitempty"`</span></span><br><span class="line">	Username <span class="keyword">string</span> <span class="string">`json:"username,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// github webhook commit format</span></span><br><span class="line"><span class="keyword">type</span> Commit <span class="keyword">struct</span> &#123;</span><br><span class="line">	ID        <span class="keyword">string</span>   <span class="string">`json:"id"`</span></span><br><span class="line">	Tree_id   <span class="keyword">string</span>   <span class="string">`json:"tree_id"`</span></span><br><span class="line">	Distinct  <span class="keyword">bool</span>     <span class="string">`json:"distinct"`</span></span><br><span class="line">	Message   <span class="keyword">string</span>   <span class="string">`json:"message,omitempty"`</span></span><br><span class="line">	Timestamp <span class="keyword">string</span>   <span class="string">`json:"timestamp,omitempty"`</span></span><br><span class="line">	Url       <span class="keyword">string</span>   <span class="string">`json:"url,omitempty"`</span></span><br><span class="line">	Author    *User    <span class="string">`json:"author,omitempty"`</span></span><br><span class="line">	Committer *User    <span class="string">`json:"committer,omitempty"`</span></span><br><span class="line">	Added     []<span class="keyword">string</span> <span class="string">`json:"added,omitempty"`</span></span><br><span class="line">	Removed   []<span class="keyword">string</span> <span class="string">`json:"removed,omitempty"`</span></span><br><span class="line">	Modified  []<span class="keyword">string</span> <span class="string">`json:"modified,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">runCmd</span><span class="params">(cmdStr <span class="keyword">string</span>, args []<span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(cmdStr, args...)</span><br><span class="line">	<span class="keyword">var</span> out bytes.Buffer</span><br><span class="line">	cmd.Stdout = &amp;out</span><br><span class="line">	err := cmd.Run()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">"run %s failed: %s"</span>, cmdStr, err.Error())</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">updateHandle</span><span class="params">(files []<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, f := <span class="keyword">range</span> files &#123;</span><br><span class="line">		_, fname := path.Split(f)</span><br><span class="line">		runCmd(<span class="string">"cp"</span>, []<span class="keyword">string</span>&#123;<span class="string">"-f"</span>, notesPath + <span class="string">"/"</span> + f, hexoPath + <span class="string">"/"</span> + fname&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeHandle</span><span class="params">(files []<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, f := <span class="keyword">range</span> files &#123;</span><br><span class="line">		_, fname := path.Split(f)</span><br><span class="line">		runCmd(<span class="string">"rm"</span>, []<span class="keyword">string</span>&#123;<span class="string">"-f"</span>, hexoPath + <span class="string">"/"</span> + fname&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">syncGit</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	err := runCmd(<span class="string">"/bin/bash"</span>, []<span class="keyword">string</span>&#123;<span class="string">"-c"</span>, <span class="string">"cd "</span> + notesPath + <span class="string">"; git pull"</span>&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">"sync notes from git failed: %s\n"</span>, err.Error())</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">changes</span><span class="params">(data []<span class="keyword">byte</span>)</span> <span class="params">([]<span class="keyword">string</span>, []<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> copys []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">var</span> rms []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">var</span> commit Commit</span><br><span class="line"></span><br><span class="line">	err := json.Unmarshal(data, &amp;commit)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">"Invalid commit: %s"</span>, <span class="keyword">string</span>(data))</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(commit.Added) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		copys = commit.Added</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(commit.Modified) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		copys = <span class="built_in">append</span>(copys, commit.Modified...)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(commit.Removed) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		rms = commit.Removed</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.Printf(<span class="string">"copys: %v, removes: %v\n"</span>, copys, rms)</span><br><span class="line">	<span class="keyword">return</span> copys, rms</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleCommits</span><span class="params">(commits []<span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> updates []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">var</span> removes []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">for</span> _, commit := <span class="keyword">range</span> commits &#123;</span><br><span class="line">		data, err := json.Marshal(commit)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Printf(<span class="string">"Invalid commit: %v"</span>, commit)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		us, rs := changes(data)</span><br><span class="line">		updates = <span class="built_in">append</span>(updates, us...)</span><br><span class="line">		removes = <span class="built_in">append</span>(removes, rs...)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	lock.Lock()</span><br><span class="line">	<span class="keyword">defer</span> lock.Unlock()</span><br><span class="line">	<span class="keyword">if</span> !syncGit() &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	updateHandle(updates)</span><br><span class="line">	removeHandle(removes)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	flag.Parse()</span><br><span class="line">	log.Printf(<span class="string">"notes path: %s\n"</span>, notesPath)</span><br><span class="line">	log.Printf(<span class="string">"hexo path: %s\n"</span>, hexoPath)</span><br><span class="line"></span><br><span class="line">	helloHandler := <span class="function"><span class="keyword">func</span><span class="params">(w http.ResponseWriter, req *http.Request)</span></span> &#123;</span><br><span class="line">		<span class="keyword">var</span> fullData <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">		robots, err := ioutil.ReadAll(req.Body)</span><br><span class="line">		req.Body.Close()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatal(err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> err := json.Unmarshal([]<span class="keyword">byte</span>(robots), &amp;fullData); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatal(err)</span><br><span class="line">		&#125;</span><br><span class="line">		commits, ok := fullData[<span class="string">"commits"</span>]</span><br><span class="line">		<span class="keyword">if</span> !ok &#123;</span><br><span class="line">			log.Printf(<span class="string">"Cannot found commits in %s"</span>, fullData)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> t, ok := commits.([]<span class="keyword">interface</span>&#123;&#125;); ok &#123;</span><br><span class="line">			handleCommits(t)</span><br><span class="line">		&#125;</span><br><span class="line">		log.Println(<span class="string">"get message"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	http.HandleFunc(<span class="string">"/notes"</span>, helloHandler)</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">":8088"</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="博客系统的完整结构"><a href="#博客系统的完整结构" class="headerlink" title="博客系统的完整结构"></a>博客系统的完整结构</h2><pre class="mermaid">sequenceDiagram
+    participant A as User
+    participant B as GithubRepo
+    participant C as Listener
+    participant D as HexoServer
+    activate C
+    activate D
+    A ->> B: 更新、增加或者删除博客
+    B ->> C: webhook push event
+    loop new commit
+        C ->> C: 1. 更新博客repo；2. 更新hexo博客源文件
+    end
+    deactivate C
+    loop hexo服务
+        D ->> D: 1. 监听博客源文件变化；2.自动生成新的静态页面；3. 更新服务器内容
+    end
+    deactivate D</pre>
+
+<p>我们需要两个服务器：</p>
+<ul>
+<li>一个是接收github的webhook推送信息，并且根据推送的信息，更新hexo的博客源文件</li>
+<li>一个是hexo的服务器，用于提供hexo博客服务</li>
+</ul>
+<p>一个流程基本如上图所示：</p>
+<ol>
+<li>用户更新博客，并且推送到github的博客仓库；</li>
+<li>github根据配置的webhook，发送commit信息到listener服务器；</li>
+<li>listener服务器根据，commit信息，更新当前hexo管理的博客源文件；</li>
+<li>hexo在generate的时候，配置了watch，因此在感知到源文件变化时，会重新生成静态页面。</li>
+</ol>
 <h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
 <li><a href="https://hexo.io/docs/" target="_blank" rel="noopener">https://hexo.io/docs/</a></li>
 <li><a href="https://theme-next.org/docs/getting-started/" target="_blank" rel="noopener">https://theme-next.org/docs/getting-started/</a></li>

@@ -126,7 +126,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">51</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">54</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -180,6 +180,276 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/qemu_get_vm_ip/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/05/07/qemu_get_vm_ip/" class="post-title-link" itemprop="url">获取qemu创建的虚拟机的IP地址</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-07 22:08:28" itemprop="dateCreated datePublished" datetime="2017-05-07T22:08:28+00:00">2017-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/qemu/" itemprop="url" rel="index"><span itemprop="name">qemu</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/qemu/%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">虚拟机</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="先用virsh-net-list获取虚拟机的网络列表"><a href="#先用virsh-net-list获取虚拟机的网络列表" class="headerlink" title="先用virsh net-list获取虚拟机的网络列表"></a>先用virsh net-list获取虚拟机的网络列表</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost vms]<span class="comment"># virsh net-list</span></span><br><span class="line">Name State Autostart Persistent</span><br><span class="line">———————————————————-</span><br><span class="line">default active yes yes</span><br></pre></td></tr></table></figure>
+
+<h2 id="然后获取IP的分配列表"><a href="#然后获取IP的分配列表" class="headerlink" title="然后获取IP的分配列表"></a>然后获取IP的分配列表</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost vms]<span class="comment"># virsh net-dhcp-leases default</span></span><br><span class="line">Expiry Time MAC address Protocol IP address Hostname Client ID or DUID</span><br><span class="line">——————————————————————————————————————-</span><br><span class="line">2016-09-22 21:08:03 52:54:00:00:00:12 ipv4 192.168.122.7/24 rtos –</span><br><span class="line">2016-09-22 21:08:23 52:54:00:00:00:42 ipv4 192.168.122.226/24 rtos –</span><br><span class="line">2016-09-22 21:08:35 52:54:00:00:00:62 ipv4 192.168.122.5/24 rtos –</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取虚拟机的列表"><a href="#获取虚拟机的列表" class="headerlink" title="获取虚拟机的列表"></a>获取虚拟机的列表</h2><p>[root@localhost vms]# virsh list<br>Id Name State<br>—————————————————-<br>12 main running<br>13 slaver1 running<br>14 slaver2 running</p>
+<p>注：virsh net-dhcp-leases 网络名：会把该网络上分配出去的IP地址显示出来</p>
+<h2 id="获取制定虚拟机的IP"><a href="#获取制定虚拟机的IP" class="headerlink" title="获取制定虚拟机的IP"></a>获取制定虚拟机的IP</h2><p>virsh edit vmID可以看到虚拟机的MAC地址，然后到第二步中找到对应的IP。</p>
+<p>如果有更好的办法可以联系我：<a href="mailto:duguhaotian@gmail.com">duguhaotian@gmail.com</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/install_vm_on_centos7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/05/07/install_vm_on_centos7/" class="post-title-link" itemprop="url">Centos7 qemu虚拟机安装</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-07 19:08:28" itemprop="dateCreated datePublished" datetime="2017-05-07T19:08:28+00:00">2017-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/qemu/" itemprop="url" rel="index"><span itemprop="name">qemu</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/qemu/%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">虚拟机</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="需要的材料"><a href="#需要的材料" class="headerlink" title="需要的材料"></a>需要的材料</h2><h3 id="qemu-kvm"><a href="#qemu-kvm" class="headerlink" title="qemu-kvm"></a>qemu-kvm</h3><p>能运行的qemu虚拟机镜像文件（如果你的机器是远端服务器，没办法使用virt-view等图形界面的话）<br>已有的qemu系统镜像安装了openssh-server端<br>安装qemu相关软件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client virt-install virt-viewer</span><br></pre></td></tr></table></figure>
+
+<p>准备可用的qemu虚拟机镜像文件<br>条件：有一台PC机器，安装好了qemu</p>
+<h3 id="新建磁盘文件"><a href="#新建磁盘文件" class="headerlink" title="新建磁盘文件"></a>新建磁盘文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">qemu-img create -f qcow2 /root/my.qcow2 20G</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装虚拟机"><a href="#安装虚拟机" class="headerlink" title="安装虚拟机"></a>安装虚拟机</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virt-install -r 1024 –accelerate -n <span class="built_in">test</span> -f /root/my.qcow2 –cdrom mini.iso –graphics=vnc,listen=0.0.0.0</span><br></pre></td></tr></table></figure>
+
+<p>注：mini.iso是ubuntu的最小安装盘，你可以用其他的代替</p>
+<p>图形界面正常的安装流程</p>
+<p>然后进入虚拟机安装openssh-server端，打开root的ssh登录权限。</p>
+<p>此时，我们安装的虚拟机系统的所有文件都在/root/my.qcow2里面。所以，我们把它拷贝到你的centos上面，然后可以直接用这个镜像文件创建虚拟机了。</p>
+<h2 id="启动虚拟机的xml配置文件示例"><a href="#启动虚拟机的xml配置文件示例" class="headerlink" title="启动虚拟机的xml配置文件示例"></a>启动虚拟机的xml配置文件示例</h2><p>把自己的配置写到test.xml文件，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&lt;domain type&#x3D;’kvm’&gt;</span><br><span class="line">&lt;name&gt;test&lt;&#x2F;name&gt;</span><br><span class="line">&lt;memory unit&#x3D;’MiB’&gt;1024&lt;&#x2F;memory&gt;</span><br><span class="line">&lt;currentMemory unit&#x3D;’MiB’&gt;1024&lt;&#x2F;currentMemory&gt;</span><br><span class="line">&lt;vcpu placement&#x3D;’static’&gt;1&lt;&#x2F;vcpu&gt;</span><br><span class="line">&lt;os&gt;</span><br><span class="line">&lt;type arch&#x3D;’x86_64′ machine&#x3D;’pc’&gt;hvm&lt;&#x2F;type&gt;</span><br><span class="line">&lt;boot dev&#x3D;’cdrom’&#x2F;&gt;</span><br><span class="line">&lt;boot dev&#x3D;’hd’&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;os&gt;</span><br><span class="line">&lt;features&gt;</span><br><span class="line">&lt;acpi&#x2F;&gt;</span><br><span class="line">&lt;apic&#x2F;&gt;</span><br><span class="line">&lt;pae&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;features&gt;</span><br><span class="line">&lt;clock offset&#x3D;’utc’&#x2F;&gt;</span><br><span class="line">&lt;on_poweroff&gt;destroy&lt;&#x2F;on_poweroff&gt;</span><br><span class="line">&lt;on_reboot&gt;restart&lt;&#x2F;on_reboot&gt;</span><br><span class="line">&lt;on_crash&gt;restart&lt;&#x2F;on_crash&gt;</span><br><span class="line">&lt;devices&gt;</span><br><span class="line">&lt;emulator&gt;&#x2F;usr&#x2F;libexec&#x2F;qemu-kvm&lt;&#x2F;emulator&gt;</span><br><span class="line">&lt;disk type&#x3D;’file’ device&#x3D;’disk’&gt;</span><br><span class="line">&lt;driver name&#x3D;’qemu’ type&#x3D;’qcow2’&#x2F;&gt;</span><br><span class="line">&lt;source file&#x3D;’&#x2F;root&#x2F;guest.qcow2’&#x2F;&gt;</span><br><span class="line">&lt;target dev&#x3D;’vda’ bus&#x3D;’virtio’&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;disk&gt;</span><br><span class="line">&lt;controller type&#x3D;’usb’ index&#x3D;’0′&gt;</span><br><span class="line">&lt;&#x2F;controller&gt;</span><br><span class="line">&lt;interface type&#x3D;’network’&gt;</span><br><span class="line">&lt;mac address&#x3D;’52:54:00:00:00:12’&#x2F;&gt;</span><br><span class="line">&lt;source network&#x3D;’default’&#x2F;&gt;</span><br><span class="line">&lt;model type&#x3D;’virtio’&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;interface&gt;</span><br><span class="line">&lt;serial type&#x3D;’pty’&gt;</span><br><span class="line">&lt;target port&#x3D;’0’&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;serial&gt;</span><br><span class="line">&lt;console type&#x3D;’pty’&gt;</span><br><span class="line">&lt;target type&#x3D;’serial’ port&#x3D;’0’&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;console&gt;</span><br><span class="line">&lt;channel type&#x3D;’spicevmc’&gt;</span><br><span class="line">&lt;target type&#x3D;’virtio’ name&#x3D;’com.redhat.spice.0’&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;channel&gt;</span><br><span class="line">&lt;input type&#x3D;’tablet’ bus&#x3D;’usb’&#x2F;&gt;</span><br><span class="line">&lt;input type&#x3D;’mouse’ bus&#x3D;’ps2’&#x2F;&gt;</span><br><span class="line">&lt;input type&#x3D;’keyboard’ bus&#x3D;’ps2’&#x2F;&gt;</span><br><span class="line">&lt;graphics type&#x3D;’spice’ autoport&#x3D;’yes’&#x2F;&gt;</span><br><span class="line">&lt;sound model&#x3D;’ich6′&gt;</span><br><span class="line">&lt;&#x2F;sound&gt;</span><br><span class="line">&lt;video&gt;</span><br><span class="line">&lt;model type&#x3D;’qxl’ vram&#x3D;’9216′ heads&#x3D;’1’&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;video&gt;</span><br><span class="line">&lt;redirdev bus&#x3D;’usb’ type&#x3D;’spicevmc’&gt;</span><br><span class="line">&lt;&#x2F;redirdev&gt;</span><br><span class="line">&lt;memballoon model&#x3D;’virtio’&gt;</span><br><span class="line">&lt;&#x2F;memballoon&gt;</span><br><span class="line">&lt;&#x2F;devices&gt;</span><br><span class="line">&lt;&#x2F;domain&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注：/usr/libexec/qemu-kvm 其他系统的位置不一样（如，ubuntu是在/user/bin/qemu-system-x86_64）</p>
+<p>然后直接运行virsh create test.xml，此时你就可以通过ssh root@ip到你的虚拟机上了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/install_expect/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/05/07/install_expect/" class="post-title-link" itemprop="url">安装expect</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-07 19:07:28" itemprop="dateCreated datePublished" datetime="2017-05-07T19:07:28+00:00">2017-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/softwares/" itemprop="url" rel="index"><span itemprop="name">softwares</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="安装TCL"><a href="#安装TCL" class="headerlink" title="安装TCL"></a>安装TCL</h2><p>下载地址：<a href="http://www.tcl.tk/software/tcltk/download.html" target="_blank" rel="noopener">http://www.tcl.tk/software/tcltk/download.html</a></p>
+<p>目前最新版本: tcl8.5.19-src.tar.gz</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget http://prdownloads.sourceforge.net/tcl/tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf tcl8.5.19-src.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> tcl8.5.19/unix/</span><br><span class="line"></span><br><span class="line">./configure</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装expect"><a href="#安装expect" class="headerlink" title="安装expect"></a>安装expect</h2><p>expect 官网：<a href="http://expect.sourceforge.net/" target="_blank" rel="noopener">http://expect.sourceforge.net/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">wget http://nchc.dl.sourceforge.net/project/expect/Expect/5.45/expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line">tar zxf expect5.45.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> expect5.45</span><br><span class="line"></span><br><span class="line">./configure  –with-tcl=/usr/<span class="built_in">local</span>/lib/ –with-tclinclude=../tcl8.5.19/generic/</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">ln -s /usr/<span class="built_in">local</span>/bin/expect /usr/bin/expect</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -813,661 +1083,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/shell_learn_readfile_lines/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/05/07/shell_learn_readfile_lines/" class="post-title-link" itemprop="url">Shell逐行遍历文件</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-05-07 13:02:26" itemprop="dateCreated datePublished" datetime="2017-05-07T13:02:26+00:00">2017-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="while-read"><a href="#while-read" class="headerlink" title="while read"></a>while read</h2><p>read命令接收标准输入，或其他文件描述符的输入，得到输入后，read命令将数据放入一个标准变量中．</p>
-<p>利用read读取文件时，每次调用read命令都会读取文件中的”一行”文本．</p>
-<p>当文件没有可读的行时，read命令将以非零状态退出．</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cat filename| <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> “<span class="variable">$&#123;line&#125;</span>”</span><br><span class="line"><span class="keyword">done</span> &lt; filename</span><br></pre></td></tr></table></figure>
-
-<h2 id="for-var-in-file"><a href="#for-var-in-file" class="headerlink" title="for  var in file"></a>for  var in file</h2><p>for var in file　表示变量var在file中循环取值．取值的分隔符由$IFS确定．</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for line in $(cat filename)</span><br><span class="line">do</span><br><span class="line">echo “File:$&#123;line&#125;”</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">for line in &#96;cat filename&#96;</span><br><span class="line">do</span><br><span class="line">echo “$&#123;line&#125;”</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-<p>如果输入文本每行中没有空格，则line在输入文本中按换行符分隔符循环取值．</p>
-<p>如果输入文本中包括空格或制表符，则不是换行读取，line在输入文本中按空格分隔符或制表符或换行符特环取值．</p>
-<p>可以通过把IFS设置为换行符来达到逐行读取的功能．</p>
-<p>IFS的默认值为：空白(包括：空格，制表符，换行符)．</p>
-<p>注意：如何设置IFS为换行符</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OLD_IFS&#x3D;”$IFS”</span><br><span class="line">IFS&#x3D;$’\x0A’</span><br></pre></td></tr></table></figure>
-
-<h2 id="awk工具变量"><a href="#awk工具变量" class="headerlink" title="awk工具变量"></a>awk工具变量</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk -f my.awk filename</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/03/01/docker_cmd_analyse3_1_1/" class="post-title-link" itemprop="url">docker命令分析--权限管理</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-03-01 19:33:39" itemprop="dateCreated datePublished" datetime="2017-03-01T19:33:39+00:00">2017-03-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/docker%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">docker命令</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>所有命令均基于docker1.11版本</p>
-<h1 id="运行时特权和Linux能力"><a href="#运行时特权和Linux能力" class="headerlink" title="运行时特权和Linux能力"></a>运行时特权和Linux能力</h1><p>run命令与特权相关的几个选项：</p>
-<ul>
-<li>–cap-add: Add Linux capabilities</li>
-<li>–cap-drop: Drop Linux capabilities</li>
-<li>–privileged=false: Give extended privileges to this container</li>
-<li>–device=[]: Allows you to run devices inside the container without the –privileged flag.</li>
-</ul>
-<p>注：默认的容器都是unprivileged，因此很多系统调用、设备等特权相关的操作都是干不了的。而且1.10版本之后增加了seccomp安全控制，<br>    可能导致容器有了权限，但是一些系统调用被安全策略禁止了。关于安全策略seccomp可以参考文档<a href="/2017/03/01/docker_cmd_analyse3_1_2/">Docker安全策略</a></p>
-<p>docker run –privileged启动的容器，具有访问host上所有设备的能力，当然需要同时设置AppArmor或者SELinux允许容器相同的权限。</p>
-<p>–device可以指定一个或者多个设备在容器中能正常使用，默认情况，容器对这些设备具有read、write和mknod的权限，这些权限可以通过”:rwm”来修改。<br>mknod可以参考<a href="http://www.cnblogs.com/hnrainll/archive/2011/06/10/2077583.html" target="_blank" rel="noopener">这篇博客</a></p>
-<p>示例如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --device&#x3D;&#x2F;dev&#x2F;sda:&#x2F;dev&#x2F;xvdc --rm -it ubuntu fdisk  &#x2F;dev&#x2F;xvdc</span><br><span class="line"></span><br><span class="line">Command (m for help): q</span><br><span class="line">$ docker run --device&#x3D;&#x2F;dev&#x2F;sda:&#x2F;dev&#x2F;xvdc:r --rm -it ubuntu fdisk  &#x2F;dev&#x2F;xvdc</span><br><span class="line">You will not be able to write the partition table.</span><br><span class="line"></span><br><span class="line">Command (m for help): q</span><br><span class="line"></span><br><span class="line">$ docker run --device&#x3D;&#x2F;dev&#x2F;sda:&#x2F;dev&#x2F;xvdc:w --rm -it ubuntu fdisk  &#x2F;dev&#x2F;xvdc</span><br><span class="line">    crash....</span><br><span class="line"></span><br><span class="line">$ docker run --device&#x3D;&#x2F;dev&#x2F;sda:&#x2F;dev&#x2F;xvdc:m --rm -it ubuntu fdisk  &#x2F;dev&#x2F;xvdc</span><br><span class="line">fdisk: unable to open &#x2F;dev&#x2F;xvdc: Operation not permitted</span><br></pre></td></tr></table></figure>
-
-<p>相对于privileged的暴力权限，cap-add和cap-drop对权限的控制更细腻。<br>Docker目前支持的权限设置列表如下：</p>
-<table>
-<thead>
-<tr>
-<th>Capability Key</th>
-<th>Capability Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>SETPCAP</td>
-<td>Modify process capabilities.</td>
-</tr>
-<tr>
-<td>SYS_MODULE</td>
-<td>Load and unload kernel modules.</td>
-</tr>
-<tr>
-<td>SYS_RAWIO</td>
-<td>Perform I/O port operations (iopl(2) and ioperm(2)).</td>
-</tr>
-<tr>
-<td>SYS_PACCT</td>
-<td>Use acct(2), switch process accounting on or off.</td>
-</tr>
-<tr>
-<td>SYS_ADMIN</td>
-<td>Perform a range of system administration operations.</td>
-</tr>
-<tr>
-<td>SYS_NICE</td>
-<td>Raise process nice value (nice(2), setpriority(2)) and change the nice value for arbitrary processes.</td>
-</tr>
-<tr>
-<td>SYS_RESOURCE</td>
-<td>Override resource Limits.</td>
-</tr>
-<tr>
-<td>SYS_TIME</td>
-<td>Set system clock (settimeofday(2), stime(2), adjtimex(2)); set real-time (hardware) clock.</td>
-</tr>
-<tr>
-<td>SYS_TTY_CONFIG</td>
-<td>Use vhangup(2); employ various privileged ioctl(2) operations on virtual terminals.</td>
-</tr>
-<tr>
-<td>MKNOD</td>
-<td>Create special files using mknod(2).</td>
-</tr>
-<tr>
-<td>AUDIT_WRITE</td>
-<td>Write records to kernel auditing log.</td>
-</tr>
-<tr>
-<td>AUDIT_CONTROL</td>
-<td>Enable and disable kernel auditing; change auditing filter rules; retrieve auditing status and filtering rules.</td>
-</tr>
-<tr>
-<td>MAC_OVERRIDE</td>
-<td>Allow MAC configuration or state changes. Implemented for the Smack LSM.</td>
-</tr>
-<tr>
-<td>MAC_ADMIN</td>
-<td>Override Mandatory Access Control (MAC). Implemented for the Smack Linux Security Module (LSM).</td>
-</tr>
-<tr>
-<td>NET_ADMIN</td>
-<td>Perform various network-related operations.</td>
-</tr>
-<tr>
-<td>SYSLOG</td>
-<td>Perform privileged syslog(2) operations.</td>
-</tr>
-<tr>
-<td>CHOWN</td>
-<td>Make arbitrary changes to file UIDs and GIDs (see chown(2)).</td>
-</tr>
-<tr>
-<td>NET_RAW</td>
-<td>Use RAW and PACKET sockets.</td>
-</tr>
-<tr>
-<td>DAC_OVERRIDE</td>
-<td>Bypass file read, write, and execute permission checks.</td>
-</tr>
-<tr>
-<td>FOWNER</td>
-<td>Bypass permission checks on operations that normally require the file system UID of the process to match the UID of the file.</td>
-</tr>
-<tr>
-<td>DAC_READ_SEARCH</td>
-<td>Bypass file read permission checks and directory read and execute permission checks.</td>
-</tr>
-<tr>
-<td>FSETID</td>
-<td>Don’t clear set-user-ID and set-group-ID permission bits when a file is modified.</td>
-</tr>
-<tr>
-<td>KILL</td>
-<td>Bypass permission checks for sending signals.</td>
-</tr>
-<tr>
-<td>SETGID</td>
-<td>Make arbitrary manipulations of process GIDs and supplementary GID list.</td>
-</tr>
-<tr>
-<td>SETUID</td>
-<td>Make arbitrary manipulations of process UIDs.</td>
-</tr>
-<tr>
-<td>LINUX_ IMMUTABLE</td>
-<td>Set the FS_APPEND_FL and FS_IMMUTABLE_FL i-node flags.</td>
-</tr>
-<tr>
-<td>NET_BIND_SERVICE</td>
-<td>Bind a socket to internet domain privileged ports (port numbers less than 1024).</td>
-</tr>
-<tr>
-<td>NET_BROADCAST</td>
-<td>Make socket broadcasts, and listen to multicasts.</td>
-</tr>
-<tr>
-<td>IPC_LOCK</td>
-<td>Lock memory (mlock(2), mlockall(2), mmap(2), shmctl(2)).</td>
-</tr>
-<tr>
-<td>IPC_OWNER</td>
-<td>Bypass permission checks for operations on System V IPC objects.</td>
-</tr>
-<tr>
-<td>SYS_CHROOT</td>
-<td>Use chroot(2), change root directory.</td>
-</tr>
-<tr>
-<td>SYS_PTRACE</td>
-<td>Trace arbitrary processes using ptrace(2).</td>
-</tr>
-<tr>
-<td>SYS_ BOOT</td>
-<td>Use reboot(2) and kexec_load(2), reboot and load a new kernel for later execution.</td>
-</tr>
-<tr>
-<td>LEASE</td>
-<td>Establish leases on arbitrary files (see fcntl(2)).</td>
-</tr>
-<tr>
-<td>SETFCAP</td>
-<td>Set file capabilities.</td>
-</tr>
-<tr>
-<td>WAKE_ALARM</td>
-<td>Trigger something that will wake up the system.</td>
-</tr>
-<tr>
-<td>BLOCK_SUSPEND</td>
-<td>Employ features that can block system suspend.</td>
-</tr>
-</tbody></table>
-<p>cap-add和cap-drop都支持ALL，表示加上或者去掉所有能力。例如，加上所有能力，但是去掉MKNOD：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --cap-add&#x3D;ALL --cap-drop&#x3D;MKNOD ...</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/01/docker_cmd_analyse3_1_2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/03/01/docker_cmd_analyse3_1_2/" class="post-title-link" itemprop="url">docker命令分析--Seccomp特性</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-03-01 19:33:39" itemprop="dateCreated datePublished" datetime="2017-03-01T19:33:39+00:00">2017-03-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/docker%E5%91%BD%E4%BB%A4/" itemprop="url" rel="index"><span itemprop="name">docker命令</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>Secure computing mode (Seccomp)是Linux内核的特性。可以使用Seccomp来限制容器内的行为。<br>该特性的有效基于：</p>
-<ul>
-<li>Docker编译时加上了seccomp</li>
-<li>内核打开了CONFIG_SECCOMP配置</li>
-</ul>
-<h2 id="修改默认Seccomp配置文件"><a href="#修改默认Seccomp配置文件" class="headerlink" title="修改默认Seccomp配置文件"></a>修改默认Seccomp配置文件</h2><p><a href="https://github.com/docker/docker/blob/master/profiles/seccomp/default.json" target="_blank" rel="noopener">默认的Seccomp配置文件</a>禁止了44个系统调用。<br>可以参考默认的配置文件，自定义然后在docker run的时候用–security-opt设置自定义的配置文件，例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --rm -it --security-opt seccomp&#x3D;&#x2F;path&#x2F;to&#x2F;seccomp&#x2F;profile.json hello-world</span><br></pre></td></tr></table></figure>
-<p>默认的Seccomp配置文件是一个白名单，没有指定的则是被禁止的。下表给出一些被禁止的系统调用（不是全部），以及原因。</p>
-<table>
-<thead>
-<tr>
-<th>Syscall</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>acct</td>
-<td>Accounting syscall which could let containers disable their own resource limits or process accounting. Also gated by CAP_SYS_PACCT.</td>
-</tr>
-<tr>
-<td>add_key</td>
-<td>Prevent containers from using the kernel keyring, which is not namespaced.</td>
-</tr>
-<tr>
-<td>adjtimex</td>
-<td>Similar to clock_settime and settimeofday, time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
-</tr>
-<tr>
-<td>bpf</td>
-<td>Deny loading potentially persistent bpf programs into kernel, already gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>clock_ adjtime</td>
-<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
-</tr>
-<tr>
-<td>clock_ settime</td>
-<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
-</tr>
-<tr>
-<td>clone</td>
-<td>Deny cloning new namespaces. Also gated by CAP_SYS_ADMIN for CLONE_* flags, except CLONE_USERNS.</td>
-</tr>
-<tr>
-<td>create_ module</td>
-<td>Deny manipulation and functions on kernel modules. Obsolete. Also gated by CAP_SYS_MODULE.</td>
-</tr>
-<tr>
-<td>delete_ module</td>
-<td>Deny manipulation and functions on kernel modules. Also gated by CAP_SYS_MODULE.</td>
-</tr>
-<tr>
-<td>finit_ module</td>
-<td>Deny manipulation and functions on kernel modules. Also gated by CAP_SYS_MODULE.</td>
-</tr>
-<tr>
-<td>get_kernel_syms</td>
-<td>Deny retrieval of exported kernel and module symbols. Obsolete.</td>
-</tr>
-<tr>
-<td>get_ mempolicy</td>
-<td>Syscall that modifies kernel memory and NUMA settings. Already gated by CAP_SYS_NICE.</td>
-</tr>
-<tr>
-<td>init_ module</td>
-<td>Deny manipulation and functions on kernel modules. Also gated by CAP_SYS_MODULE.</td>
-</tr>
-<tr>
-<td>ioperm</td>
-<td>Prevent containers from modifying kernel I/O privilege levels. Already gated by CAP_SYS_RAWIO.</td>
-</tr>
-<tr>
-<td>iopl</td>
-<td>Prevent containers from modifying kernel I/O privilege levels. Already gated by CAP_SYS_RAWIO.</td>
-</tr>
-<tr>
-<td>kcmp</td>
-<td>Restrict process inspection capabilities, already blocked by dropping CAP_PTRACE.</td>
-</tr>
-<tr>
-<td>kexec_file_load</td>
-<td>Sister syscall of kexec_load that does the same thing, slightly different arguments. Also gated by CAP_SYS_BOOT.</td>
-</tr>
-<tr>
-<td>kexec_ load</td>
-<td>Deny loading a new kernel for later execution. Also gated by CAP_SYS_BOOT.</td>
-</tr>
-<tr>
-<td>keyctl</td>
-<td>Prevent containers from using the kernel keyring, which is not namespaced.</td>
-</tr>
-<tr>
-<td>lookup_ dcookie</td>
-<td>Tracing/profiling syscall, which could leak a lot of information on the host. Also gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>mbind</td>
-<td>Syscall that modifies kernel memory and NUMA settings. Already gated by CAP_SYS_NICE.</td>
-</tr>
-<tr>
-<td>mount</td>
-<td>Deny mounting, already gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>move_pages</td>
-<td>Syscall that modifies kernel memory and NUMA settings.</td>
-</tr>
-<tr>
-<td>name_to_handle_at</td>
-<td>Sister syscall to open_by_handle_at. Already gated by CAP_SYS_NICE.</td>
-</tr>
-<tr>
-<td>nfsservctl</td>
-<td>Deny interaction with the kernel nfs daemon. Obsolete since Linux 3.1.</td>
-</tr>
-<tr>
-<td>open_by_handle_at</td>
-<td>Cause of an old container breakout. Also gated by CAP_DAC_READ_SEARCH.</td>
-</tr>
-<tr>
-<td>perf_event_open</td>
-<td>Tracing/profiling syscall, which could leak a lot of information on the host.</td>
-</tr>
-<tr>
-<td>personality</td>
-<td>Prevent container from enabling BSD emulation. Not inherently dangerous, but poorly tested, potential for a lot of kernel vulns.</td>
-</tr>
-<tr>
-<td>pivot_ root</td>
-<td>Deny pivot_root, should be privileged operation.</td>
-</tr>
-<tr>
-<td>process_vm_readv</td>
-<td>Restrict process inspection capabilities, already blocked by dropping CAP_PTRACE.</td>
-</tr>
-<tr>
-<td>process_vm_writev</td>
-<td>Restrict process inspection capabilities, already blocked by dropping CAP_PTRACE.</td>
-</tr>
-<tr>
-<td>ptrace</td>
-<td>Tracing/profiling syscall, which could leak a lot of information on the host. Already blocked by dropping CAP_PTRACE.</td>
-</tr>
-<tr>
-<td>query_module</td>
-<td>Deny manipulation and functions on kernel modules. Obsolete.</td>
-</tr>
-<tr>
-<td>quotactl</td>
-<td>Quota syscall which could let containers disable their own resource limits or process accounting. Also gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>reboot</td>
-<td>Don’t let containers reboot the host. Also gated by CAP_SYS_BOOT.</td>
-</tr>
-<tr>
-<td>request_key</td>
-<td>Prevent containers from using the kernel keyring, which is not namespaced.</td>
-</tr>
-<tr>
-<td>set_ mempolicy</td>
-<td>Syscall that modifies kernel memory and NUMA settings. Already gated by CAP_SYS_NICE.</td>
-</tr>
-<tr>
-<td>setns</td>
-<td>Deny associating a thread with a namespace. Also gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>settimeofday</td>
-<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
-</tr>
-<tr>
-<td>stime</td>
-<td>Time/date is not namespaced. Also gated by CAP_SYS_TIME.</td>
-</tr>
-<tr>
-<td>swapon</td>
-<td>Deny start/stop swapping to file/device. Also gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>swapoff</td>
-<td>Deny start/stop swapping to file/device. Also gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>sysfs</td>
-<td>Obsolete syscall.</td>
-</tr>
-<tr>
-<td>_sysctl</td>
-<td>Obsolete, replaced by /proc/sys.</td>
-</tr>
-<tr>
-<td>umount</td>
-<td>Should be a privileged operation. Also gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>umount2</td>
-<td>Should be a privileged operation. Also gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>unshare</td>
-<td>Deny cloning new namespaces for processes. Also gated by CAP_SYS_ADMIN, with the exception of unshare –user.</td>
-</tr>
-<tr>
-<td>uselib</td>
-<td>Older syscall related to shared libraries, unused for a long time.</td>
-</tr>
-<tr>
-<td>userfaultfd</td>
-<td>Userspace page fault handling, largely needed for process migration.</td>
-</tr>
-<tr>
-<td>ustat</td>
-<td>Obsolete syscall.</td>
-</tr>
-<tr>
-<td>vm86</td>
-<td>In kernel x86 real mode virtual machine. Also gated by CAP_SYS_ADMIN.</td>
-</tr>
-<tr>
-<td>vm86old</td>
-<td>In kernel x86 real mode virtual machine. Also gated by CAP_SYS_ADMIN.</td>
-</tr>
-</tbody></table>
-<h2 id="禁用Seccomp"><a href="#禁用Seccomp" class="headerlink" title="禁用Seccomp"></a>禁用Seccomp</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker run --rm -it --security-opt seccomp&#x3D;unconfined debian:jessie \</span><br><span class="line">    unshare --map-root-user --user sh -c whoami</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1538,7 +1153,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1646,6 +1261,19 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'default',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   
