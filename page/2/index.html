@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
+<meta name="generator" content="Hexo 4.2.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -13,11 +13,13 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
-<script id="hexo-configurations">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}};
   </script>
 
   <meta property="og:type" content="website">
@@ -28,15 +30,17 @@
 <meta property="article:author" content="Haozi007">
 <meta name="twitter:card" content="summary">
 
+
 <link rel="canonical" href="http://yoursite.com/page/2/">
 
 
-<script id="page-configurations">
+<script data-pjax class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
     isHome : true,
-    isPost : false
+    isPost : false,
+    lang   : 'cn'
   };
 </script>
 
@@ -50,52 +54,62 @@
 
   <noscript>
   <style>
-  .use-motion .brand,
+  body { margin-top: 2rem; }
+
   .use-motion .menu-item,
-  .sidebar-inner,
+  .use-motion .sidebar,
   .use-motion .post-block,
   .use-motion .pagination,
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
 
   .use-motion .site-title,
-  .use-motion .site-subtitle {
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
     opacity: initial;
     top: initial;
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
   </style>
 </noscript>
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
+  <main class="main">
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">苦与乐</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">苦与乐</h1>
+      <i class="logo-line"></i>
+    </a>
   </div>
 
   <div class="site-nav-right">
@@ -106,27 +120,17 @@
 </div>
 
 
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
-
-  </li>
+  <ul class="main-menu menu">
         <li class="menu-item menu-item-about">
 
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">2</span></a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives<span class="badge">54</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">2</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -134,16 +138,18 @@
         </a>
       </li>
   </ul>
-
 </nav>
-  <div class="site-search">
+
+
+
+  <div class="search-pop-overlay">
     <div class="popup search-popup">
-    <div class="search-header">
+        <div class="search-header">
   <span class="search-icon">
     <i class="fa fa-search"></i>
   </span>
   <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
            placeholder="Searching..." spellcheck="false"
            type="search" class="search-input">
   </div>
@@ -151,1003 +157,28 @@
     <i class="fa fa-times-circle"></i>
   </span>
 </div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
-    </header>
 
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
-
-  <a href="https://github.com/duguhaotian" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content">
-            
-
-  <div class="posts-expand">
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/08/nginx_related/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/08/08/nginx_related/" class="post-title-link" itemprop="url">nginx问题跟踪</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-08-08 10:05:47" itemprop="dateCreated datePublished" datetime="2017-08-08T10:05:47+00:00">2017-08-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/tools/nginx/" itemprop="url" rel="index"><span itemprop="name">nginx</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>访问nginx搭建的网站时，报403 forbidden错误的原因。</p>
-<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>第一，是因为缺少index.html或者index.php等<br>第二，是因为没有权限。</p>
-<p>参考：<br><a href="http://blog.51yip.com/apachenginx/1512.html" target="_blank" rel="noopener">http://blog.51yip.com/apachenginx/1512.html</a></p>
-
-      
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/02/linux_kernel_bigheap/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/06/02/linux_kernel_bigheap/" class="post-title-link" itemprop="url">legacy_va_layout设置大堆</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-06-02 16:19:29" itemprop="dateCreated datePublished" datetime="2017-06-02T16:19:29+00:00">2017-06-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/bigheap/" itemprop="url" rel="index"><span itemprop="name">bigheap</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/bigheap/legacy-va-layout/" itemprop="url" rel="index"><span itemprop="name">legacy_va_layout</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<p>设置/proc/sys/vm/legacy_va_layout为0，调整进程地址空间的heap增长方向为从上往下。<br>这样可以使得heap的上限超过2G。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0 ----------------------------------------------------------------------------------------- 3G -------- 4G</span><br><span class="line">保留 | 代码段 | 数据段 | BSS段 | 堆-增长方向向上 | 内存映射 | 栈-增长方向向下 | 命令行参数 | 环境变量    内核段</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;proc&#x2F;sys&#x2F;vm&#x2F;legacy_va_layout (since Linux 2.6.9)</span><br><span class="line">              If nonzero, this disables the new 32-bit memory-mapping</span><br><span class="line">              layout; the kernel will use the legacy (2.4) layout for all</span><br><span class="line">              processes.</span><br></pre></td></tr></table></figure>
-
-<p>修改heap增长方向代码（以linux4.1的arm为例）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void arch_pick_mmap_layout(struct mm_struct *mm)</span><br><span class="line">&#123;</span><br><span class="line">	unsigned long random_factor &#x3D; 0UL;</span><br><span class="line"></span><br><span class="line">	if (current-&gt;flags &amp; PF_RANDOMIZE)</span><br><span class="line">		random_factor &#x3D; arch_mmap_rnd();</span><br><span class="line"></span><br><span class="line">	if (mmap_is_legacy()) &#123;  &#x2F;&#x2F;获取legacy_va_layout的值，非零使用正常模式</span><br><span class="line">		mm-&gt;mmap_base &#x3D; TASK_UNMAPPED_BASE + random_factor;</span><br><span class="line">		mm-&gt;get_unmapped_area &#x3D; arch_get_unmapped_area;</span><br><span class="line">	&#125; else &#123;  &#x2F;&#x2F;为零，使用自上向下的模式</span><br><span class="line">		mm-&gt;mmap_base &#x3D; mmap_base(random_factor);</span><br><span class="line">		mm-&gt;get_unmapped_area &#x3D; arch_get_unmapped_area_topdown;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/02/linux_scheduling_softlockup&hardlockup/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/06/02/linux_scheduling_softlockup&hardlockup/" class="post-title-link" itemprop="url">watchdog分析</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-06-02 16:19:29" itemprop="dateCreated datePublished" datetime="2017-06-02T16:19:29+00:00">2017-06-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/scheduling/" itemprop="url" rel="index"><span itemprop="name">scheduling</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/scheduling/watchdog/" itemprop="url" rel="index"><span itemprop="name">watchdog</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/scheduling/watchdog/softlockup/" itemprop="url" rel="index"><span itemprop="name">softlockup</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/scheduling/watchdog/softlockup/hardlockup/" itemprop="url" rel="index"><span itemprop="name">hardlockup</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="softlockup和hardlockup含义"><a href="#softlockup和hardlockup含义" class="headerlink" title="softlockup和hardlockup含义"></a>softlockup和hardlockup含义</h2><h3 id="softlockup"><a href="#softlockup" class="headerlink" title="softlockup"></a>softlockup</h3><p>内核在内核模式loop超过get_softlockup_thresh()获取的阈值时间，导致其他任务没有机会运行的bug，称为”softlockup”。<br>简单来说，就是抢占被关闭时间超过阈值，导致其他进程无法调度。</p>
-<h3 id="hardlockup"><a href="#hardlockup" class="headerlink" title="hardlockup"></a>hardlockup</h3><p>CPU在内核模式loop时间超过hw_nmi_get_sample_period函数获取的阈值时间，导致其他中断不能运行的bug，称为”hardlockup”。<br>简单来说，就是中断被关闭时间超过阈值，导致其他中断无法运行。</p>
-<h2 id="softlockup注册和触发流程"><a href="#softlockup注册和触发流程" class="headerlink" title="softlockup注册和触发流程"></a>softlockup注册和触发流程</h2><h3 id="基于proc文件系统的watchdog流程"><a href="#基于proc文件系统的watchdog流程" class="headerlink" title="基于proc文件系统的watchdog流程"></a>基于proc文件系统的watchdog流程</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">proc_watchdog_update 更新watchdog状态，如果开启了watchdog，触发开狗流程</span><br><span class="line">  --&gt; watchdog_enable_all_cpus 打开所有cpu的狗</span><br><span class="line">    --&gt; smpboot_register_percpu_thread(&amp;watchdog_threads) 创建启动所有CPU上面的hotplug相关线程</span><br><span class="line">        --&gt; __smpboot_create_thread 创建线程，线程执行的函数是smpboot_thread_fn</span><br><span class="line">          --&gt; smpboot_thread_fn 开始会注册调用watchdog_threads的<span class="built_in">setup</span>（就是watchdog_enable），正常流程会不断的执行watchdog_threads的thread_fn</span><br><span class="line">            --&gt; watchdog_enabled 会启动一个hrtimer的定时器，触发的回调函数是watchdog_timer_fn</span><br><span class="line">              --&gt; watchdog_timer_fn 根据is_softlockup判断是否发生softlockup</span><br></pre></td></tr></table></figure>
-
-<p>watchdog函数就是喂狗，保证不出现softlockup，这里不需要关注太详细。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static void watchdog(unsigned int cpu)</span><br><span class="line">&#123;</span><br><span class="line">	__this_cpu_write(soft_lockup_hrtimer_cnt,</span><br><span class="line">			 __this_cpu_read(hrtimer_interrupts));</span><br><span class="line">	__touch_watchdog();</span><br><span class="line"></span><br><span class="line">	if (!(watchdog_enabled &amp; NMI_WATCHDOG_ENABLED))</span><br><span class="line">		watchdog_nmi_disable(cpu);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="内核初始化时的流程"><a href="#内核初始化时的流程" class="headerlink" title="内核初始化时的流程"></a>内核初始化时的流程</h3><p>tick的方式，注册watchdog。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kernel_init 内核初始化</span><br><span class="line">  --&gt; kernel_init_freeable </span><br><span class="line">    --&gt; lockup_detector_init 如果开狗了会执行watchdog_enable_all_cpus；如果开启了CONFIG_TICKLESS，会注册tick_notify。</span><br><span class="line">      --&gt; watchdog_enable_all_cpus 后续流程和proc的一致，参考上面的分析</span><br><span class="line">      --&gt; register_tick_notifier 注册回调函数softlockup_tickonoff_callback</span><br><span class="line">        --&gt; softlockup_tickonoff_callback 注册回调函数softlockup_tick_onoff</span><br><span class="line">          --&gt; softlockup_tick_onoff 如果tick是打开的，会启动一个hrtimer，定期执行watchdog_timer_fn函数</span><br><span class="line">            --&gt; watchdog_timer_fn 和上面的流程一致了</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/08/ip_manipulate_docker_netns/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/05/08/ip_manipulate_docker_netns/" class="post-title-link" itemprop="url">ip操作docker容器命名空间</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-05-08 19:29:26" itemprop="dateCreated datePublished" datetime="2017-05-08T19:29:26+00:00">2017-05-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/docker/ip/" itemprop="url" rel="index"><span itemprop="name">ip</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><p>在host上，操作容器的网络设备</p>
-<ul>
-<li><p>需要查到容器的进程id==cpid，可以通过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpid&#x3D;$(docker inspect --format &#39;&#123;&#123;.State.Pid&#125;&#125;&#39; $1)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>需要把容器的netns挂到ip命令能操作的netns中—–</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s &quot;&#x2F;proc&#x2F;$cpid&#x2F;ns&#x2F;net&quot; &quot;&#x2F;var&#x2F;run&#x2F;netns&#x2F;$cpid&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看容器中所有的网络设备以及配置信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns exec $cpid ip a</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看容器中网络设备的类型信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip netns exec $cpid ethtool &quot;driver name（如eth0）&quot;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/sqlite_can_not_write_error/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/05/07/sqlite_can_not_write_error/" class="post-title-link" itemprop="url">sqlite数据库修改失败</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-05-07 22:32:21" itemprop="dateCreated datePublished" datetime="2017-05-07T22:32:21+00:00">2017-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/sqlite/" itemprop="url" rel="index"><span itemprop="name">sqlite</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>用sqlite data browser 执行update命令，报错误：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unable to open database file</span><br></pre></td></tr></table></figure>
-
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>sqlite库在对数据库进行操作时（本人估计是写操作），会在数据库的当前文件夹下创建一个临时文件，当操作结束时，该临时文件将被删除。 而远程用户一般不具备有对临时文件足够的权限,<br>所以会造成 无法打开、写或者删除临时文件。解决的方法就是递归地（加-R）将数据库所在文件夹设置为任何用户都有可读可写可删的权限。假如sqlite数据库路径为/database/， 则：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 755 /database/</span><br></pre></td></tr></table></figure>
-
-<p>参考文章：<a href="http://blog.csdn.net/benthy2/article/details/17901821" target="_blank" rel="noopener">http://blog.csdn.net/benthy2/article/details/17901821</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/docker_wordpress_migrate/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/05/07/docker_wordpress_migrate/" class="post-title-link" itemprop="url">基于docker容器的wordpress迁移</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-05-07 22:31:33" itemprop="dateCreated datePublished" datetime="2017-05-07T22:31:33+00:00">2017-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/wordpress/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>我的wordpress是用sqlite作为数据库的<br>wordpress是运行在docker容器里面的<br>网站的所有数据都有备份<br>安装docker<br>按照“基于centos搭建wordpress的docker镜像”制作对应的docker镜像（假设名字为wordpress_sqlite）<br>拷贝备份数据到新机器的/workspace/wordpress/blogs/，执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run –privileged -itd -p 8080:80 -v /workspace/wordpress/blogs/:/var/www/html wordpress_sqlite bash -l -c “/sbin/init”</span><br></pre></td></tr></table></figure>
-
-<p>此时，网站应该可以正常运行了。</p>
-<p>注意：如果你修改了网站的域名，那么需要对sqlite数据库的数据进行修改。</p>
-<p>##问题</p>
-<p>当迁移的机器域名变化时，需要怎么修改网站配置。</p>
-<p>准备环境：安装sqlite3，sqlitebrowser</p>
-<p>最重要的就是需要修改两个配置：</p>
-<p>WordPress地址（URL）—-对应wp_options的 home<br>站点地址（URL）—-对应wp_options的 siteurl</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE wp_options SET option_value &#x3D; replace( option_value, ‘http:&#x2F;&#x2F;www.old.com’, ‘http:&#x2F;&#x2F;www.new.com’ ) WHERE option_name &#x3D; ‘home’ OR option_name &#x3D; ‘siteurl’;</span><br><span class="line">UPDATE wp_posts SET post_content &#x3D; replace( post_content, ‘http:&#x2F;&#x2F;www.old.com’, ‘http:&#x2F;&#x2F;www.new.com’ ) ;</span><br><span class="line">UPDATE wp_posts SET guid &#x3D; replace( guid, ‘http:&#x2F;&#x2F;www.old.com’, ‘http:&#x2F;&#x2F;www.new.com’ ) ;</span><br></pre></td></tr></table></figure>
-
-<p>注意：</p>
-<ul>
-<li>第一，参考文章“sqlite数据库不能修改”</li>
-<li>第二，参考文章“wordpress登陆跳转卡住”</li>
-<li>第三，sqlitebrowser在update之后，需要执行“write changes”按钮，才能把修改写入到数据库文件中。</li>
-</ul>
-<p>参考文章：</p>
-<ul>
-<li><a href="http://www.2zzt.com/jcandcj/5883.html" target="_blank" rel="noopener">http://www.2zzt.com/jcandcj/5883.html</a></li>
-<li><a href="http://jingyan.baidu.com/article/ff4116258f144012e48237a7.html" target="_blank" rel="noopener">http://jingyan.baidu.com/article/ff4116258f144012e48237a7.html</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/wordpress_login_fail/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/05/07/wordpress_login_fail/" class="post-title-link" itemprop="url">wordpress登陆跳转卡住</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-05-07 22:30:48" itemprop="dateCreated datePublished" datetime="2017-05-07T22:30:48+00:00">2017-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>以<a href="http://www.example.com域名为例" target="_blank" rel="noopener">www.example.com域名为例</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">www.example.com&#x2F;wp-login.php?redirect_to&#x3D;www.example.com&#x2F;wp-admin%2F&amp;reauth&#x3D;1</span><br></pre></td></tr></table></figure>
-
-<p>用户名和密码都是正确的，在redirect的时候，卡住不动。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>这是由于wp-admin文件夹的权限问题导致的，可以修改该文件夹的访问权限，“chmod -R 755 wp-admin”</p>
-<p>参考文章：<a href="http://wordpress.stackexchange.com/questions/113161/wp-admin-url-doesnt-allow-to-login-and-redirects-to-same-page" target="_blank" rel="noopener">http://wordpress.stackexchange.com/questions/113161/wp-admin-url-doesnt-allow-to-login-and-redirects-to-same-page</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/git_use_error_fix/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/05/07/git_use_error_fix/" class="post-title-link" itemprop="url">Git代理配置及常见错误解决办法</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-05-07 22:28:28" itemprop="dateCreated datePublished" datetime="2017-05-07T22:28:28+00:00">2017-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Git/Ubuntu/" itemprop="url" rel="index"><span itemprop="name">Ubuntu</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config –global http.proxy http://name:password@proxyhk.huawei.com:8080</span><br><span class="line"></span><br><span class="line">git config –global https.proxy http://name:password@proxyhk.huawei.com:8080</span><br></pre></td></tr></table></figure>
-
-<p>比如这种错误的时候fatal: unable to access ‘<a href="https://github.com/kubernetes/kubernetes.git/’" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes.git/’</a>: server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config –global http.sslverify <span class="literal">false</span> （解决证书验证问题）</span><br><span class="line"></span><br><span class="line">git config –global https.sslverify <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
-<p>注：不过这样并没有解决你证书的问题，只是跳过了而已。</p>
-<h2 id="Ubuntu在clone大的项目异常"><a href="#Ubuntu在clone大的项目异常" class="headerlink" title="Ubuntu在clone大的项目异常"></a>Ubuntu在clone大的项目异常</h2><p>可能会出下面的错误:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">error: gnutls_handshake() failed: A TLS packet with unexpected length was received. while accessing …</span><br><span class="line">fatal: HTTP request failed</span><br></pre></td></tr></table></figure>
-
-<p>这就需要你自己重新编译安装git了。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential fakeroot dpkg-dev libcurl4-openssl-dev</span><br><span class="line">sudo apt-get build-dep git</span><br><span class="line">mkdir ~/git-openssl</span><br><span class="line"><span class="built_in">cd</span> ~/git-openssl</span><br><span class="line">apt-get <span class="built_in">source</span> git</span><br><span class="line">dpkg-source -x git_1.7.9.5-1.dsc</span><br><span class="line"><span class="built_in">cd</span> git-1.7.9.5</span><br></pre></td></tr></table></figure>
-
-<p>修改“debian/control”文件，把所有的“libcurl4-gnutls-dev” 替换成“libcurl4-openssl-dev”</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg-buildpackage -rfakeroot -b</span><br></pre></td></tr></table></figure>
-
-<p>安装对应的版本：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i386: sudo dpkg -i ..&#x2F;git_1.7.9.5-1_i386.deb</span><br><span class="line"></span><br><span class="line">x86_64: sudo dpkg -i ..&#x2F;git_1.7.9.5-1_amd64.deb</span><br></pre></td></tr></table></figure>
-
-<p>注：git版本号，注意修改为你下载的对应版本号</p>
-<p>参考文章：</p>
-<p><a href="http://askubuntu.com/questions/186847/error-gnutls-handshake-failed-when-connecting-to-https-servers/187199#187199" target="_blank" rel="noopener">http://askubuntu.com/questions/186847/error-gnutls-handshake-failed-when-connecting-to-https-servers/187199#187199</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/golang_string_join_usage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/05/07/golang_string_join_usage/" class="post-title-link" itemprop="url">golang strings.Join一个字符串的情况</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-05-07 22:28:28" itemprop="dateCreated datePublished" datetime="2017-05-07T22:28:28+00:00">2017-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Golang/" itemprop="url" rel="index"><span itemprop="name">Golang</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rt :&#x3D; strings.Join([]string&#123;“help”&#125;, “-“)</span><br><span class="line">fmt.Println(rt)</span><br><span class="line">return</span><br></pre></td></tr></table></figure>
-
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>此时help后面不会加上“-”，只会打印一个“help”</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="cn">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/07/docker_set_proxy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Haozi007">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="苦与乐">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/05/07/docker_set_proxy/" class="post-title-link" itemprop="url">Docker代理配置</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-05-07 22:18:28" itemprop="dateCreated datePublished" datetime="2017-05-07T22:18:28+00:00">2017-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <hr>
-<p>作者： 耗子007</p>
-<hr>
-<h2 id="非systemd情况下"><a href="#非systemd情况下" class="headerlink" title="非systemd情况下"></a>非systemd情况下</h2><p>直接修改/etc/default/docker文件就行（Ubuntu下service启动docker，属于非systemd模式）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> http_proxy=xxxxxx</span><br><span class="line"><span class="built_in">export</span> https_proxy=xxxxxx</span><br></pre></td></tr></table></figure>
-
-<h2 id="systemd模式下"><a href="#systemd模式下" class="headerlink" title="systemd模式下"></a>systemd模式下</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/systemd/system/docker.service.d</span><br><span class="line">touch /etc/systemd/system/docker.service.d/http-proxy.conf</span><br></pre></td></tr></table></figure>
-
-<p>添加</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Service] Environment=”HTTP_PROXY=http://proxy.example.com:80/”</span><br></pre></td></tr></table></figure>
-
-<p>或者</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Environment=”HTTP_PROXY=http://proxy.example.com:80/” “NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com”</span><br></pre></td></tr></table></figure>
-
-<p>刷新配置：sudo systemctl daemon-reload</p>
-<p>验证配置是否成功：systemctl show –property=Environment docker</p>
-<p>重启docker服务：sudo systemctl restart docker</p>
-<p>参考文章</p>
-<p><a href="https://docs.docker.com/engine/admin/systemd/" target="_blank" rel="noopener">https://docs.docker.com/engine/admin/systemd/</a></p>
-<p><a href="http://www.jianshu.com/p/2e0c9ed5433d" target="_blank" rel="noopener">http://www.jianshu.com/p/2e0c9ed5433d</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let activeClass = CONFIG.comments.activeClass;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
-        </div>
-          
+</div>
+        
   
   <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
   </div>
 
   <aside class="sidebar">
-    <div class="sidebar-inner">
 
-      <ul class="sidebar-nav motion-element">
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
         </li>
@@ -1157,21 +188,20 @@
       </ul>
 
       <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
+      <section class="post-toc-wrap sidebar-panel">
+      </section>
       <!--/noindex-->
 
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Haozi007</p>
   <div class="site-description" itemprop="description"></div>
 </div>
-<div class="site-state-wrap motion-element">
+<div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">54</span>
+          <a href="/archives">
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1188,77 +218,1248 @@
       </div>
   </nav>
 </div>
-  <div class="links-of-author motion-element">
+  <div class="links-of-author animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/duguhaotian" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;duguhaotian" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <a href="https://github.com/duguhaotian" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;duguhaotian" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:knowledgehao@163.com" title="E-Mail → mailto:knowledgehao@163.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <a href="mailto:knowledgehao@163.com" title="E-Mail → mailto:knowledgehao@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
 
 
-      </div>
-
+      </section>
     </div>
   </aside>
-  <div id="sidebar-dimmer"></div>
+  <div class="sidebar-dimmer"></div>
 
 
-      </div>
-    </main>
+    </header>
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/duguhaotian" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+      
+
+      
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/install_isulad/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/19/install_isulad/" class="post-title-link" itemprop="url">install_isulad</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-04-19 04:29:37" itemprop="dateCreated datePublished" datetime="2020-04-19T04:29:37+00:00">2020-04-19</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="ubuntu19-10使用iSulad"><a href="#ubuntu19-10使用iSulad" class="headerlink" title="ubuntu19.10使用iSulad"></a>ubuntu19.10使用iSulad</h1><h2 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// build tools</span><br><span class="line">sudo apt install -y libtool automake autoconf cmake</span><br><span class="line"></span><br><span class="line">// iSulad requires</span><br><span class="line">sudo apt install -y libyajl-dev zlib1g-dev</span><br><span class="line">sudo apt install -y libseccomp-dev libcap-dev libwebsockets-dev</span><br><span class="line">sudo apt install -y libsystemd-dev libhttp-parser-dev libcurl4-gnutls-dev openssl</span><br><span class="line">sudo apt install -y libprotoc-dev libprotobuf-dev protobuf-compiler protobuf-compiler-grpc</span><br><span class="line">sudo apt install -y libgrpc++-dev libgrpc-dev libgrpc++-dev</span><br><span class="line"></span><br><span class="line">// iSulad-img requires</span><br><span class="line">sudo apt install -y libdevmapper-dev</span><br><span class="line"></span><br><span class="line">// clibcni requires</span><br><span class="line">sudo apt install -y libgtest-dev</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装lxc"><a href="#安装lxc" class="headerlink" title="安装lxc"></a>安装lxc</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://gitee.com/src-openeuler/lxc.git</span><br><span class="line"><span class="built_in">cd</span> lxc</span><br><span class="line">tar -zxf lxc-3.0.3.tar.gz</span><br><span class="line">./apply-patches</span><br><span class="line">./autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make -j</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装clibcni"><a href="#安装clibcni" class="headerlink" title="安装clibcni"></a>安装clibcni</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;gitee.com&#x2F;openeuler&#x2F;clibcni.git</span><br><span class="line">cd clibcni</span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake ..</span><br><span class="line">make -j</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装iSulad-img"><a href="#安装iSulad-img" class="headerlink" title="安装iSulad-img"></a>安装iSulad-img</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 安装golang</span><br><span class="line">// 下载最新的golang包：https://golang.google.cn/doc/install?download=go1.14.2.linux-amd64.tar.gz</span><br><span class="line">tar -C /usr/<span class="built_in">local</span> -xzf go1.14.2.linux-amd64.tar.gz</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/go/bin</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> https://gitee.com/openeuler/iSulad-img.git</span><br><span class="line">// 编译</span><br><span class="line"><span class="built_in">cd</span> iSulad-img</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装lcr"><a href="#安装lcr" class="headerlink" title="安装lcr"></a>安装lcr</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://gitee.com/openeuler/lcr.git</span><br><span class="line"><span class="built_in">cd</span> lcr</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake ..</span><br><span class="line">make -j</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装iSulad"><a href="#安装iSulad" class="headerlink" title="安装iSulad"></a>安装iSulad</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://gitee.com/openeuler/iSulad.git</span><br><span class="line"><span class="built_in">cd</span> iSulad</span><br><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake ..</span><br><span class="line">make -j</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用iSulad"><a href="#使用iSulad" class="headerlink" title="使用iSulad"></a>使用iSulad</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 使用root权限</span><br><span class="line">su</span><br><span class="line"></span><br><span class="line">// 添加镜像仓库地址 /etc/isulad/daemon.json</span><br><span class="line"><span class="string">"registry-mirrors"</span>: [</span><br><span class="line">	<span class="string">"https://hub-mirror.c.163.com"</span></span><br><span class="line">],</span><br><span class="line"></span><br><span class="line">// 启动服务进程</span><br><span class="line">isulad &amp;</span><br><span class="line"></span><br><span class="line">// 下载busybox镜像</span><br><span class="line">isula pull busybox</span><br><span class="line">// 启动容器</span><br><span class="line">isula run -tid busybox</span><br><span class="line">// 获取容器列表</span><br><span class="line">isula ps -a</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/08/mysql_procedure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/08/mysql_procedure/" class="post-title-link" itemprop="url">mysql_procedure</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-03-08 12:54:35" itemprop="dateCreated datePublished" datetime="2020-03-08T12:54:35+00:00">2020-03-08</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<p>作者： haozi007  日期：2020-03-08</p>
+<hr>
+<h1 id="mysql的存储过程"><a href="#mysql的存储过程" class="headerlink" title="mysql的存储过程"></a>mysql的存储过程</h1><p>表的某个字段，现在需要对存储的某些数据，进行批量替换，可以通过存储过程完成。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">delimiter ;;</span><br><span class="line"></span><br><span class="line">create procedure &#96;updateJob&#96;(IN tname varchar(50), IN olds varchar(400), IN news varchar(400), IN count int)</span><br><span class="line">    begin</span><br><span class="line">    declare i int default 1;</span><br><span class="line">    declare flag int default 1;</span><br><span class="line">    declare old varchar(30);</span><br><span class="line">    declare new varchar(30);</span><br><span class="line">    while flag&lt;&#x3D;count do</span><br><span class="line">    set old&#x3D;substring_index(substring_index(olds, &#39;,&#39;, i), &#39;,&#39;,-1);</span><br><span class="line">    set new&#x3D;substring_index(substring_index(news, &#39;,&#39;, i), &#39;,&#39;,-1);</span><br><span class="line">    set i&#x3D;i+1;</span><br><span class="line">    set flag&#x3D;flag+1;</span><br><span class="line">    set @sqlStr&#x3D;concat(&quot;update &quot;,tname,&quot; set job_type&#x3D;&#39;&quot;,new,&quot;&#39; where job_type&#x3D;&#39;&quot;,old, &quot;&#39;&quot;);</span><br><span class="line">    prepare stmt from @sqlStr;</span><br><span class="line">    execute stmt;</span><br><span class="line">end while;</span><br><span class="line">end ;;</span><br><span class="line"></span><br><span class="line">delimiter ;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：需要先修改分隔符’;’，以达到存储过程中的’;’不被解释为结束符。</strong></p>
+<p>tname表示表名；olds是需要替换的字符串列表（它们以’,’分隔，例如：”a,b,c,d”）；news和olds一一对应的替换后的新字符串（格式和olds一致）；count表示这些需要替换的字符串数量。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/07/rootfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/07/rootfs/" class="post-title-link" itemprop="url">rootfs</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-03-07 09:11:10" itemprop="dateCreated datePublished" datetime="2020-03-07T09:11:10+00:00">2020-03-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-03-08 12:54:35" itemprop="dateModified" datetime="2020-03-08T12:54:35+00:00">2020-03-08</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<p>作者： haozi007  日期：2020-03-07</p>
+<hr>
+<h1 id="容器创建中rootfs的蜕变之路"><a href="#容器创建中rootfs的蜕变之路" class="headerlink" title="容器创建中rootfs的蜕变之路"></a>容器创建中rootfs的蜕变之路</h1><p>未完待续</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/07/magic_create/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/07/magic_create/" class="post-title-link" itemprop="url">magic_create</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-03-07 07:50:56" itemprop="dateCreated datePublished" datetime="2020-03-07T07:50:56+00:00">2020-03-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-06-22 10:29:17" itemprop="dateModified" datetime="2020-06-22T10:29:17+00:00">2020-06-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<p>作者： haozi007  日期：2020-02-15</p>
+<hr>
+<h1 id="骚气的容器创建流程"><a href="#骚气的容器创建流程" class="headerlink" title="骚气的容器创建流程"></a>骚气的容器创建流程</h1><p>runc create的流程，包含不少骚气的操作，我们首先把大体流程梳理清楚，然后慢慢探索这些细节。</p>
+<pre class="mermaid">graph LR
+main.go --> createCommand
+createCommand --> revisePidFile
+createCommand --> setupSpec
+createCommand --> startContainer
+createCommand --> Exit
+setupSpec --> loadSpec
+startContainer --> newNotifySocket
+startContainer --> createContainer
+startContainer --> setupSocket
+startContainer --> runner.run.CT_ACT_CREATE</pre>
+
+<h2 id="createContainer"><a href="#createContainer" class="headerlink" title="createContainer"></a>createContainer</h2><p>负责创建libcontainer.Container结构体，并且设置容器的相关配置。主要流程如下：</p>
+<ol>
+<li><p>把oci spec转换为libcontainer能识别的配置结构体configs.Config</p>
+</li>
+<li><p>loadFactory中，初始化了cgroup的manager</p>
+</li>
+<li><p>loadFactory中，创建linuxFactory，<strong>注意InitPath和InitArgs的值</strong>，如何从runc create拉起runc init进程的关键点</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LinuxFactory&#123;</span><br><span class="line">		Root:      root,</span><br><span class="line">		InitPath:  <span class="string">"/proc/self/exe"</span>,</span><br><span class="line">		InitArgs:  []<span class="keyword">string</span>&#123;os.Args[<span class="number">0</span>], <span class="string">"init"</span>&#125;,</span><br><span class="line">		Validator: validate.New(),</span><br><span class="line">		CriuPath:  <span class="string">"criu"</span>,</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建linuxContainer</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">linuxContainer&#123;</span><br><span class="line">		id:            id,</span><br><span class="line">		root:          containerRoot,</span><br><span class="line">		config:        config,</span><br><span class="line">		initPath:      l.InitPath,</span><br><span class="line">		initArgs:      l.InitArgs,</span><br><span class="line">		criuPath:      l.CriuPath,</span><br><span class="line">		newuidmapPath: l.NewuidmapPath,</span><br><span class="line">		newgidmapPath: l.NewgidmapPath,</span><br><span class="line">		cgroupManager: l.NewCgroupsManager(config.Cgroups, <span class="literal">nil</span>),</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>创建的容器的initPath和initArgs分别为”/proc/self/exe”和“init”，在后续的流程中会体会到其作用。</p>
+</li>
+</ol>
+<h2 id="runner-run"><a href="#runner-run" class="headerlink" title="runner.run"></a>runner.run</h2><p>首先看看utils_linux.go的runner结构体。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> runner <span class="keyword">struct</span> &#123;</span><br><span class="line">	<span class="comment">// 标识启动的进程是否为容器的1号进程</span></span><br><span class="line">	init            <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// 标识当前进程作为子孙进程的收割进程（作用等价于1号进程）</span></span><br><span class="line">	enableSubreaper <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// 标识是否需要清理动作，删除cgroup、poststop hooks等等</span></span><br><span class="line">	shouldDestroy   <span class="keyword">bool</span></span><br><span class="line">	<span class="comment">// 标识是否以分离方式运行容器</span></span><br><span class="line">	detach          <span class="keyword">bool</span></span><br><span class="line">	listenFDs       []*os.File</span><br><span class="line">	preserveFDs     <span class="keyword">int</span></span><br><span class="line">	<span class="comment">// pid文件路径</span></span><br><span class="line">	pidFile         <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// 用于接收console伪终端的master，是一个AF_UNIX的socket路径</span></span><br><span class="line">	consoleSocket   <span class="keyword">string</span></span><br><span class="line">	<span class="comment">// 上一步创建的container结构体</span></span><br><span class="line">	container       libcontainer.Container</span><br><span class="line">	<span class="comment">// runner的操作类型</span></span><br><span class="line">	action          CtAct</span><br><span class="line">	<span class="comment">// 用于notify的socket文件</span></span><br><span class="line">	notifySocket    *notifySocket</span><br><span class="line">	<span class="comment">// CRIU相关配置</span></span><br><span class="line">	criuOpts        *libcontainer.CriuOpts</span><br><span class="line">	<span class="comment">// 日志级别</span></span><br><span class="line">	logLevel        <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行runner的操作，支持CREATE，RESTORE，RUN</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *runner)</span> <span class="title">run</span><span class="params">(config *specs.Process)</span> <span class="params">(<span class="keyword">int</span>, error)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行容器的清理动作，根据状态执行对应操作</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *runner)</span> <span class="title">destroy</span><span class="params">()</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 终止容器进程</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *runner)</span> <span class="title">terminate</span><span class="params">(p *libcontainer.Process)</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查终端，console和detach配置是否正确</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *runner)</span> <span class="title">checkTerminal</span><span class="params">(config *specs.Process)</span> <span class="title">error</span></span></span><br></pre></td></tr></table></figure>
+
+<p>run()函数中，主要是准备一个libcontainer.Process，用于传递linuxContainer.Start流程。</p>
+<p>大体流程如下</p>
+<pre class="mermaid">graph LR
+run-->prepare
+prepare-->checkTerminal
+prepare-->newProcess
+prepare-->append-ExtraFiles
+prepare-->set-uid-gid
+prepare-->newSignalHandler
+prepare-->setupIO
+prepare-->container.Start</pre>
+
+<h3 id="准备的process"><a href="#准备的process" class="headerlink" title="准备的process"></a>准备的process</h3><p>主要包括几个方面：</p>
+<ol>
+<li>newProcess创建结构体，并且初始化容器的配置到该结构体；</li>
+<li>添加拓展的fd到该结构体的ExtraFiles，以及设置LISTEN_FDS的环境变量；</li>
+<li>设置uid，gid；</li>
+<li>初始化信号处理函数；</li>
+<li>设置io</li>
+</ol>
+<h3 id="container-Start"><a href="#container-Start" class="headerlink" title="container-Start"></a>container-Start</h3><p>第一步，创建execFIFO，这个FIFO文件的作用是，用于控制执行容器首进程的。在exec容器的首进程之前，会先往这个FIFO文件写入一个“0”字节，如果没有人打开这个FIFO，会导致写阻塞。因此，runc的start命令很简单，就是打开这个FIFO即可。</p>
+<h4 id="newParentProcess函数"><a href="#newParentProcess函数" class="headerlink" title="newParentProcess函数"></a>newParentProcess函数</h4><p>最关键的一步，创建启动容器的process。</p>
+<pre class="mermaid">graph LR
+newParentProcess-->commandTemplate
+newParentProcess-->includeExecFifo
+newParentProcess-->newInitProcess</pre>
+
+<p>commandTemplate函数，准备了运行的process的exec.Cmd结构体，比较感觉的几个配置，</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 记得上文中提到的关注点吗？这里的initPath为"/proc/self/exe"，而initArgs[1]为"init"</span></span><br><span class="line">cmd := exec.Command(c.initPath, c.initArgs[<span class="number">1</span>:]...)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过环境变量，传递INITPIPE的句柄，在nsenter模块中将会使用</span></span><br><span class="line">cmd.Env = <span class="built_in">append</span>(cmd.Env,</span><br><span class="line">		fmt.Sprintf(<span class="string">"_LIBCONTAINER_INITPIPE=%d"</span>, stdioFdCount+<span class="built_in">len</span>(cmd.ExtraFiles)<span class="number">-1</span>),</span><br><span class="line">		fmt.Sprintf(<span class="string">"_LIBCONTAINER_STATEDIR=%s"</span>, c.root),</span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过环境变量，传递LOGPIPE的句柄，在nsenter模块中将会使用</span></span><br><span class="line">cmd.Env = <span class="built_in">append</span>(cmd.Env,</span><br><span class="line">		fmt.Sprintf(<span class="string">"_LIBCONTAINER_LOGPIPE=%d"</span>, stdioFdCount+<span class="built_in">len</span>(cmd.ExtraFiles)<span class="number">-1</span>),</span><br><span class="line">		fmt.Sprintf(<span class="string">"_LIBCONTAINER_LOGLEVEL=%s"</span>, p.LogLevel),</span><br><span class="line">	)</span><br></pre></td></tr></table></figure>
+
+<p>includeExecFifo函数，通过环境变量传递execFIFO句柄</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cmd.Env = <span class="built_in">append</span>(cmd.Env,</span><br><span class="line">		fmt.Sprintf(<span class="string">"_LIBCONTAINER_FIFOFD=%d"</span>, stdioFdCount+<span class="built_in">len</span>(cmd.ExtraFiles)<span class="number">-1</span>))</span><br></pre></td></tr></table></figure>
+
+<p>newInitProcess函数，设置初始化类型、设置bootstrap数据（nsenter模块设置的相关数据）、以及创建initProcess结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">initProcess&#123;</span><br><span class="line">		cmd:             cmd,</span><br><span class="line">		messageSockPair: messageSockPair,</span><br><span class="line">		logFilePair:     logFilePair,</span><br><span class="line">		manager:         c.cgroupManager,</span><br><span class="line">		intelRdtManager: c.intelRdtManager,</span><br><span class="line">		config:          c.newInitConfig(p),</span><br><span class="line">		container:       c,</span><br><span class="line">		process:         p,</span><br><span class="line">		bootstrapData:   data,</span><br><span class="line">		sharePidns:      sharePidns,</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动initProcess"><a href="#启动initProcess" class="headerlink" title="启动initProcess"></a>启动initProcess</h4><p>第一步，就是启动commandTemplate返回的Cmd，也就是通过exec启动了一个新的进程，而该进程的二进制为”/proc/self/exe”，表示当前进程的二进制，也就是runc，而第一个参数为init。因此，相当于执行了”runc init”。</p>
+<p>那么，现在的程序结构如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Title: runc create start init process</span><br><span class="line">create-&gt;init: start new process</span><br><span class="line">Note left of create: apply cgroup sets to init.pid</span><br><span class="line">create-&gt;init: send bootstrap data to init</span><br><span class="line">init-&gt;init: get bootstrap data, and do some works</span><br><span class="line">create-&gt;create: wait child pids, and wait first child finish</span><br><span class="line">init-&gt;create: send child and grand child pids</span><br><span class="line">Note left of create: apply cgroup sets to child.pid</span><br><span class="line">create-&gt;init: send sync message -- creatCgroupns</span><br><span class="line">create-&gt;create: wait grand child finish</span><br><span class="line">Note left of create: create network interface</span><br><span class="line">create-&gt;init: send config data</span><br><span class="line">create-&gt;create: wait sync message</span><br><span class="line">Note right of init: ... now is runc init go codes...</span><br><span class="line">init-&gt;init: get config data, do many works...</span><br><span class="line">init-&gt;create: send sync message -- procReady</span><br><span class="line">create-&gt;create: 1. set cgroup sets;2. run preStart hooks</span><br><span class="line">create-&gt;init: send sync message -- procRun</span><br><span class="line">Note left of create: another sync message is procHooks</span><br><span class="line">create-&gt;create: wait init pipe closed</span><br><span class="line">Note left of create: 1. update state of container, 2. run postStart hooks</span><br><span class="line">Note left of create: finish</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="runc-init"><a href="#runc-init" class="headerlink" title="runc init"></a>runc init</h2><p>init进程的操作分为两部分：</p>
+<ol>
+<li>第一部分，在nsenter中，执行double fork，设置namespace等相关操作；</li>
+<li>第二部分，在init代码中，后续将进行详细分析。</li>
+</ol>
+<p>从send config data开始，为第二部分的操作了。</p>
+<pre class="mermaid">graph LR
+Init --> 配置网络
+Init --> prepareRootfs
+Init --> CreateConsole
+Init --> finalizeRootfs
+Init --> ApplyProfile
+Init --> Readonly-And-Mask-Paths
+Init --> syncParentReady
+Init --> SetProcessLabel
+Init --> InitSeccomp
+Init --> finalizeNamespace
+Init --> close-pipe-to-notify-init-complete
+Init --> open-and-write-exec-fifo-to-wait-runc-start
+Init --> exec-container-init-process</pre>
+
+<h3 id="配置网络"><a href="#配置网络" class="headerlink" title="配置网络"></a>配置网络</h3><p>涉及两个部分：</p>
+<ol>
+<li>设置loop网络</li>
+<li>设置路由信息</li>
+</ol>
+<h3 id="prepareRootfs"><a href="#prepareRootfs" class="headerlink" title="prepareRootfs"></a>prepareRootfs</h3><p>传播属性的概念参考<a href="https://www.missshi.cn/api/view/blog/5d117ab6ef3ee940b7000000" target="_blank" rel="noopener">文章</a>。</p>
+<blockquote>
+<p>peer group就是一个或多个挂载点的集合，他们之间可以共享挂载信息。<br>目前在下面两种情况下会使两个挂载点属于同一个peer group（前提条件是挂载点的propagation type是shared）</p>
+<ol>
+<li>利用mount –bind命令，将会使源和目的挂载点属于同一个peer group，当然前提条件是”源”必须要是一个挂载点。</li>
+<li>当创建新的mount namespace时，新namespace会拷贝一份老namespace的挂载点信息，于是新的和老的namespace里面的相同挂载点就会属于同一个peer group。</li>
+</ol>
+<p>每个挂载点都有一个propagation type标志, 由它来决定当一个挂载点的下面创建和移除挂载点的时候，是否会传播到属于相同peer group的其他挂载点下去，也即同一个peer group里的其他的挂载点下面是不是也会创建和移除相应的挂载点。现在有4种不同类型的propagation type：</p>
+<ol>
+<li>MS_SHARED: 从名字就可以看出，挂载信息会在同一个peer group的不同挂载点之间共享传播. 当一个挂载点下面添加或者删除挂载点的时候，同一个peer group里的其他挂载点下面也会挂载和卸载同样的挂载点。</li>
+<li>MS_PRIVATE: 跟上面的刚好相反，挂载信息根本就不共享，也即private的挂载点不会属于任何peer group。</li>
+<li>MS_SLAVE: 跟名字一样，信息的传播是单向的，在同一个peer group里面，master的挂载点下面发生变化的时候，slave的挂载点下面也跟着变化，但反之则不然，slave下发生变化的时候不会通知master，master不会发生变化。</li>
+<li>MS_UNBINDABLE: 这个和MS_PRIVATE相同，只是这种类型的挂载点不能作为bind mount的源，主要用来防止递归嵌套情况的出现。这种类型不常见，本篇将不介绍这种类型。</li>
+</ol>
+<p>Ps：需要补充说明的是：</p>
+<ol>
+<li>propagation type是挂载点的属性，每个挂载点都是独立的。</li>
+<li>挂载点是有父子关系的，比如挂载点/和/mnt/cdrom，/mnt/cdrom都是”/”的子挂载点，”/”是/mnt/cdrom的父挂载点。</li>
+<li>默认情况下，如果父挂载点是MS_SHARED，那么子挂载点也是MS_SHARED的，否则子挂载点将会是MS_PRIVATE，跟祖父级别挂载点没有关系。</li>
+</ol>
+</blockquote>
+<p>因此，runc首先修改容器namespace的根目录的propagation type(传播属性)；</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">prepareRoot</span><span class="params">(config *configs.Config)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	flag := unix.MS_SLAVE | unix.MS_REC</span><br><span class="line">	<span class="keyword">if</span> config.RootPropagation != <span class="number">0</span> &#123;</span><br><span class="line">		flag = config.RootPropagation</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err := unix.Mount(<span class="string">""</span>, <span class="string">"/"</span>, <span class="string">""</span>, <span class="keyword">uintptr</span>(flag), <span class="string">""</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Make parent mount private to make sure following bind mount does</span></span><br><span class="line">	<span class="comment">// not propagate in other namespaces. Also it will help with kernel</span></span><br><span class="line">	<span class="comment">// check pass in pivot_root. (IS_SHARED(new_mnt-&gt;mnt_parent))</span></span><br><span class="line">	<span class="keyword">if</span> err := rootfsParentMountPrivate(config.Rootfs); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> unix.Mount(config.Rootfs, config.Rootfs, <span class="string">"bind"</span>, unix.MS_BIND|unix.MS_REC, <span class="string">""</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后修改rootfs的父挂载点的传播属性，第一防止pivot_root失败；第二防止rootfs中的bind mount传播到父挂载点。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Make parent mount private if it was shared    </span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">rootfsParentMountPrivate</span><span class="params">(rootfs <span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;    </span><br><span class="line">    sharedMount := <span class="literal">false</span>    </span><br><span class="line">    </span><br><span class="line">    parentMount, optionalOpts, err := getParentMount(rootfs)    </span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;    </span><br><span class="line">        <span class="keyword">return</span> err    </span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    optsSplit := strings.Split(optionalOpts, <span class="string">" "</span>)    </span><br><span class="line">    <span class="keyword">for</span> _, opt := <span class="keyword">range</span> optsSplit &#123;    </span><br><span class="line">        <span class="keyword">if</span> strings.HasPrefix(opt, <span class="string">"shared:"</span>) &#123;    </span><br><span class="line">            sharedMount = <span class="literal">true</span>    </span><br><span class="line">            <span class="keyword">break</span>    </span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Make parent mount PRIVATE if it was shared. It is needed for two    </span></span><br><span class="line">    <span class="comment">// reasons. First of all pivot_root() will fail if parent mount is    </span></span><br><span class="line">    <span class="comment">// shared. Secondly when we bind mount rootfs it will propagate to    </span></span><br><span class="line">    <span class="comment">// parent namespace and we don't want that to happen.    </span></span><br><span class="line">    <span class="keyword">if</span> sharedMount &#123;    </span><br><span class="line">        <span class="keyword">return</span> unix.Mount(<span class="string">""</span>, parentMount, <span class="string">""</span>, unix.MS_PRIVATE, <span class="string">""</span>)    </span><br><span class="line">    &#125;    </span><br><span class="line">                                                                                                                                                        </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="写入sysctl配置"><a href="#写入sysctl配置" class="headerlink" title="写入sysctl配置"></a>写入sysctl配置</h3><p>把config.Config.Sysctl设置的值写入到/proc/sys对应接口中，例如<code>ip_forward</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/proc/sys/net/ipv4/ip_forward</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置只读文件"><a href="#设置只读文件" class="headerlink" title="设置只读文件"></a>设置只读文件</h3><p>把config.Config.ReadonlyPaths设置的目录remount为只读：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// readonlyPath will make a path read only.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">readonlyPath</span><span class="params">(path <span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;                                                                                                                  </span><br><span class="line">    <span class="keyword">if</span> err := unix.Mount(path, path, <span class="string">""</span>, unix.MS_BIND|unix.MS_REC, <span class="string">""</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> os.IsNotExist(err) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> unix.Mount(path, path, <span class="string">""</span>, unix.MS_BIND|unix.MS_REMOUNT|unix.MS_RDONLY|unix.MS_REC, <span class="string">""</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="设置屏蔽文件"><a href="#设置屏蔽文件" class="headerlink" title="设置屏蔽文件"></a>设置屏蔽文件</h3><p>把config.Config.MaskPaths设置的目录屏蔽，通过把<code>/dev/null bind mount</code>覆盖对应文件实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; maskPath masks the top of the specified path inside a container to avoid</span><br><span class="line">&#x2F;&#x2F; security issues from processes reading information from non-namespace aware</span><br><span class="line">&#x2F;&#x2F; mounts ( proc&#x2F;kcore ).</span><br><span class="line">&#x2F;&#x2F; For files, maskPath bind mounts &#x2F;dev&#x2F;null over the top of the specified path.</span><br><span class="line">&#x2F;&#x2F; For directories, maskPath mounts read-only tmpfs over the top of the specified path.</span><br><span class="line">func maskPath(path string, mountLabel string) error &#123;                                                                                                   </span><br><span class="line">    if err :&#x3D; unix.Mount(&quot;&#x2F;dev&#x2F;null&quot;, path, &quot;&quot;, unix.MS_BIND, &quot;&quot;); err !&#x3D; nil &amp;&amp; !os.IsNotExist(err) &#123;</span><br><span class="line">        if err &#x3D;&#x3D; unix.ENOTDIR &#123;</span><br><span class="line">            return unix.Mount(&quot;tmpfs&quot;, path, &quot;tmpfs&quot;, unix.MS_RDONLY, label.FormatMountLabel(&quot;&quot;, mountLabel))</span><br><span class="line">        &#125;    </span><br><span class="line">        return err</span><br><span class="line">    &#125;</span><br><span class="line">    return nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/07/nsenter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/07/nsenter/" class="post-title-link" itemprop="url">nsenter</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-03-07 03:17:35 / Modified: 07:50:56" itemprop="dateCreated datePublished" datetime="2020-03-07T03:17:35+00:00">2020-03-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<p>作者： haozi007  日期：2020-02-15</p>
+<hr>
+<h1 id="nsenter模块分析"><a href="#nsenter模块分析" class="headerlink" title="nsenter模块分析"></a>nsenter模块分析</h1><p>nsenter模块，主要涉及namespace管理（把当前进程加入到指定的namespace或者创建新的namespace）、uid和gid的映射管理以及串口的管理等。</p>
+<p>涉及golang和c两种语言实现，具体实现代码：</p>
+<p>libcontainer/nsenter， 核心实现在libcontainer/nsenter/nsexec.c。</p>
+<h2 id="模块入口"><a href="#模块入口" class="headerlink" title="模块入口"></a>模块入口</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> nsenter</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">#cgo CFLAGS: -Wall</span></span><br><span class="line"><span class="comment">extern void nsexec();</span></span><br><span class="line"><span class="comment">void __attribute__((constructor)) init(void) &#123;</span></span><br><span class="line"><span class="comment">	nsexec();</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">"C"</span></span><br></pre></td></tr></table></figure>
+
+<p>当有包<code>import _ &quot;github.com/opencontainers/runc/libcontainer/nsenter&quot;</code>的时候，会导致C语言实现的部分在编译的时候，编译到对应的可执行文件中。而这里的C代码，定义了一个构造函数<code>init(void)</code>，从C语言的构造函数特性，可以了解到，构造函数会在main函数执行之前运行。那么，<code>init(void)</code>函数会在可执行文件一开始就运行。所以，<code>nsexec()</code>函数会第一个执行。</p>
+<h2 id="nsexec函数"><a href="#nsexec函数" class="headerlink" title="nsexec函数"></a>nsexec函数</h2><p>主要功能如下：</p>
+<ol>
+<li>设置log pipe，用于日志传输；</li>
+<li>设置init pipe，用于namespace等配置数据的传输以及子进程pid的回传；</li>
+<li>ensure clone binary，用于解决<em>CVE-2019-5736</em>，防止/proc/self/exe导致的安全漏洞；</li>
+<li>读取并解析init pipe传入的namespace等数据信息；</li>
+<li>更新oom配置；</li>
+<li>执行double fork</li>
+</ol>
+<h3 id="ensure-clone-binary"><a href="#ensure-clone-binary" class="headerlink" title="ensure clone binary"></a>ensure clone binary</h3><p>在第一次运行时，拷贝原始的二进制文件内容到内存。后续的二进制执行，都是使用的内存数据。从而消除，运行过程中二进制被修改，导致的安全漏洞。</p>
+<p>具体实现待分析：clone_binary.c — ensure_cloned_binary()</p>
+<h3 id="double-clone"><a href="#double-clone" class="headerlink" title="double clone"></a>double clone</h3><p>nsexec中，进行了2次clone进程。</p>
+<p>至于为何需要进行2次clone操作的原因，可以参考注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line">	 * Okay, so this is quite annoying.</span><br><span class="line">	 *</span><br><span class="line">	 * In order for this unsharing code to be more extensible we need to split</span><br><span class="line">	 * up unshare(CLONE_NEWUSER) and clone() in various ways. The ideal case</span><br><span class="line">	 * would be if we did clone(CLONE_NEWUSER) and the other namespaces</span><br><span class="line">	 * separately, but because of SELinux issues we cannot really do that. But</span><br><span class="line">	 * we cannot just dump the namespace flags into clone(...) because several</span><br><span class="line">	 * usecases (such as rootless containers) require more granularity around</span><br><span class="line">	 * the namespace setup. In addition, some older kernels had issues where</span><br><span class="line">	 * CLONE_NEWUSER wasn&#39;t handled before other namespaces (but we cannot</span><br><span class="line">	 * handle this while also dealing with SELinux so we choose SELinux support</span><br><span class="line">	 * over broken kernel support).</span><br><span class="line">	 *</span><br><span class="line">	 * However, if we unshare(2) the user namespace *before* we clone(2), then</span><br><span class="line">	 * all hell breaks loose.</span><br><span class="line">	 *</span><br><span class="line">	 * The parent no longer has permissions to do many things (unshare(2) drops</span><br><span class="line">	 * all capabilities in your old namespace), and the container cannot be set</span><br><span class="line">	 * up to have more than one &#123;uid,gid&#125; mapping. This is obviously less than</span><br><span class="line">	 * ideal. In order to fix this, we have to first clone(2) and then unshare.</span><br><span class="line">	 *</span><br><span class="line">	 * Unfortunately, it&#39;s not as simple as that. We have to fork to enter the</span><br><span class="line">	 * PID namespace (the PID namespace only applies to children). Since we&#39;ll</span><br><span class="line">	 * have to double-fork, this clone_parent() call won&#39;t be able to get the</span><br><span class="line">	 * PID of the _actual_ init process (without doing more synchronisation than</span><br><span class="line">	 * I can deal with at the moment). So we&#39;ll just get the parent to send it</span><br><span class="line">	 * for us, the only job of this process is to update</span><br><span class="line">	 * &#x2F;proc&#x2F;pid&#x2F;&#123;setgroups,uid_map,gid_map&#125;.</span><br><span class="line">	 *</span><br><span class="line">	 * And as a result of the above, we also need to setns(2) in the first child</span><br><span class="line">	 * because if we join a PID namespace in the topmost parent then our child</span><br><span class="line">	 * will be in that namespace (and it will not be able to give us a PID value</span><br><span class="line">	 * that makes sense without resorting to sending things with cmsg).</span><br><span class="line">	 *</span><br><span class="line">	 * This also deals with an older issue caused by dumping cloneflags into</span><br><span class="line">	 * clone(2): On old kernels, CLONE_PARENT didn&#39;t work with CLONE_NEWPID, so</span><br><span class="line">	 * we have to unshare(2) before clone(2) in order to do this. This was fixed</span><br><span class="line">	 * in upstream commit 1f7f4dde5c945f41a7abc2285be43d918029ecc5, and was</span><br><span class="line">	 * introduced by 40a0d32d1eaffe6aac7324ca92604b6b3977eb0e. As far as we&#39;re</span><br><span class="line">	 * aware, the last mainline kernel which had this bug was Linux 3.12.</span><br><span class="line">	 * However, we cannot comment on which kernels the broken patch was</span><br><span class="line">	 * backported to.</span><br><span class="line">	 *</span><br><span class="line">	 * -- Aleksa &quot;what has my life come to?&quot; Sarai</span><br><span class="line">	 *&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>包括父进程在内，一共涉及了3个进程，它们的关系序列如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Title: How to clone init process</span><br><span class="line">Parent-&gt;Child: clone first child</span><br><span class="line">Note right of Child:  join namespace and unshare newuser</span><br><span class="line">Child-&gt;Parent: send SYNC_USERMAP_PLS</span><br><span class="line">Note left of Parent: update groups,uid and gid</span><br><span class="line">Parent-&gt;Child: send SYNC_USERMAP_ACK</span><br><span class="line">Note right of Child: unshare other namespace, except cgroup</span><br><span class="line">Child-&gt;GrandChild: clone grand child</span><br><span class="line">Child-&gt;Parent: send SYNC_RECVPID_PLS</span><br><span class="line">Note left of Parent: get pid of childs</span><br><span class="line">Parent-&gt;Child: send SYNC_RECVPID_ACK</span><br><span class="line">Note left of Parent: send pid of childs to parent of myself(process of runc create)</span><br><span class="line">Child-&gt;Parent: send SYNC_CHILD_READY</span><br><span class="line">Note right of Child: finish</span><br><span class="line">Parent-&gt;GrandChild: send SYNC_GRANDCHILD</span><br><span class="line">Note left of Parent: wait SYNC_CHILD_READY from GrandChild</span><br><span class="line">Note right of GrandChild: set sid,uid,gid</span><br><span class="line">Note right of GrandChild: unshare cgroup namespace</span><br><span class="line">GrandChild-&gt;Parent: send SYNC_CHILD_READY</span><br><span class="line">Note left of Parent: finish</span><br><span class="line">Note right of GrandChild: let go runtime take over process</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/21/hexo_on_gitpage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/21/hexo_on_gitpage/" class="post-title-link" itemprop="url">Hexo搭建GitPage静态博客</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-21 13:00:00" itemprop="dateCreated datePublished" datetime="2018-01-21T13:00:00+00:00">2018-01-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-03-07 09:39:56" itemprop="dateModified" datetime="2020-03-07T09:39:56+00:00">2020-03-07</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/hexo/gitpage/" itemprop="url" rel="index"><span itemprop="name">gitpage</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
+<li>docker</li>
+<li>nodejs镜像</li>
+<li>hexo</li>
+<li>git相关</li>
+</ul>
+<h3 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h3><p>docker的安装请参考官方文档：<a href="https://docs.docker.com/engine/installation/" target="_blank" rel="noopener">https://docs.docker.com/engine/installation/</a></p>
+<h3 id="nodejs镜像"><a href="#nodejs镜像" class="headerlink" title="nodejs镜像"></a>nodejs镜像</h3><p>国内可以使用Docker官方的加速地址，具体配置参考官方文档： <a href="https://www.docker-cn.com/registry-mirror" target="_blank" rel="noopener">https://www.docker-cn.com/registry-mirror</a></p>
+<p>本文使用修改config的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;registry.docker-cn.com&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后下载nodejs的官方镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull node</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h3><p>首先启动一个node的容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -p 4000:4000 node &#x2F;bin&#x2F;bash</span><br><span class="line"># 映射容器的4000端口到host的4000端口，是为了方便测试hexo生成的静态网站是否正常</span><br></pre></td></tr></table></figure>
+
+<p>然后，安装hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建git仓库"><a href="#创建git仓库" class="headerlink" title="创建git仓库"></a>创建git仓库</h3><p>gitpage对仓库的要求就是仓库名的格式必须为：username.github.io，例如本文仓库名：duguhaotian.github.io</p>
+<h3 id="配置git公钥"><a href="#配置git公钥" class="headerlink" title="配置git公钥"></a>配置git公钥</h3><p>首先，在容器中生成公钥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure>
+<p>然后拷贝公钥到你Git上，具体步骤百度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~&#x2F;.ssh&#x2F;id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h3><p>配置用户名和邮箱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name   xxxx</span><br><span class="line">git config --global user.email  xxxx@xxx.com</span><br></pre></td></tr></table></figure>
+
+<h2 id="构建hexo工程"><a href="#构建hexo工程" class="headerlink" title="构建hexo工程"></a>构建hexo工程</h2><p>创建工程目录，然后通过hexo初始化目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">hexo init test</span><br></pre></td></tr></table></figure>
+
+<p>生成的目录结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">~&#x2F;test# tree -L 1</span><br><span class="line">.</span><br><span class="line">|-- _config.yml</span><br><span class="line">|-- db.json</span><br><span class="line">|-- node_modules</span><br><span class="line">|-- package-lock.json</span><br><span class="line">|-- package.json</span><br><span class="line">|-- public</span><br><span class="line">|-- scaffolds</span><br><span class="line">|-- source</span><br><span class="line">|-- themes</span><br></pre></td></tr></table></figure>
+
+<p>增加博客的方式有两种：</p>
+<ul>
+<li>通过hexo生成新的博客文件，然后写博客</li>
+<li>或者把写好的博客文件（markdown格式），放入test/source/_posts/目录</li>
+</ul>
+<h2 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h2><p>由于hexo依赖一些库，如支持推送静态页面到git的库等。最好安装下面所有库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成静态网站"><a href="#生成静态网站" class="headerlink" title="生成静态网站"></a>生成静态网站</h2><p>在test目录执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 生成静态页面</span><br><span class="line">hexo g </span><br><span class="line"># 可以选择在generate的时候，watch源文件的变化，hexo感知到源文件变化，会自动重新出发generate，从而达到动态更新博客的效果</span><br><span class="line">hexo g -w</span><br><span class="line"></span><br><span class="line"># 部署本地静态网站(localhost:4000)</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>注意：这里的watch会为我们后续自动更新博客做到很好的支持</em></strong></p>
+<p>查看本地静态网站是否构建正常，如果无问题，直接推送到github仓库。</p>
+<h2 id="推送到GitPage"><a href="#推送到GitPage" class="headerlink" title="推送到GitPage"></a>推送到GitPage</h2><p>当本地网站验证无误，就可以推送到你的Git仓库了，然后Github会自动部署你的GitPage。</p>
+<p>首先，安装依赖的插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>然后，修改hexo的配置文件：_config.yml ，增加deploy的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: https:&#x2F;&#x2F;github.com&#x2F;duguhaotian&#x2F;duguhaotian.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>配置文件默认情况如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:</span><br></pre></td></tr></table></figure>
+<p>因此，我们增加type和对应的repository地址，还有git分支。</p>
+<p>最后，直接利用hexo的deploy功能把hexo生成的静态页面推送到Github上我们新建的仓库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br><span class="line"># 或者</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+
+<h2 id="跟换主题"><a href="#跟换主题" class="headerlink" title="跟换主题"></a>跟换主题</h2><p>首先，在hexo官网找到自己需要的皮肤：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a><br>例如，material的皮肤，然后获取git地址：<a href="https://github.com/viosey/hexo-theme-material" target="_blank" rel="noopener">https://github.com/viosey/hexo-theme-material</a></p>
+<p>主要步骤：</p>
+<ul>
+<li>把该目录拷贝到themes/下面</li>
+<li>重命名为material</li>
+<li>修改test/_config.yml配置文件中theme为：material</li>
+<li>把test/theme/material/_config.template.yml拷贝一份为:test/themes/material/_config.yaml，不然hexo生成静态页面会错误</li>
+</ul>
+<h3 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h3><p>主题可以在github上面，搜索hexo-theme，然后找到适合自己的主题。本文已<a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">hexo-theme-next</a>为例。</p>
+<h3 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h3><p>hexo工作目录为hexospace。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd hexospace</span><br><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure>
+
+<p>修改hexospace/_config.yml的theme项为<code>theme: next</code>。</p>
+<h3 id="添加tags和categories页面"><a href="#添加tags和categories页面" class="headerlink" title="添加tags和categories页面"></a>添加tags和categories页面</h3><p>分别生成对应的index.md</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new page categories</span><br><span class="line">hexo new page tags</span><br></pre></td></tr></table></figure>
+
+<p>修改生成的index.md为如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat source&#x2F;tags&#x2F;index.md </span><br><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2019-09-01 14:41:38</span><br><span class="line">type: &quot;tags&quot;   &#x2F;&#x2F;手动增加</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat source&#x2F;categories&#x2F;index.md </span><br><span class="line">---</span><br><span class="line">title: categories</span><br><span class="line">date: 2019-09-01 14:42:03</span><br><span class="line">type: &quot;categories&quot;   &#x2F;&#x2F;手动增加</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置gitalk"><a href="#配置gitalk" class="headerlink" title="配置gitalk"></a>配置gitalk</h3><p>首先，生成授权需要的id和secret，网址：<a href="https://github.com/settings/applications/new" target="_blank" rel="noopener">https://github.com/settings/applications/new</a></p>
+<p>具体配置参考下图：</p>
+<p><img data-src="/images/gitalk_oauth.png" alt="gitalk oauth"></p>
+<p>然后配置next/_config.yml：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gitalk:</span><br><span class="line">  enable: true</span><br><span class="line">  github_id: 你的github账号 # GitHub repo owner</span><br><span class="line">  repo: 只需要repo名字就行了，例如test # Repository name to store issues</span><br><span class="line">  client_id: 上面生成的id # GitHub Application Client ID</span><br><span class="line">  client_secret: 上面生成的秘钥 # GitHub Application Client Secret</span><br><span class="line">  admin_user: 你的github账号 # GitHub repo owner and collaborators, only these guys can initialize gitHub issues</span><br></pre></td></tr></table></figure>
+
+<p>更多配置可以参考下面的手册：<a href="https://theme-next.org/docs/getting-started/" target="_blank" rel="noopener">https://theme-next.org/docs/getting-started/</a></p>
+<h3 id="支持mermaid"><a href="#支持mermaid" class="headerlink" title="支持mermaid"></a>支持mermaid</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -s hexo-filter-mermaid-diagrams</span><br></pre></td></tr></table></figure>
+
+<p>next主题支持mermaid，需要开启，开启方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Mermaid tag</span><br><span class="line">mermaid:</span><br><span class="line">  enable: true</span><br><span class="line">  # Available themes: default | dark | forest | neutral</span><br><span class="line">  theme: default</span><br><span class="line">  cdn: &#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;mermaid@8&#x2F;dist&#x2F;mermaid.min.js</span><br></pre></td></tr></table></figure>
+
+<h2 id="自动更新博客"><a href="#自动更新博客" class="headerlink" title="自动更新博客"></a>自动更新博客</h2><p>当我们的博客源文件存储在github上面的时候，那么在修改、删除和新增博客时，每次都需要把博客拷贝到我们的hexo的工作目录，加上上面的watch功能，可以自动生成新的博客，并且更新hexo服务器中的博客。</p>
+<p>那么，如果我们借助github的webhook功能，动态感知博客源文件仓库的变化，然后自动更新博客源文件，然后出发hexo的自动更新功能。答案是可以的。下面是一个简单的尝试 ，后续有时间会继续优化。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"bytes"</span></span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"flag"</span></span><br><span class="line">	<span class="string">"io/ioutil"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	<span class="string">"os/exec"</span></span><br><span class="line">	<span class="string">"path"</span></span><br><span class="line">	<span class="string">"sync"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">	notesPath <span class="keyword">string</span></span><br><span class="line">	hexoPath  <span class="keyword">string</span></span><br><span class="line">	lock      sync.Mutex</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	flag.StringVar(&amp;notesPath, <span class="string">"notes"</span>, <span class="string">"./notes"</span>, <span class="string">"path where store notes"</span>)</span><br><span class="line">	flag.StringVar(&amp;hexoPath, <span class="string">"hexo"</span>, <span class="string">"./test/source/_posts/"</span>, <span class="string">"path where store hexo source post"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">	Name     <span class="keyword">string</span> <span class="string">`json:"name,omitempty"`</span></span><br><span class="line">	Email    <span class="keyword">string</span> <span class="string">`json:"email,omitempty"`</span></span><br><span class="line">	Username <span class="keyword">string</span> <span class="string">`json:"username,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// github webhook commit format</span></span><br><span class="line"><span class="keyword">type</span> Commit <span class="keyword">struct</span> &#123;</span><br><span class="line">	ID        <span class="keyword">string</span>   <span class="string">`json:"id"`</span></span><br><span class="line">	Tree_id   <span class="keyword">string</span>   <span class="string">`json:"tree_id"`</span></span><br><span class="line">	Distinct  <span class="keyword">bool</span>     <span class="string">`json:"distinct"`</span></span><br><span class="line">	Message   <span class="keyword">string</span>   <span class="string">`json:"message,omitempty"`</span></span><br><span class="line">	Timestamp <span class="keyword">string</span>   <span class="string">`json:"timestamp,omitempty"`</span></span><br><span class="line">	Url       <span class="keyword">string</span>   <span class="string">`json:"url,omitempty"`</span></span><br><span class="line">	Author    *User    <span class="string">`json:"author,omitempty"`</span></span><br><span class="line">	Committer *User    <span class="string">`json:"committer,omitempty"`</span></span><br><span class="line">	Added     []<span class="keyword">string</span> <span class="string">`json:"added,omitempty"`</span></span><br><span class="line">	Removed   []<span class="keyword">string</span> <span class="string">`json:"removed,omitempty"`</span></span><br><span class="line">	Modified  []<span class="keyword">string</span> <span class="string">`json:"modified,omitempty"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">runCmd</span><span class="params">(cmdStr <span class="keyword">string</span>, args []<span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	cmd := exec.Command(cmdStr, args...)</span><br><span class="line">	<span class="keyword">var</span> out bytes.Buffer</span><br><span class="line">	cmd.Stdout = &amp;out</span><br><span class="line">	err := cmd.Run()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">"run %s failed: %s"</span>, cmdStr, err.Error())</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">updateHandle</span><span class="params">(files []<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, f := <span class="keyword">range</span> files &#123;</span><br><span class="line">		_, fname := path.Split(f)</span><br><span class="line">		runCmd(<span class="string">"cp"</span>, []<span class="keyword">string</span>&#123;<span class="string">"-f"</span>, notesPath + <span class="string">"/"</span> + f, hexoPath + <span class="string">"/"</span> + fname&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">removeHandle</span><span class="params">(files []<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, f := <span class="keyword">range</span> files &#123;</span><br><span class="line">		_, fname := path.Split(f)</span><br><span class="line">		runCmd(<span class="string">"rm"</span>, []<span class="keyword">string</span>&#123;<span class="string">"-f"</span>, hexoPath + <span class="string">"/"</span> + fname&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">syncGit</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	err := runCmd(<span class="string">"/bin/bash"</span>, []<span class="keyword">string</span>&#123;<span class="string">"-c"</span>, <span class="string">"cd "</span> + notesPath + <span class="string">"; git pull"</span>&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">"sync notes from git failed: %s\n"</span>, err.Error())</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">changes</span><span class="params">(data []<span class="keyword">byte</span>)</span> <span class="params">([]<span class="keyword">string</span>, []<span class="keyword">string</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> copys []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">var</span> rms []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">var</span> commit Commit</span><br><span class="line"></span><br><span class="line">	err := json.Unmarshal(data, &amp;commit)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">"Invalid commit: %s"</span>, <span class="keyword">string</span>(data))</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(commit.Added) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		copys = commit.Added</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(commit.Modified) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		copys = <span class="built_in">append</span>(copys, commit.Modified...)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(commit.Removed) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		rms = commit.Removed</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.Printf(<span class="string">"copys: %v, removes: %v\n"</span>, copys, rms)</span><br><span class="line">	<span class="keyword">return</span> copys, rms</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleCommits</span><span class="params">(commits []<span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> updates []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">var</span> removes []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">for</span> _, commit := <span class="keyword">range</span> commits &#123;</span><br><span class="line">		data, err := json.Marshal(commit)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Printf(<span class="string">"Invalid commit: %v"</span>, commit)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		us, rs := changes(data)</span><br><span class="line">		updates = <span class="built_in">append</span>(updates, us...)</span><br><span class="line">		removes = <span class="built_in">append</span>(removes, rs...)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	lock.Lock()</span><br><span class="line">	<span class="keyword">defer</span> lock.Unlock()</span><br><span class="line">	<span class="keyword">if</span> !syncGit() &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	updateHandle(updates)</span><br><span class="line">	removeHandle(removes)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	flag.Parse()</span><br><span class="line">	log.Printf(<span class="string">"notes path: %s\n"</span>, notesPath)</span><br><span class="line">	log.Printf(<span class="string">"hexo path: %s\n"</span>, hexoPath)</span><br><span class="line"></span><br><span class="line">	helloHandler := <span class="function"><span class="keyword">func</span><span class="params">(w http.ResponseWriter, req *http.Request)</span></span> &#123;</span><br><span class="line">		<span class="keyword">var</span> fullData <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">		robots, err := ioutil.ReadAll(req.Body)</span><br><span class="line">		req.Body.Close()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatal(err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> err := json.Unmarshal([]<span class="keyword">byte</span>(robots), &amp;fullData); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Fatal(err)</span><br><span class="line">		&#125;</span><br><span class="line">		commits, ok := fullData[<span class="string">"commits"</span>]</span><br><span class="line">		<span class="keyword">if</span> !ok &#123;</span><br><span class="line">			log.Printf(<span class="string">"Cannot found commits in %s"</span>, fullData)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> t, ok := commits.([]<span class="keyword">interface</span>&#123;&#125;); ok &#123;</span><br><span class="line">			handleCommits(t)</span><br><span class="line">		&#125;</span><br><span class="line">		log.Println(<span class="string">"get message"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	http.HandleFunc(<span class="string">"/notes"</span>, helloHandler)</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">":8088"</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="博客系统的完整结构"><a href="#博客系统的完整结构" class="headerlink" title="博客系统的完整结构"></a>博客系统的完整结构</h2><pre class="mermaid">sequenceDiagram
+    participant A as User
+    participant B as GithubRepo
+    participant C as Listener
+    participant D as HexoServer
+    activate C
+    activate D
+    A ->> B: 更新、增加或者删除博客
+    B ->> C: webhook push event
+    loop new commit
+        C ->> C: 1. 更新博客repo；2. 更新hexo博客源文件
+    end
+    deactivate C
+    loop hexo服务
+        D ->> D: 1. 监听博客源文件变化；2.自动生成新的静态页面；3. 更新服务器内容
+    end
+    deactivate D</pre>
+
+<p>我们需要两个服务器：</p>
+<ul>
+<li>一个是接收github的webhook推送信息，并且根据推送的信息，更新hexo的博客源文件</li>
+<li>一个是hexo的服务器，用于提供hexo博客服务</li>
+</ul>
+<p>一个流程基本如上图所示：</p>
+<ol>
+<li>用户更新博客，并且推送到github的博客仓库；</li>
+<li>github根据配置的webhook，发送commit信息到listener服务器；</li>
+<li>listener服务器根据，commit信息，更新当前hexo管理的博客源文件；</li>
+<li>hexo在generate的时候，配置了watch，因此在感知到源文件变化时，会重新生成静态页面。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>整体结构还是可以的，现在有几个问题：</p>
+<ol>
+<li>写的listener比较简单，需要优化；</li>
+<li>hexo的watch功能，能更新文件，但是存在概率出现文章生成的不完整，不知道什么鬼？？？</li>
+</ol>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://hexo.io/docs/" target="_blank" rel="noopener">https://hexo.io/docs/</a></li>
+<li><a href="https://theme-next.org/docs/getting-started/" target="_blank" rel="noopener">https://theme-next.org/docs/getting-started/</a></li>
+<li><a href="https://www.jianshu.com/p/15ae47eddc56" target="_blank" rel="noopener">https://www.jianshu.com/p/15ae47eddc56</a></li>
+<li><a href="https://www.docker-cn.com/registry-mirror" target="_blank" rel="noopener">https://www.docker-cn.com/registry-mirror</a></li>
+<li><a href="https://docs.docker.com/" target="_blank" rel="noopener">https://docs.docker.com/</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/21/perl_locale_error/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/21/perl_locale_error/" class="post-title-link" itemprop="url">perl的locale异常</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-21 12:28:36" itemprop="dateCreated datePublished" datetime="2018-01-21T12:28:36+00:00">2018-01-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/perl/" itemprop="url" rel="index"><span itemprop="name">perl</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">perl: warning: Falling back to the standard locale (<span class="string">"C"</span>).</span><br><span class="line">perl: warning: Setting locale failed.</span><br><span class="line">sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)</span><br><span class="line">sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)</span><br></pre></td></tr></table></figure>
+
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">locale-gen en_US en_US.UTF-8</span><br><span class="line">dpkg-reconfigure locales</span><br><span class="line">locale</span><br><span class="line">export LC_ALL&#x3D;en_US.UTF-8</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/21/get_ebook_spard/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/21/get_ebook_spard/" class="post-title-link" itemprop="url">电子书制作记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-21 12:27:18" itemprop="dateCreated datePublished" datetime="2018-01-21T12:27:18+00:00">2018-01-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/" itemprop="url" rel="index"><span itemprop="name">电子书</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<p>博客：<a href="http://abirdcfly.github.io/2016/03/07/calibre2mobi/" target="_blank" rel="noopener">http://abirdcfly.github.io/2016/03/07/calibre2mobi/</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/ip_command/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/08/ip_command/" class="post-title-link" itemprop="url">IP命令使用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-08 10:50:50" itemprop="dateCreated datePublished" datetime="2018-01-08T10:50:50+00:00">2018-01-08</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/tools/ip/" itemprop="url" rel="index"><span itemprop="name">ip</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h2 id="up-down-veth接口"><a href="#up-down-veth接口" class="headerlink" title="up/down veth接口"></a>up/down veth接口</h2><p>Usage:</p>
+<pre><code>ip link set dev &lt;interface&gt; up
+ip link set dev &lt;interface&gt; down</code></pre><p>Example:</p>
+<pre><code>ip link set dev eth0 up
+ip link set dev eth0 down</code></pre><h2 id="创建veth对"><a href="#创建veth对" class="headerlink" title="创建veth对"></a>创建veth对</h2><p>Usage:</p>
+<pre><code>ip link add &lt;interface nameA&gt; type veth peer name &lt;interface nameB&gt;</code></pre><p>Example:</p>
+<pre><code>ip link add veth0 type veth peer name veth1</code></pre><h2 id="设置veth网络命名空间"><a href="#设置veth网络命名空间" class="headerlink" title="设置veth网络命名空间"></a>设置veth网络命名空间</h2><p>Usage:</p>
+<pre><code>ip link set &lt;interface&gt; netns &lt;netnamespace&gt;</code></pre><p>Example:</p>
+<pre><code>ip netns add hello_test  //创建一个名为hell_test的netns（网络命名空间）
+ip link set veth1 netns hello_test</code></pre><h2 id="重命名veth接口"><a href="#重命名veth接口" class="headerlink" title="重命名veth接口"></a>重命名veth接口</h2><p>Usage:</p>
+<pre><code>ip link set vethA name vethB</code></pre><p>Example:</p>
+<pre><code>ip link set vethA down
+ip link set vethA name vethB
+ip link set vethB up</code></pre>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/07/git_usages/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Haozi007">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="苦与乐">
+    </span>
+
+    
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/07/git_usages/" class="post-title-link" itemprop="url">Git用法</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-01-07 10:50:55" itemprop="dateCreated datePublished" datetime="2018-01-07T10:50:55+00:00">2018-01-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-03-01 02:59:32" itemprop="dateModified" datetime="2020-03-01T02:59:32+00:00">2020-03-01</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/tools/" itemprop="url" rel="index"><span itemprop="name">tools</span></a>
+        </span>
+          , 
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/tools/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<p>作者： 耗子007</p>
+<hr>
+<h1 id="Git用法汇总"><a href="#Git用法汇总" class="headerlink" title="Git用法汇总"></a>Git用法汇总</h1><h2 id="Git命令自动补全"><a href="#Git命令自动补全" class="headerlink" title="Git命令自动补全"></a>Git命令自动补全</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/bash_completion.d/git</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"><span class="built_in">source</span> /usr/share/bash-completion/completions/git</span><br></pre></td></tr></table></figure>
+
+<p>可以添加到~/.bashrc</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+      
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      
+
+      
 
 <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Haozi007</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.2.0
-  </div>
-  <span class="post-meta-divider">|</span>
-  <div class="theme-info">Theme – <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.7.1
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
   </div>
 
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/@next-theme/pjax@0.4.0/pjax.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1.15.0/dist/lozad.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '.page-configurations',
+    '.main-inner',
+    '.post-toc-wrap',
+    '.languages',
+    '.pjax'
+  ],
+  analytics: false,
+  cacheBust: false,
+  scrollRestoration: false,
+  scrollTo: !CONFIG.bookmark.enable
+});
 
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-<script src="/js/bookmark.js"></script>
-
-
+document.addEventListener('pjax:success', () => {
+  pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  const hasTOC = document.querySelector('.post-toc');
+  document.querySelector('.sidebar-inner').classList.toggle('sidebar-nav-active', hasTOC);
+  document.querySelector(hasTOC ? '.sidebar-nav-toc' : '.sidebar-nav-overview').click();
+  NexT.utils.updateSidebarPosition();
+});
+</script>
 
 
   
@@ -1266,8 +1467,7 @@
 
 
 
-  
-<script src="/js/local-search.js"></script>
+  <script src="/js/local-search.js"></script>
 
 
 
@@ -1278,17 +1478,16 @@
 
 
 
-
-<script>
-if (document.querySelectorAll('pre.mermaid').length) {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
-    mermaid.initialize({
+<script data-pjax>
+if (document.querySelectorAll('.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8.7.0/dist/mermaid.min.js', () => {
+    mermaid.init({
       theme    : 'default',
       logLevel : 3,
       flowchart: { curve     : 'linear' },
       gantt    : { axisFormat: '%m/%d/%Y' },
       sequence : { actorMargin: 50 }
-    });
+    }, '.mermaid');
   }, window.mermaid);
 }
 </script>
@@ -1296,8 +1495,19 @@ if (document.querySelectorAll('pre.mermaid').length) {
 
   
 
+
+
+
+
+
+
+
+    <div class="pjax">
+  
+
   
 
 
+    </div>
 </body>
 </html>
