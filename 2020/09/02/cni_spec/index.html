@@ -30,7 +30,7 @@
 <meta property="og:description" content="CNI系列之规范学习CNI是什么吗？  全称是Container Network Interface； 也是CNCF管理的一个项目； 该项目包含规范和实现库（golang版本）； CNI只关注于容器启动时网络的联接以及容器退出时网络资源的释放；  本文主要是学习CNI规范（其实就是翻译😀），golang版本的实现库，后续文章继续学习。 版本当前CNI版本号为0.4.0，已发布的版本如下：">
 <meta property="og:locale" content="cn">
 <meta property="article:published_time" content="2020-09-02T02:44:45.749Z">
-<meta property="article:modified_time" content="2020-09-02T02:44:45.749Z">
+<meta property="article:modified_time" content="2020-09-08T02:36:36.324Z">
 <meta property="article:author" content="Haozi007">
 <meta name="twitter:card" content="summary">
 
@@ -137,6 +137,16 @@
     <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags<span class="badge">2</span></a>
 
   </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories<span class="badge">59</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives<span class="badge">66</span></a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -193,7 +203,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CNI系列之规范学习"><span class="nav-number">1.</span> <span class="nav-text">CNI系列之规范学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#版本"><span class="nav-number">1.1.</span> <span class="nav-text">版本</span></a></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CNI系列之规范学习"><span class="nav-number">1.</span> <span class="nav-text">CNI系列之规范学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#版本"><span class="nav-number">1.1.</span> <span class="nav-text">版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本准则"><span class="nav-number">1.3.</span> <span class="nav-text">基本准则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CNI插件"><span class="nav-number">1.4.</span> <span class="nav-text">CNI插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ADD操作参数"><span class="nav-number">1.4.1.</span> <span class="nav-text">ADD操作参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DEL操作参数"><span class="nav-number">1.4.2.</span> <span class="nav-text">DEL操作参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CHECK操作参数"><span class="nav-number">1.4.3.</span> <span class="nav-text">CHECK操作参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VERSION操作参数"><span class="nav-number">1.4.4.</span> <span class="nav-text">VERSION操作参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件执行说明"><span class="nav-number">1.4.5.</span> <span class="nav-text">插件执行说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNI插件总结"><span class="nav-number">1.4.6.</span> <span class="nav-text">CNI插件总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Result"><span class="nav-number">1.5.</span> <span class="nav-text">Result</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#错误"><span class="nav-number">1.5.1.</span> <span class="nav-text">错误</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Network-Configuration"><span class="nav-number">1.6.</span> <span class="nav-text">Network Configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">1.6.1.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Network-Configuration-Lists"><span class="nav-number">1.7.</span> <span class="nav-text">Network Configuration Lists</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络配置列表错误处理"><span class="nav-number">1.7.1.</span> <span class="nav-text">网络配置列表错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络配置列表示例"><span class="nav-number">1.7.2.</span> <span class="nav-text">网络配置列表示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络配置列表运行示例"><span class="nav-number">1.7.3.</span> <span class="nav-text">网络配置列表运行示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ADD操作"><span class="nav-number">1.7.3.1.</span> <span class="nav-text">ADD操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CHECK操作"><span class="nav-number">1.7.3.2.</span> <span class="nav-text">CHECK操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DEL操作"><span class="nav-number">1.7.3.3.</span> <span class="nav-text">DEL操作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-Allocation"><span class="nav-number">1.8.</span> <span class="nav-text">IP Allocation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IPAM-Interface"><span class="nav-number">1.8.1.</span> <span class="nav-text">IPAM Interface</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Well-know-Structures"><span class="nav-number">1.9.</span> <span class="nav-text">Well-know Structures</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ips"><span class="nav-number">1.9.1.</span> <span class="nav-text">ips</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#routes"><span class="nav-number">1.9.2.</span> <span class="nav-text">routes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS"><span class="nav-number">1.9.3.</span> <span class="nav-text">DNS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Error-Codes"><span class="nav-number">1.9.4.</span> <span class="nav-text">Error Codes</span></a></li></ol></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -205,13 +215,15 @@
 <div class="site-state-wrap animated">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+          <a href="/archives/">
+        
           <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
+          
         <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
@@ -295,8 +307,31 @@
 
       <time title="Created: 2020-09-02 02:44:45" itemprop="dateCreated datePublished" datetime="2020-09-02T02:44:45+00:00">2020-09-02</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-09-08 02:36:36" itemprop="dateModified" datetime="2020-09-08T02:36:36+00:00">2020-09-08</time>
+      </span>
 
   
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="Symbols count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Symbols count in article: </span>
+      <span>18k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>16 mins.</span>
+    </span>
 </div>
 
         </div>
@@ -332,15 +367,403 @@
 </tr>
 <tr>
 <td><a href="https://github.com/containernetworking/cni/blob/spec-v0.3.0/SPEC.md" target="_blank" rel="noopener">spec v0.3.0</a></td>
-<td></td>
+<td>丰富result类型，支持链式插件</td>
 </tr>
 <tr>
 <td><a href="https://github.com/containernetworking/cni/blob/spec-v0.2.0/SPEC.md" target="_blank" rel="noopener">spec v0.2.0</a></td>
-<td></td>
+<td>支持VERSION命令</td>
 </tr>
 <tr>
 <td><a href="https://github.com/containernetworking/cni/blob/spec-v0.1.0/SPEC.md" target="_blank" rel="noopener">spec v0.1.0</a></td>
-<td></td>
+<td>初始版本</td>
+</tr>
+</tbody></table>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本文旨在说明为Linux上的应用容器提供一种通用的基于插件的网络解决方案，即容器网络接口（Container network interface），简称CNI。源自rkt网络解决方案，rkt旨在适应多种网络设计思路。</p>
+<p>为了更好的描述该规范，约定下面两个术语，本文后续使用<code>network</code>和<code>container</code>描述：</p>
+<ul>
+<li><code>容器(container)</code>：可以认为等同于Linux网络命名空间。具体的承载单元，取决于特定的容器runtime实现。例如，rkt中每一个pod都是运行在一个独一无二的网络命名空间中；而docker中，每一个独立的Docker容器都存在一个独立的网络命名空间；</li>
+<li><code>网络(network)</code>：指一组实体，这些实体都是独一无二可寻址的而且可以相互通信的。单个实体可以是一个独立的容器<code>container</code>，一台机器或者其他网络设备（例如一个路由器）。逻辑上<code>containers</code>可以添加到一个或者多个网络<code>network</code>，也可以从中退出。</li>
+</ul>
+<p>本文旨在规范<code>runtimes</code>和<code>plugins</code>之间的接口。尽管有一些众所周知的字段，<code>runtimes</code>可能希望增加一些额外的信息给<code>plugins</code>。这些拓展不是规范的一部分，而是归属于<a href="https://github.com/containernetworking/cni/blob/v0.8.0/CONVENTIONS.md" target="_blank" rel="noopener">约定</a>。</p>
+<p>关键字”must”, “must not”, “required”, “shall”, “shall not”, “should”, “should not”, “recommended”, “may”和”optional”都是遵循规范<a href="https://www.ietf.org/rfc/rfc2119.txt" target="_blank" rel="noopener">RFC 2119</a>。注意：本文对应于必须，必须不等等。</p>
+<h2 id="基本准则"><a href="#基本准则" class="headerlink" title="基本准则"></a>基本准则</h2><ul>
+<li>为容器执行任何插件之前，容器<code>runtime</code>必须创建一个新的网络命名空间；</li>
+<li><code>runtime</code>必须决定这个容器应该属于那些<code>networks</code>，而且对于每个<code>network</code>那些插件必须执行；</li>
+<li><code>network</code>配置是JSON格式，而且容易存储到文件。<code>network</code>配置包含强制性字段，如”name”和”type”；”type”对应于插件名。<code>network</code>配置允许字段在调用过程中变更值。为此，可选配置”args”，必须包含可变信息；</li>
+<li>容器<code>runtime</code>必须依次把容器添加到<code>network</code>中，通过执行相应的插件实现；</li>
+<li>容器生命周期结束之后，<code>runtime</code>必须以逆序（相对于加入<code>network</code>的操作顺序）执行插件，把容器从这些<code>networks</code>中退出；</li>
+<li>容器<code>runtime</code>必须不能对同一个容器并发执行<code>network</code>操作，但是允许对不同容器并发执行<code>network</code>操作；</li>
+<li>容器<code>runtime</code>必须保证对容器的<code>ADD</code>和<code>DEL</code>操作是对应的，<code>ADD</code>之后总是对应一个<code>DEL</code>操作。<code>DEL</code>之后可能有其他的<code>DELS</code>，但是插件应该允许处理多个<code>DEL</code>操作，即插件的<code>DEL</code>应该是幂等的；</li>
+<li>容器必须通过独一无二的容器ID来标识。插件存储状态信息，应该使用<code>(network name, CNI_CONTAINERID, CNI_IFNAME)</code>作为主键；</li>
+<li>容器<code>runtime</code>必须不能对同一个<code>(network name, container id, name of the interface inside the container)</code>执行两次<code>ADD</code>操作（没有执行相应的<code>DEL</code>操作）。这意味着对同一个容器ID添加到特定的网络多次，只能是每次添加操作针对不同的接口名；</li>
+<li>CNI结构（Network Configuration 和CNI Plugin Result）中的字段，除非标记为可选的，否则是必须的；</li>
+</ul>
+<h2 id="CNI插件"><a href="#CNI插件" class="headerlink" title="CNI插件"></a>CNI插件</h2><p>CNI插件必须以可执行文件的方式存在，由容器管理系统（rkt或者K8S）调用。</p>
+<p>CNI插件负责把网络接口（例如veth对的一端）插入到容器网络命名空间，并且在host上面做必要的修改（例如把veth对的另外一端链接到bridge上面）。然后CNI插件需要给网络接口分配一个IP，并且通过调用适当的IPAM插件设置与IP地址管理部分一致的路由配置。</p>
+<h3 id="ADD操作参数"><a href="#ADD操作参数" class="headerlink" title="ADD操作参数"></a>ADD操作参数</h3><p>作用：把容器加入到<code>network</code>中。</p>
+<p>支持的参数如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Container ID</strong></td>
+<td>由<code>runtime</code>分配的独一无二的明文标识符，必须以字母数字开头，后面可以跟一个或者多个字母数字、下划线<code>_</code>、点<code>.</code>或者中划线<code>-</code>字符的任意组合。</td>
+</tr>
+<tr>
+<td><strong>Network namespace path</strong></td>
+<td>表示加入的网络命名空间的路径，例如<code>/proc/[pid]/ns/net</code>或者<code>bind-mount/link</code>的路径。</td>
+</tr>
+<tr>
+<td><strong>Network configuration</strong></td>
+<td>描述容器将加入的<code>network</code>的JSON文档，下面会有章节详细描述。</td>
+</tr>
+<tr>
+<td><strong>Extra arguments</strong></td>
+<td>提供了一个替代的机制，允许对每个基础容器上的插件进行简单的配置。</td>
+</tr>
+<tr>
+<td><strong>Name of the interface inside the container</strong></td>
+<td>指定容器（网络命名空间）内创建的接口名称；该名称必须遵守Linux对接口名称的标准规范，必须不为空，必须不为”.”或者”..”，必须小于16个字符，而且不能包含”/“、”:”或者其他任何空白字符。</td>
+</tr>
+</tbody></table>
+<p>返回结果结构如下：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Interfaces list</strong></td>
+<td>取决于插件实现，可以包含sandbox（如容器或者<code>hypervisor</code>）中的接口名（如网卡名）或者主机上的接口名，每个接口的物理地址，以及这些接口所在的sandbox的详细信息。</td>
+</tr>
+<tr>
+<td><strong>IP configuration assigned to each interface</strong></td>
+<td>分配给sandbox或/和主机的接口的IPV4/IPV6的地址，网关和路由信息。</td>
+</tr>
+<tr>
+<td><strong>DNS information</strong></td>
+<td>包含DNS信息（nameservers,domain,search domains,options）的字典</td>
+</tr>
+</tbody></table>
+<h3 id="DEL操作参数"><a href="#DEL操作参数" class="headerlink" title="DEL操作参数"></a>DEL操作参数</h3><p>作用：把容器从<code>network</code>中退出。</p>
+<p>支持参数如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Container ID</strong></td>
+<td>同ADD</td>
+</tr>
+<tr>
+<td><strong>Network namespace path</strong></td>
+<td>同ADD</td>
+</tr>
+<tr>
+<td><strong>Network configuration</strong></td>
+<td>同ADD</td>
+</tr>
+<tr>
+<td><strong>Extra arguments</strong></td>
+<td>同ADD</td>
+</tr>
+<tr>
+<td><strong>Name of the interface inside the container</strong></td>
+<td>同ADD</td>
+</tr>
+</tbody></table>
+<p>功能规范要求：</p>
+<ul>
+<li>传递给<code>DEL</code>的参数，必须和对应的<code>ADD</code>的一样；</li>
+<li><code>DEL</code>操作应该释放<code>container</code>对已配置<code>network</code>持有的所有资源；</li>
+<li>如果已知对<code>container</code>的前一个<code>ADD</code>操作，那么<code>runtime</code>必须把前一个<code>ADD</code>返回的<code>Result</code>传递给当前JSON配置的插件（或者插件链的所有插件）的<code>prevResult</code>字段。<code>runtime</code>可能希望使用<code>libcni</code>提供的<code>Result cache</code>。</li>
+<li>如果没有提供<code>CNI_NETNS</code>和/或<code>prevResult</code>，插件应该尽可能的释放资源（如释放IPAM分配的IP），并返回成功响应；</li>
+<li>如果<code>runtime cache</code>中缓存了给定容器的上一个<code>ADD</code>操作的<code>Result</code>，那么必须在<code>DEL</code>操作成功之后，删除该缓存的<code>Result</code>。</li>
+</ul>
+<p>即使某些资源丢失，插件一般也应该无错误的完成<code>DEL</code>操作。例如，即使容器网络命名空间不存在，<code>IPAM</code>插件也应该释放分配的IP，并且返回成功；除非这个网络命名空间对于<code>IPAM</code>管理器至关重要。虽然DHCP通常会给容器网络接口发送一个”释放”消息，但是由于DHCP租约存在一个生命周期，所以这个释放操作不会被认为是关键的，也不应该返回任何错误。</p>
+<p>再例如，即使容器网络命名空间和/或容器的接口不存在了，<code>bridge</code>插件也应该把<code>DEL</code>操作委托给<code>IPAM</code>插件去清理自己的资源（如果有）。</p>
+<h3 id="CHECK操作参数"><a href="#CHECK操作参数" class="headerlink" title="CHECK操作参数"></a>CHECK操作参数</h3><p>作用：检测容器的网络是否符合预期。</p>
+<p>支持参数如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Container ID</strong></td>
+<td>同ADD</td>
+</tr>
+<tr>
+<td><strong>Network namespace path</strong></td>
+<td>同ADD</td>
+</tr>
+<tr>
+<td><strong>Network configuration</strong></td>
+<td>同ADD，必须包含<code>prevResult</code>字段，值为该容器的上一个<code>ADD</code>操作返回的<code>Result</code></td>
+</tr>
+<tr>
+<td><strong>Extra arguments</strong></td>
+<td>同ADD</td>
+</tr>
+<tr>
+<td><strong>Name of the interface inside the container</strong></td>
+<td>同ADD</td>
+</tr>
+</tbody></table>
+<p>返回结果：</p>
+<ul>
+<li>无任何返回或者返回错误</li>
+</ul>
+<p>功能规范要求：</p>
+<ul>
+<li><p>插件必须通过<code>pervResult</code>确定期望的网络接口和地址；</p>
+</li>
+<li><p>插件必须允许插件链后续的插件修改网络资源，例如路由；</p>
+</li>
+<li><p>如果CNI结果类型中包含的资源（网络接口、地址或者路由）是由插件创建的，并且在<code>prevResult</code>中列出，但丢失或者处于非法状态，那么插件应该返回错误；</p>
+</li>
+<li><p>如果非CNI结果类型中的资源，丢失或者处于非法状态，如下面的资源，插件也应该返回错误：</p>
+<ul>
+<li>防火墙规则；</li>
+<li>流量控制；</li>
+<li>IP预订；</li>
+<li>外部依赖，如链接需要的守护进程；</li>
+<li>其他。。。</li>
+</ul>
+</li>
+<li><p>如果插件感知到容器处于一般无法到达的状态，应该返回错误；</p>
+</li>
+<li><p>插件必须处理<code>ADD</code>之后立刻执行<code>CHECK</code>的调用，因此应该允许任何异步资源有合理的收敛延迟；</p>
+</li>
+<li><p>插件应该在委托的所有插件（如IPAM）上面调用<code>CHECK</code>，而且返回错误给调用者；</p>
+</li>
+<li><p><code>runtime</code>必须不能对未执行<code>ADD</code>或者执行过<code>最后ADD之后的DEL</code>的容器执行<code>CHECK</code>；</p>
+</li>
+<li><p>如果网络配置的<code>disableCheck</code>设置为<code>true</code>，那么<code>runtime</code>必须不能执行<code>CHECK</code>；</p>
+</li>
+<li><p><code>runtime</code>必须把前一个<code>ADD</code>返回的<code>Result</code>传递给当前JSON配置的插件（或者插件链的所有插件）的<code>prevResult</code>字段。<code>runtime</code>可能希望使用<code>libcni</code>提供的<code>Result cache</code>；</p>
+</li>
+<li><p>当一个插件返回错误，<code>runtime</code>可能选择停止对插件链后续插件执行<code>CHECK</code>；</p>
+</li>
+<li><p><code>runtime</code>可以在<code>ADD</code>之后立即执行<code>CHECK</code>，直到容器从<code>network</code>中删除；</p>
+</li>
+<li><p><code>runtime</code>可能认为<code>CHECK</code>失败的容器，将永久处于错误状态；</p>
+</li>
+</ul>
+<h3 id="VERSION操作参数"><a href="#VERSION操作参数" class="headerlink" title="VERSION操作参数"></a>VERSION操作参数</h3><p>作用：报告版本信息；</p>
+<p>参数：无；</p>
+<p>结果：插件支持的CNI规范版本信息，详细结构如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>, <span class="comment">// the version of the CNI spec in use for this output</span></span><br><span class="line">  <span class="attr">"supportedVersions"</span>: [ <span class="string">"0.1.0"</span>, <span class="string">"0.2.0"</span>, <span class="string">"0.3.0"</span>, <span class="string">"0.3.1"</span>, <span class="string">"0.4.0"</span> ] <span class="comment">// the list of CNI spec versions that this plugin supports</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="插件执行说明"><a href="#插件执行说明" class="headerlink" title="插件执行说明"></a>插件执行说明</h3><p><code>runtime</code>必须根据<code>network</code>的<code>type</code>字段指定的名字作为可执行文件的名字调用。<code>runtime</code>应该从一组预定义的目录（该规范没有指定目录列表，但库实现有：/opt/cni/bin）中搜索该可执行文件。一旦找到，<code>runtime</code>必须使用以下的环境变量传递参数：</p>
+<ul>
+<li><code>CNI_COMMAND</code>：表示期望执行的操作；<code>ADD</code>、<code>DEL</code>、<code>CHECK</code>或者<code>VERSION</code>；</li>
+<li><code>CNI_CONTAINERID</code>：容器ID；</li>
+<li><code>CNI_NETNS</code>：网络命名空间文件路径；</li>
+<li><code>CNI_IFNAME</code>：构建的接口名，如果插件无法使用该接口名，必须返回一个错误；</li>
+<li><code>CNI_ARGS</code>：调用时用户传入的额外参数，以’;’分割的字母数字键值对，例如：”FOO=BAR;ABC=123”</li>
+<li><code>CNI_PATH</code>：列出搜索CNI插件可执行文件的路径列表，路径由特定于OS的列表分割符分割，例如，Linux的’:’，Windows的’;’</li>
+</ul>
+<p>JSON格式的网络配置信息，必须通过stdin流的方式传递给插件。这意味着它不需要绑定到磁盘的特定文件，而且可能包含调用过程中变化的信息。</p>
+<h3 id="CNI插件总结"><a href="#CNI插件总结" class="headerlink" title="CNI插件总结"></a>CNI插件总结</h3><p><code>runtime</code>可以通过两种方式传递参数或者信息给插件：</p>
+<ol>
+<li>网络配置信息，通过stdin流传递给插件；</li>
+<li>环境变量；</li>
+</ol>
+<h2 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h2><p>注意IPAM插件应该返回一个简洁的<code>Result</code>结构体，如[IP Allocation](#IP Allocation)章节所描述。</p>
+<p>执行<code>ADD</code>操作，插件必须返回0表示成功，而且把下面的JSON结构输出到<code>stdout</code>。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"interfaces"</span>: [                                            (this key omitted by IPAM plugins)</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">"name"</span>: <span class="string">"&lt;name&gt;"</span>,</span><br><span class="line">          "mac": "&lt;MAC address&gt;",                            (required if L2 addresses are meaningful)</span><br><span class="line">          "sandbox": "&lt;netns path or hypervisor identifier&gt;" (required for container/hypervisor interfaces, empty/omitted for host interfaces)</span><br><span class="line">      &#125;</span><br><span class="line">  ],</span><br><span class="line">  "ips": [</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">"version"</span>: <span class="string">"&lt;4-or-6&gt;"</span>,</span><br><span class="line">          <span class="attr">"address"</span>: <span class="string">"&lt;ip-and-prefix-in-CIDR&gt;"</span>,</span><br><span class="line">          "gateway": "&lt;ip-address-of-the-gateway&gt;",          (optional)</span><br><span class="line">          "interface": &lt;numeric index into 'interfaces' list&gt;</span><br><span class="line">      &#125;,</span><br><span class="line">      ...</span><br><span class="line">  ],</span><br><span class="line">  "routes": [                                                (optional)</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">"dst"</span>: <span class="string">"&lt;ip-and-prefix-in-cidr&gt;"</span>,</span><br><span class="line">          <span class="attr">"gw"</span>: <span class="string">"&lt;ip-of-next-hop&gt;"</span>                           (optional)</span><br><span class="line">      &#125;,</span><br><span class="line">      ...</span><br><span class="line">  ],</span><br><span class="line">  "dns": &#123;                                                   (optional)</span><br><span class="line">    "nameservers": &lt;list-of-nameservers&gt;                     (optional)</span><br><span class="line">    "domain": &lt;name-of-local-domain&gt;                         (optional)</span><br><span class="line">    "search": &lt;list-of-additional-search-domains&gt;            (optional)</span><br><span class="line">    "options": &lt;list-of-options&gt;                             (optional)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>ips</code>和<code>dns</code>字段应该和IPAM创建返回的结果一样，除此之外插件应该合理的填充<code>interface</code>字段；由于IPAM插件对<code>interfaces</code>无感知，因此IPAM返回的输出中无<code>interface</code>字段。</p>
+<p><code>cniVersion</code>描述当前插件使用的CNI规范版本。插件可能支持多个CNI规范版本（通过<code>VERSION</code>操作获取），插件返回的<code>cniVersion</code>必须和网络配置中设置的<code>cniVersion</code>一致。如果插件不支持网络配置指定的<code>cniVersion</code>，插件应该返回一个错误码”1”（详情见[Error Code](#Error Codes)）。</p>
+<p><code>interfaces</code>描述插件创建的网络接口。如果<code>CNI_IFNAME</code>环境变量存在，插件必须使用它指定的名字创建<code>sandbox/hypervisor</code>接口，如果不能创建则返回错误。</p>
+<ul>
+<li><code>mac</code>：字符串类型，值为接口的物理地址。如果L2地址对插件无意义，那么该字段是可选的；</li>
+<li><code>sandbox</code>：字符串类型，容器（基于命名空间的）环境应该返回该<code>sandbox</code>的网络命名空间的完整文件系统路径。<code>hypervisor</code>（基于虚拟机的）插件应该返回创建接口的虚拟<code>sandbox</code>的唯一ID。对于创建或者移动到<code>sandbox</code>（网络命名空间）或者<code>hypervisor</code>（VM）的接口，必须指定此项。</li>
+</ul>
+<p><code>ips</code>字段表示一组IP配置信息。详情见<a href="#ips">well-know ips</a>。</p>
+<p><code>routes</code>字段表示一组路由的配置信息。详情见<a href="#routes">well-know routes</a>。</p>
+<p><code>dns</code>字段表示常见DNS信息组成的字典。详情见<a href="#DNS">well-know DNS</a>。本规范未声明CNI消费者必须如何处理这些信息。常用的例子，生成一个<code>/etc/resolv.conf</code>文件并且注入容器的文件系统，或者在主机上运行一个DNS转发器。</p>
+<h3 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h3><p>错误通过非0的返回值和如下的stdout的输出描述：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"code"</span>: &lt;numeric-error-code&gt;,</span><br><span class="line">  <span class="attr">"msg"</span>: &lt;short-error-message&gt;,</span><br><span class="line">  <span class="attr">"details"</span>: &lt;long-error-message&gt; (optional)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>cniVersion</code>表示插件使用的CNI规范版本，错误码”0-99”为保留的常用的错误。”100+”的错误码插件可以自由使用。</p>
+<p><strong>此外，stderr可以用于输出未格式化的信息，例如日志。</strong></p>
+<h2 id="Network-Configuration"><a href="#Network-Configuration" class="headerlink" title="Network Configuration"></a>Network Configuration</h2><p>网络配置以JSON格式呈现。该配置可能存储在磁盘，也可能由容器<code>runtime</code>的其他组件生成。网络配置包含下面的通用字段：</p>
+<ul>
+<li><code>cniVersion</code>：字符串类型，当前配置符合的CNI规范版本；</li>
+<li><code>name</code>：字符串类型，网络名称。在主机（或者其他管理域）上的所有容器中应该是唯一的。必须以数字字符开头，后面可以跟一个或者多个字母数字、下划线<code>_</code>、点<code>.</code>或者中划线<code>-</code>字符的任意组合；</li>
+<li><code>type</code>：字符串类型，表示CNI插件可执行文件名；</li>
+<li><code>args</code>：字典类型（可选），容器<code>runtime</code>提供的额外参数。例如，可以通过设置<code>args</code>的一项，可以把一个标签字典传递给CNI插件；</li>
+<li><code>ipMasq</code>：布尔类型（可选），如果插件支持，会在主机上为该网络设置IP伪装。如果主机作为子网的网关，而子网无法路由到分配给容器的IP，那么配置<code>ipMasq</code>是必须的；</li>
+<li><code>ipam</code>：字典类型（可选），IPAM特定值的字典：<ul>
+<li><code>type</code>：字符串类型，表示IPAM插件可执行文件名；</li>
+</ul>
+</li>
+<li><code>dns</code>：字典类型（可选），DNS特定值的字典：<ul>
+<li><code>nameservers</code>：字符串数组（可选），该网络能够识别的DNS域名服务器的优先顺序列表。数组每项包含一个IPV4或者IPV6的地址；</li>
+<li><code>domain</code>：字符串类型，用于短主机名查找的本地域；</li>
+<li><code>search</code>：字符串数组类型，为短主机名查找的优先顺序搜索域的列表。大部分解析都优先于<code>domain</code>执行。</li>
+<li><code>options</code>：字符串数组类型，传递给解析器的一组选项。查看<a href="#Result">CNI插件Result</a>获取更多信息。</li>
+</ul>
+</li>
+</ul>
+<p>插件可以定义他们能接受的附加字段，但是如果传递未知的字段可能会报错。而<code>args</code>字段可以传递任意的数据，如果未知插件会忽略该字段。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p><code>bridge</code>的网络配置示例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"dbnet"</span>,</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"bridge"</span>,</span><br><span class="line">  <span class="comment">// type (plugin) specific</span></span><br><span class="line">  <span class="attr">"bridge"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">  <span class="attr">"ipam"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"host-local"</span>,</span><br><span class="line">    <span class="comment">// ipam specific</span></span><br><span class="line">    <span class="attr">"subnet"</span>: <span class="string">"10.1.0.0/16"</span>,</span><br><span class="line">    <span class="attr">"gateway"</span>: <span class="string">"10.1.0.1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>ovs</code>网络配置示例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"pci"</span>,</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"ovs"</span>,</span><br><span class="line">  <span class="comment">// type (plugin) specific</span></span><br><span class="line">  <span class="attr">"bridge"</span>: <span class="string">"ovs0"</span>,</span><br><span class="line">  <span class="attr">"vxlanID"</span>: <span class="number">42</span>,</span><br><span class="line">  <span class="attr">"ipam"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"dhcp"</span>,</span><br><span class="line">    <span class="attr">"routes"</span>: [ &#123; <span class="attr">"dst"</span>: <span class="string">"10.3.0.0/16"</span> &#125;, &#123; <span class="attr">"dst"</span>: <span class="string">"10.4.0.0/16"</span> &#125; ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// args may be ignored by plugins</span></span><br><span class="line">  <span class="attr">"args"</span>: &#123;</span><br><span class="line">    <span class="attr">"labels"</span> : &#123;</span><br><span class="line">        <span class="attr">"appVersion"</span> : <span class="string">"1.0"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>macvlan</code>网络配置示例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"wan"</span>,</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"macvlan"</span>,</span><br><span class="line">  <span class="comment">// ipam specific</span></span><br><span class="line">  <span class="attr">"ipam"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"dhcp"</span>,</span><br><span class="line">    <span class="attr">"routes"</span>: [ &#123; <span class="attr">"dst"</span>: <span class="string">"10.0.0.0/8"</span>, <span class="attr">"gw"</span>: <span class="string">"10.0.0.1"</span> &#125; ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"nameservers"</span>: [ <span class="string">"10.0.0.1"</span> ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Network-Configuration-Lists"><a href="#Network-Configuration-Lists" class="headerlink" title="Network Configuration Lists"></a>Network Configuration Lists</h2><p>网络配置列表提供了对单容器按特定顺序执行多个插件的机制，并且把每个插件的执行结果传递给它的下一个插件。结果和网络配置一样，以JSON为格式，包含一些通用的配置项和一组[网络配置](#Network Configuration)的列表。该配置可能存储在磁盘，也可能由容器<code>runtime</code>的其他组件生成。下面是通用配置的描述：</p>
+<ul>
+<li><code>cniVersion</code>：字符串类型，当前配置符合的CNI规范版本；</li>
+<li><code>name</code>：字符串类型，网络名称。在主机（或者其他管理域）上的所有容器中应该是唯一的。必须以数字字符开头，后面可以跟一个或者多个字母数字、下划线<code>_</code>、点<code>.</code>或者中划线<code>-</code>字符的任意组合；</li>
+<li><code>disableCheck</code>：字符串类型，值为<code>true</code>或者<code>false</code>。如果<code>disableCheck</code>为<code>true</code>，<code>runtime</code>必须不对该网络配置列表进行<code>CHECK</code>操作。这可以允许管理员阻止<code>CHECK</code>组合插件已知的假错误。</li>
+<li><code>plugins</code>：网络配置列表类型，一组CNI网络配置字典（详细信息见上节）；</li>
+</ul>
+<p>执行插件链时，<code>runtime</code>必须替换<code>plugins</code>中的每个网络配置的<code>name</code>和<code>cniVersion</code>为网络配置列表本身的<code>name</code>和<code>cniVersion</code>。这样可以保证执行所有插件时CNI版本一致，防止由于版本不一致导致的错误。</p>
+<p>如果插件的网络配置文件的<code>capabilities</code>字段声明支持某种能力，那么<code>runtime</code>可能把基于该能力的配置通过插件的配置JSON的<code>runtimeConfig</code>字段传递过去。</p>
+<p>对于<code>ADD</code>操作，<code>runtime</code>必须在执行第一个插件之后，把上一次插件执行结果（Result），添加到JSON配置的<code>prevResult</code>字段。而且插件应该把它收到的<code>prevResult</code>的内容输出到stdout，从而允许后续的插件（和runtime）接收到这些内容，除非是当前插件需要修改或者屏蔽到之前的结果。插件允许修改或者屏蔽<code>prevResult</code>的全部或者部分内容。然而，插件支持的CNI规范版本包好了<code>prevResult</code>字段，那么插件必须处理<code>prevResult</code>字段，可以是修改、透传或者屏蔽。对<code>prevResult</code>字段一无所知是不符合规范的。</p>
+<p>对于<code>CHECK</code>和<code>DEL</code>操作，<code>runtime</code>必须（除非不可用，<code>DEL</code>可以忽略）为每一个插件的JSON配置添加<code>prevResult</code>字段，其值必须是前一个<code>ADD</code>操作的JSON格式的结果。</p>
+<p><code>runtime</code>必须以相同的环境执行列表中的每一个插件。</p>
+<p><code>DEL</code>操作的顺序必须是和列表顺序相反。</p>
+<h3 id="网络配置列表错误处理"><a href="#网络配置列表错误处理" class="headerlink" title="网络配置列表错误处理"></a>网络配置列表错误处理</h3><p>当插件列表执行操作（<code>ADD</code>或者<code>DEL</code>）出现错误时，<code>runtime</code>必须停止该列表的执行。</p>
+<p>如果<code>ADD</code>执行失败，当<code>runtime</code>决定处理该错误时，它应该对列表中的所有插件执行<code>DEL</code>操作（相对于<code>ADD</code>的逆序），即使执行<code>ADD</code>操作时某些插件没有被调用。</p>
+<h3 id="网络配置列表示例"><a href="#网络配置列表示例" class="headerlink" title="网络配置列表示例"></a>网络配置列表示例</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"dbnet"</span>,</span><br><span class="line">  <span class="attr">"plugins"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"bridge"</span>,</span><br><span class="line">      <span class="comment">// type (plugin) specific</span></span><br><span class="line">      <span class="attr">"bridge"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">      <span class="comment">// args may be ignored by plugins</span></span><br><span class="line">      <span class="attr">"args"</span>: &#123;</span><br><span class="line">        <span class="attr">"labels"</span> : &#123;</span><br><span class="line">            <span class="attr">"appVersion"</span> : <span class="string">"1.0"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"ipam"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"host-local"</span>,</span><br><span class="line">        <span class="comment">// ipam specific</span></span><br><span class="line">        <span class="attr">"subnet"</span>: <span class="string">"10.1.0.0/16"</span>,</span><br><span class="line">        <span class="attr">"gateway"</span>: <span class="string">"10.1.0.1"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"dns"</span>: &#123;</span><br><span class="line">        <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"tuning"</span>,</span><br><span class="line">      <span class="attr">"sysctl"</span>: &#123;</span><br><span class="line">        <span class="attr">"net.core.somaxconn"</span>: <span class="string">"500"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="网络配置列表运行示例"><a href="#网络配置列表运行示例" class="headerlink" title="网络配置列表运行示例"></a>网络配置列表运行示例</h3><h4 id="ADD操作"><a href="#ADD操作" class="headerlink" title="ADD操作"></a>ADD操作</h4><p>以上节的网络配置列表的JSON为例，<code>runtime</code>运行<code>ADD</code>操作，会执行如下步骤。注意：<code>runtime</code>给<code>plugins</code>的所有网络配置添加<code>cniVersion</code>和<code>name</code>字段，以保证所有插件运行时版本和名字一致。</p>
+<ol>
+<li><p>首先，使用如下JSON配置，调用bridge插件</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"dbnet"</span>,</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"bridge"</span>,</span><br><span class="line">  <span class="attr">"bridge"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">  <span class="attr">"args"</span>: &#123;</span><br><span class="line">    <span class="attr">"labels"</span> : &#123;</span><br><span class="line">        <span class="attr">"appVersion"</span> : <span class="string">"1.0"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"ipam"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"host-local"</span>,</span><br><span class="line">    <span class="comment">// ipam specific</span></span><br><span class="line">    <span class="attr">"subnet"</span>: <span class="string">"10.1.0.0/16"</span>,</span><br><span class="line">    <span class="attr">"gateway"</span>: <span class="string">"10.1.0.1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后，以下面的JSON配置，调用<code>tuning</code>插件，<code>prevResult</code>字段包含了<code>bridge</code>插件的返回JSON</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"dbnet"</span>,</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"tuning"</span>,</span><br><span class="line">  <span class="attr">"sysctl"</span>: &#123;</span><br><span class="line">    <span class="attr">"net.core.somaxconn"</span>: <span class="string">"500"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"prevResult"</span>: &#123;</span><br><span class="line">    <span class="attr">"ips"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"version"</span>: <span class="string">"4"</span>,</span><br><span class="line">          <span class="attr">"address"</span>: <span class="string">"10.0.0.5/32"</span>,</span><br><span class="line">          <span class="attr">"interface"</span>: <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"interfaces"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"00:11:22:33:44:55"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"veth3243"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"55:44:33:22:11:11"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"eth0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"99:88:77:66:55:44"</span>,</span><br><span class="line">            <span class="attr">"sandbox"</span>: <span class="string">"/var/run/netns/blue"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"dns"</span>: &#123;</span><br><span class="line">      <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="CHECK操作"><a href="#CHECK操作" class="headerlink" title="CHECK操作"></a>CHECK操作</h4><p>以相同的网络配置列表的JSON为例，<code>runtime</code>运行<code>CHECK</code>操作，会执行如下步骤。</p>
+<ol>
+<li><p>首先，以如下JSON，调用<code>bridge</code>插件，<code>prevResult</code>字段包含了<code>ADD</code>插件的返回JSON</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"dbnet"</span>,</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"bridge"</span>,</span><br><span class="line">  <span class="attr">"bridge"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">  <span class="attr">"args"</span>: &#123;</span><br><span class="line">    <span class="attr">"labels"</span> : &#123;</span><br><span class="line">        <span class="attr">"appVersion"</span> : <span class="string">"1.0"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"ipam"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"host-local"</span>,</span><br><span class="line">    <span class="comment">// ipam specific</span></span><br><span class="line">    <span class="attr">"subnet"</span>: <span class="string">"10.1.0.0/16"</span>,</span><br><span class="line">    <span class="attr">"gateway"</span>: <span class="string">"10.1.0.1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"prevResult"</span>: &#123;</span><br><span class="line">    <span class="attr">"ips"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"version"</span>: <span class="string">"4"</span>,</span><br><span class="line">          <span class="attr">"address"</span>: <span class="string">"10.0.0.5/32"</span>,</span><br><span class="line">          <span class="attr">"interface"</span>: <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"interfaces"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"00:11:22:33:44:55"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"veth3243"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"55:44:33:22:11:11"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"eth0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"99:88:77:66:55:44"</span>,</span><br><span class="line">            <span class="attr">"sandbox"</span>: <span class="string">"/var/run/netns/blue"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"dns"</span>: &#123;</span><br><span class="line">      <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后，以如下JSON，调用<code>tuning</code>插件，<code>prevResult</code>字段包含了<code>ADD</code>插件的返回JSON</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"dbnet"</span>,</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"tuning"</span>,</span><br><span class="line">  <span class="attr">"sysctl"</span>: &#123;</span><br><span class="line">    <span class="attr">"net.core.somaxconn"</span>: <span class="string">"500"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"prevResult"</span>: &#123;</span><br><span class="line">    <span class="attr">"ips"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"version"</span>: <span class="string">"4"</span>,</span><br><span class="line">          <span class="attr">"address"</span>: <span class="string">"10.0.0.5/32"</span>,</span><br><span class="line">          <span class="attr">"interface"</span>: <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"interfaces"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"00:11:22:33:44:55"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"veth3243"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"55:44:33:22:11:11"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"eth0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"99:88:77:66:55:44"</span>,</span><br><span class="line">            <span class="attr">"sandbox"</span>: <span class="string">"/var/run/netns/blue"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"dns"</span>: &#123;</span><br><span class="line">      <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="DEL操作"><a href="#DEL操作" class="headerlink" title="DEL操作"></a>DEL操作</h4><p>以相同的网络配置列表的JSON为例，<code>runtime</code>运行<code>DEL</code>操作，会执行如下步骤。注意：插件执行的顺序与<code>ADD</code>和<code>CHECK</code>是相反的。</p>
+<ol>
+<li><p>首先，以如下JSON配置，执行<code>tuning</code>插件，<code>prevResult</code>字段包含了<code>ADD</code>插件的返回JSON</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"dbnet"</span>,</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"tuning"</span>,</span><br><span class="line">  <span class="attr">"sysctl"</span>: &#123;</span><br><span class="line">    <span class="attr">"net.core.somaxconn"</span>: <span class="string">"500"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"prevResult"</span>: &#123;</span><br><span class="line">    <span class="attr">"ips"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"version"</span>: <span class="string">"4"</span>,</span><br><span class="line">          <span class="attr">"address"</span>: <span class="string">"10.0.0.5/32"</span>,</span><br><span class="line">          <span class="attr">"interface"</span>: <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"interfaces"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"00:11:22:33:44:55"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"veth3243"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"55:44:33:22:11:11"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"eth0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"99:88:77:66:55:44"</span>,</span><br><span class="line">            <span class="attr">"sandbox"</span>: <span class="string">"/var/run/netns/blue"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"dns"</span>: &#123;</span><br><span class="line">      <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后，以如下JSON配置，执行<code>bridge</code>插件，<code>prevResult</code>字段包含了<code>ADD</code>插件的返回JSON</p>
+ <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"dbnet"</span>,</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"bridge"</span>,</span><br><span class="line">  <span class="attr">"bridge"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">  <span class="attr">"args"</span>: &#123;</span><br><span class="line">    <span class="attr">"labels"</span> : &#123;</span><br><span class="line">        <span class="attr">"appVersion"</span> : <span class="string">"1.0"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"ipam"</span>: &#123;</span><br><span class="line">    <span class="attr">"type"</span>: <span class="string">"host-local"</span>,</span><br><span class="line">    <span class="comment">// ipam specific</span></span><br><span class="line">    <span class="attr">"subnet"</span>: <span class="string">"10.1.0.0/16"</span>,</span><br><span class="line">    <span class="attr">"gateway"</span>: <span class="string">"10.1.0.1"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"dns"</span>: &#123;</span><br><span class="line">    <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"prevResult"</span>: &#123;</span><br><span class="line">    <span class="attr">"ips"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="attr">"version"</span>: <span class="string">"4"</span>,</span><br><span class="line">          <span class="attr">"address"</span>: <span class="string">"10.0.0.5/32"</span>,</span><br><span class="line">          <span class="attr">"interface"</span>: <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"interfaces"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"cni0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"00:11:22:33:44:55"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"veth3243"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"55:44:33:22:11:11"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"eth0"</span>,</span><br><span class="line">            <span class="attr">"mac"</span>: <span class="string">"99:88:77:66:55:44"</span>,</span><br><span class="line">            <span class="attr">"sandbox"</span>: <span class="string">"/var/run/netns/blue"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"dns"</span>: &#123;</span><br><span class="line">      <span class="attr">"nameservers"</span>: [ <span class="string">"10.1.0.1"</span> ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="IP-Allocation"><a href="#IP-Allocation" class="headerlink" title="IP Allocation"></a>IP Allocation</h2><p>CNI插件被期望去分配IP地址，并且安装接口相关的任何必要的路由配置。这个CNI插件带来巨大的灵活性，同时也带来巨大的负担。有些CNI插件可能需要通过相同的代码支持多种用户期望的IP管理策略（例如，dhcp或host-local）。</p>
+<p>为了减少这种负担，并且使得IP管理策略和CNI插件类型正交，本规范定了第二种插件类型（IP Address Management Plugin = IPAM插件）。而CNI插件需要在执行过程中，选择合适的时间调用IPAM插件。IPAM插件必须决定接口的IP/子网、网关和路由并且把这些信息返回给调用它的”主“插件。</p>
+<p>IPAM插件可以通过协议(如dhcp)、本地文件系统存储，网络配置文件的<code>ipam</code>字段甚至以上方式的集合获取信息。</p>
+<h3 id="IPAM-Interface"><a href="#IPAM-Interface" class="headerlink" title="IPAM Interface"></a>IPAM Interface</h3><p>和CNI插件类似，IPAM插件作为可执行文件被运行。可执行文件通过搜索预定义的一批路径搜索获得，通过<code>CNI_PATH</code>传递给CNI插件。IPAM插件必须接受CNI插件完全一样的环境变量。IPAM插件也是通过stdin接受网络配置的。</p>
+<p>执行成功，则返回0并且输出如下JSON信息到stdout（以<code>ADD</code>操作为例）：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"cniVersion"</span>: <span class="string">"0.4.0"</span>,</span><br><span class="line">  <span class="attr">"ips"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">"version"</span>: <span class="string">"&lt;4-or-6&gt;"</span>,</span><br><span class="line">          <span class="attr">"address"</span>: <span class="string">"&lt;ip-and-prefix-in-CIDR&gt;"</span>,</span><br><span class="line">          <span class="attr">"gateway"</span>: <span class="string">"&lt;ip-address-of-the-gateway&gt;"</span>  (optional)</span><br><span class="line">      &#125;,</span><br><span class="line">      ...</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"routes"</span>: [                                       (optional)</span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">"dst"</span>: <span class="string">"&lt;ip-and-prefix-in-cidr&gt;"</span>,</span><br><span class="line">          <span class="attr">"gw"</span>: <span class="string">"&lt;ip-of-next-hop&gt;"</span>                  (optional)</span><br><span class="line">      &#125;,</span><br><span class="line">      ...</span><br><span class="line">  ]</span><br><span class="line">  "dns": &#123;                                          (optional)</span><br><span class="line">    "nameservers": &lt;list-of-nameservers&gt;            (optional)</span><br><span class="line">    "domain": &lt;name-of-local-domain&gt;                (optional)</span><br><span class="line">    "search": &lt;list-of-search-domains&gt;              (optional)</span><br><span class="line">    "options": &lt;list-of-options&gt;                    (optional)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意：不像常规的CNI插件，IPAM插件应该返回一个简洁的<code>Result</code>结构，不包含<code>interfaces</code>字段，由于IPAM插件应该对<code>interfaces</code>无感知，而是由父插件配置，除非IPAM由特殊依赖（例如，dhcp IPAM插件）。</p>
+<p><code>cniVersion</code>描述当前插件使用的CNI规范版本。插件可能支持多个CNI规范版本（通过<code>VERSION</code>操作获取），插件返回的<code>cniVersion</code>必须和网络配置中设置的<code>cniVersion</code>一致。如果插件不支持网络配置指定的<code>cniVersion</code>，插件应该返回一个错误码”1”（详情见[Error Code](#Error Codes)）。</p>
+<p><code>ips</code>字段表示一组IP配置信息。详情见<a href="#ips">well-know ips</a>。</p>
+<p><code>routes</code>字段表示一组路由的配置信息。详情见<a href="#routes">well-know routes</a>。</p>
+<p><code>dns</code>字段表示常见DNS信息组成的字典。详情见<a href="#DNS">well-know DNS</a>。</p>
+<p>错误和日志和CNI插件使用相同的方式。详情见<a href="#错误">Result错误</a>。<br>IPAM插件的例子：</p>
+<ul>
+<li><code>host-local</code>：选择指定区间内一个未使用的IP（相同主机上其他容器）；</li>
+<li><code>dhcp</code>：使用DHCP协议区获取和维护租约。DHCP请求将通过创建的容器接口发送，因此，相关的网络必须支持广播。</li>
+</ul>
+<p><strong>注意</strong>：</p>
+<ul>
+<li>默认路由可能设置为”0.0.0.0/0”。由于其他网络可能已经设置默认路由，因此CNI插件应该准备跳过默认路由设置。</li>
+<li>期望以0为指标添加路由</li>
+</ul>
+<h2 id="Well-know-Structures"><a href="#Well-know-Structures" class="headerlink" title="Well-know Structures"></a>Well-know Structures</h2><p>本章主要是说明众所周知的结构体，例如，IP、路由以及DNS，还有错误码。</p>
+<h3 id="ips"><a href="#ips" class="headerlink" title="ips"></a>ips</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">"ips": [</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"version"</span>: <span class="string">"&lt;4-or-6&gt;"</span>,</span><br><span class="line">        <span class="attr">"address"</span>: <span class="string">"&lt;ip-and-prefix-in-CIDR&gt;"</span>,</span><br><span class="line">        "gateway": "&lt;ip-address-of-the-gateway&gt;",      (optional)</span><br><span class="line">        "interface": &lt;numeric index into 'interfaces' list&gt; (not required for IPAM plugins)</span><br><span class="line">    &#125;,</span><br><span class="line">    ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>ips字段的值是由插件决定的一组IP配置信息列表。每一项表示一个网络接口的IP配置信息字典。多个网络接口或者一个接口的多个网络配置，可能通过独立<code>ips</code>的项表示。应该提供插件所知道的所有属性，即使不是严格要求的。</p>
+<ul>
+<li><code>version</code>：string类型，值范围为”4”或者”6”，对应当前项的IP地址的版本。所有的IP地址和网关对于给定版本必须是合法的。</li>
+<li><code>address</code>：string类型，CIDR格式的IP地址，例如”192.168.1.3/24”。</li>
+<li><code>gateway</code>：string类型，为子网设置默认的网关，如果该网关存在。CNI插件不会为该网关设置任何路由配置，路由配置是通过<code>routes</code>项单独设置。使用该配置的一个例子，CNI插件<code>bridge</code>为Linux桥配置一个IP，使得该桥成为网关。</li>
+<li><code>interface</code>：uint类型，<a href="#Result">CNI插件Result</a>中<code>interface</code>链表的下标，指明该IP配置将应用到那个接口上。IPAM插件不应该返回该字段，因为它们没有关于网络接口的信息。</li>
+</ul>
+<h3 id="routes"><a href="#routes" class="headerlink" title="routes"></a>routes</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">"routes": [</span><br><span class="line">     &#123;</span><br><span class="line">         <span class="attr">"dst"</span>: <span class="string">"&lt;ip-and-prefix-in-cidr&gt;"</span>,</span><br><span class="line">         <span class="attr">"gw"</span>: <span class="string">"&lt;ip-of-next-hop&gt;"</span>               (optional)</span><br><span class="line">     &#125;,</span><br><span class="line">     ...</span><br><span class="line"> ]</span><br></pre></td></tr></table></figure>
+
+<p>每个条目包含如下字段。条目中，所有的IP地址必须是相同的IP版本，4或者6。</p>
+<ul>
+<li><code>dst</code>：string类型，CIDR格式的目的地址子网；</li>
+<li><code>gw</code>：string类型，网关的IP，如果省略，则假定为默认网关（由CNI插件决定）；</li>
+</ul>
+<p>每个条目必须和<code>CNI_IFNAME</code>指定的 <code>sandbox</code>的接口关联。</p>
+<h3 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"dns": &#123;</span><br><span class="line">   "nameservers": &lt;list-of-nameservers&gt;                 (optional)</span><br><span class="line">   "domain": &lt;name-of-local-domain&gt;                     (optional)</span><br><span class="line">   "search": &lt;list-of-additional-search-domains&gt;        (optional)</span><br><span class="line">   "options": &lt;list-of-options&gt;                         (optional)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>dns</code>字段包含了常用DNS信息的字典。</p>
+<ul>
+<li><code>nameservers</code>：字符串数组类型，该网络能够识别的DNS域名服务器的优先顺序列表。数组每项包含一个IPV4或者IPV6的地址；</li>
+<li><code>domain</code>：字符串类型，用于短主机名查找的本地域；</li>
+<li><code>search</code>：字符串数组类型，为短主机名查找的优先顺序搜索域的列表。大部分解析都优先于<code>domain</code>执行。</li>
+<li><code>options</code>：字符串数组类型，传递给解析器的一组选项。查看<a href="#Result">CNI插件Result</a>获取更多信息。</li>
+</ul>
+<h3 id="Error-Codes"><a href="#Error-Codes" class="headerlink" title="Error Codes"></a>Error Codes</h3><p>1-99为规范保留的通用错误码，必须不能被其他地方使用。</p>
+<table>
+<thead>
+<tr>
+<th>Error Code</th>
+<th>Error Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-1</code></td>
+<td>Incompatible CNI version</td>
+</tr>
+<tr>
+<td><code>-2</code></td>
+<td>Unsupported field in network configuration. The error message must contain the key and value of the unsupported field.</td>
+</tr>
+<tr>
+<td><code>-3</code></td>
+<td>Container unknown or does not exist. This error implies the runtime does not need to perform any container network cleanup (for example, calling the <code>DEL</code> action on the container).</td>
+</tr>
+<tr>
+<td><code>-4</code></td>
+<td>Invalid necessary environment variables, like CNI_COMMAND, CNI_CONTAINERID, etc. The error message must contain the names of invalid variables.</td>
+</tr>
+<tr>
+<td><code>-5</code></td>
+<td>I/O failure. For example, failed to read network config bytes from stdin.</td>
+</tr>
+<tr>
+<td><code>-6</code></td>
+<td>Failed to decode content. For example, failed to unmarshal network config from bytes or failed to decode version info from string.</td>
+</tr>
+<tr>
+<td><code>-7</code></td>
+<td>Invalid network config. If some validations on network configs do not pass, this error will be raised.</td>
+</tr>
+<tr>
+<td><code>-11</code></td>
+<td>Try again later. If the plugin detects some transient condition that should clear up, it can use this code to notify the runtime it should re-try the operation later.</td>
 </tr>
 </tbody></table>
 
@@ -413,6 +836,22 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Haozi007</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>Symbols count total: </span>
+    <span title="Symbols count total">NaNm</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>Reading time total &asymp;</span>
+    <span title="Reading time total">NaN:aN</span>
+  </span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
   </div>
@@ -511,9 +950,9 @@ if (document.querySelectorAll('.mermaid').length) {
 NexT.utils.loadComments('#gitalk-container', () => {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1.6.2/dist/gitalk.min.js', () => {
     var gitalk = new Gitalk({
-      clientID    : 'a607825dc73b86681eea',
-      clientSecret: 'b33a38d94987fb8eeabd466cc1cfd5bec14ec5a2',
-      repo        : 'notes',
+      clientID    : '6c7d2da95f4a1a92fe52',
+      clientSecret: '37d8875c94b8bbdf4739ff1f492ad3ae2e98e3d5',
+      repo        : 'duguhaotian.github.io',
       owner       : 'duguhaotian',
       admin       : ['duguhaotian'],
       id          : '954790d4783634b51c16d5e34eaaa4a9',
